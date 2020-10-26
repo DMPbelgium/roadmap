@@ -1,0 +1,44 @@
+defaults: &defaults
+  org_gdpr:
+    UGENT:
+      - hanne.elsen@ugent.be
+      - katya.vandriessche@uzgent.be
+    AHS:
+      - michael.meysman@arteveldehs.be
+  org_domain:
+    hogent.be: HOGENT
+    elixir-belgium.org: ELIXIR-Be
+    ilvo.vlaanderen.be:  ILVO
+    belspo.be: BELSPO
+    vliz.be: VLIZ
+    ghent.ac.kr: UGENT
+    edu.vlerick.com: Vlerick
+    student.uhasselt.be: UHasselt
+    arteveldehs.be: AHS
+    vlerick.com: Vlerick
+    uzgent.be: UGENT
+    ai.vub.ac.be: VUB
+    etro.vub.bea: VUB
+    student.uclouvain.be: UCLouvain
+    coda-cerva.be: Sciensano
+    chuliege.be: ULiege
+    doct.uliege.be: ULiege
+    student.uliege.be: ULiege
+    sciensano.be: Sciensano
+    uclouvain.be: UCLouvain
+    umons.ac.be: UMons
+    unamur.be: UNamur
+    uliege.be: ULiege
+    vito.be: VITO
+    vub.be: VUB
+    ulb.be: ULB
+    inbo.be: INBO
+    wiv-isp.be: Sciensano
+    vub.ac.be: VUB
+    uhasselt.be: Hasselt
+    uantwerpen.be: UAntwerp
+    ulb.ac.be: ULB
+    ugent.be: UGENT
+
+development: *defaults
+production: *defaults
