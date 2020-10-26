@@ -365,3 +365,7 @@ group :development do
   # TomDoc for YARD (http://rubyworks.github.com/yard-tomdoc)
   gem "yard-tomdoc"
 end
+
+#ugent - start
+eval_gemfile 'Gemfile.local' if File.exist?('Gemfile.local')
+#ugent - end
