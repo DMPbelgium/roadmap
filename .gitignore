@@ -120,4 +120,5 @@ cloud9-start.sh
 
 #ugent - start
 vendor/bundle
+/env.sh
 #ugent - end
