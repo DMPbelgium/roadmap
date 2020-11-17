@@ -1,0 +1,82 @@
+- fix datepicker import: https://github.com/DMPRoadmap/roadmap/issues/2186#issuecomment-726281457
+
+- rapporteer de mega-query die deze lijn veroorzaakt:
+
+  https://github.com/DMPRoadmap/roadmap/blob/master/app/controllers/plans_controller.rb#L22
+
+- config/initializers/wicked_pdf.rb (in gitignore!)
+
+    "#{ENV['GEM_HOME']}/bin/wkhtmltopdf" (zoals in DMPonline_v4)
+
+- TODO: rapporteer gebruik van "count" (ipv "size") op relations, "find_by", "where" e.d.
+        preload alle records voor modellen die geen data maar types zijn (vb. Perm.all is een lijst van soorten permissies)
+
+        [roadmap-ugent]   Perm Load (7.7ms)  SELECT  `perms`.* FROM `perms` WHERE `perms`.`name` = 'add_organisations' LIMIT 1
+        [roadmap-ugent]   CACHE (0.1ms)  SELECT  `perms`.* FROM `perms` WHERE `perms`.`name` = 'add_organisations' LIMIT 1  [["name", "add_organisations"]]
+        [roadmap-ugent]   Perm Load (1.7ms)  SELECT  `perms`.* FROM `perms` WHERE `perms`.`name` = 'modify_templates' LIMIT 1
+        [roadmap-ugent]   CACHE (0.0ms)  SELECT  `perms`.* FROM `perms` WHERE `perms`.`name` = 'add_organisations' LIMIT 1  [["name", "add_organisations"]]
+        [roadmap-ugent]   Perm Load (1.7ms)  SELECT  `perms`.* FROM `perms` WHERE `perms`.`name` = 'modify_guidance' LIMIT 1
+        [roadmap-ugent]   CACHE (0.0ms)  SELECT  `perms`.* FROM `perms` WHERE `perms`.`name` = 'add_organisations' LIMIT 1  [["name", "add_organisations"]]
+        [roadmap-ugent]   Perm Load (0.7ms)  SELECT  `perms`.* FROM `perms` WHERE `perms`.`name` = 'grant_permissions' LIMIT 1
+        [roadmap-ugent]   CACHE (0.0ms)  SELECT  `perms`.* FROM `perms` WHERE `perms`.`name` = 'add_organisations' LIMIT 1  [["name", "add_organisations"]]
+        [roadmap-ugent]   CACHE (0.0ms)  SELECT  `perms`.* FROM `perms` WHERE `perms`.`name` = 'add_organisations' LIMIT 1  [["name", "add_organisations"]]
+        [roadmap-ugent]   CACHE (0.0ms)  SELECT  `perms`.* FROM `perms` WHERE `perms`.`name` = 'add_organisations' LIMIT 1  [["name", "add_organisations"]]
+
+        Reden: current_user.can_org_admin? en andere functies roepen Perm.<permission> op (vb. Perm.add_orgs),
+                maar die functies gebruiken find_by, die altijd query opnieuw uitvoert.
+               aangezien er nooit veel permissies zijn, is het niet beter om alle permissies te laden?
+
+- TODO: app/model/org.plan#plans genereert héél lange IN-queries die lang duren
+
+  in model Org wordt relation "plans" overschreven met een expliciete methode, en die voert deze query uit
+
+     plan_ids = Role.administrator
+                    .where(user_id: self.users.pluck(:id), active: true)
+                    .pluck(:plan_id).uniq
+     Plan.includes(:template, :phases, :roles, :users)
+         .where(id: plan_ids)
+  
+
+  het aantal klopt ook niet?
+
+      org = Org.find(4)
+      Plan.where( :org_id => org.id ).count -> 4218
+      org.plans.size -> 4228
+
+  er werden namelijk 10 plannen geselecteerd van een andere organisatie!
+
+      >   org_plans.map(&:org_id).select { |org_id| org_id != 4 }
+      => [14, 16, 14, 16, 92, 92, 131, 14, 52, 171]
+
+      fout in de tabel "roles"? -> nee: het is normaal dat mensen van andere organisaties
+        kunnen voorkomen, want die kunnen via de tab "share" toegang gekregen hebben,
+        maar het is natuurlijk fout om dat te gebruiken in de context van een org_admin.
+        Dat zou immers willen zeggen dat een org_admin van een andere instelling hier ook
+        org_admin-rechten op zou hebben..
+
+  Issue: https://github.com/DMPRoadmap/roadmap/issues/2724
+  PR: https://github.com/DMPRoadmap/roadmap/pull/2726
+
+- TODO: tinymce
+
+  * elk invulveld op de "write-plan-pagina" heeft een tinymce, dus een aparte frame!
+  * elke frame vraagt content.min.css en _tinymce.content.css. Dat laatste bestaat niet
+    wegens fout in rails helpers, maar kan je wel manueel maken (symlink naar laatst _tinymce_content-<fingerprint>.css)
+  * nu zijn alle vakken actief, dus daarmee ook onmiddellijk alle frames! Hoe lazy loading? Hoe opgelost voor DMPonline_v4?
+
+GET "/assets/blocks/_tinymce_content.css" wordt voortdurend opgevraagd
+
+  zie pull request https://github.com/DMPRoadmap/roadmap/pull/2379
+
+  deze issue zou dus opgelost moeten zijn sinds versie 2.1.6
+
+- app/model/plan.rb: preload roles en hergebruik ze
+
+- TODO: profile page
+
+  * disable tab "password"
+
+  * tab "personal details":
+    * "organisation" readonly maken
+    * "email" readonly maken
+  PR: https://github.com/DMPRoadmap/roadmap/pull/2726
