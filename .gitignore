@@ -106,4 +106,5 @@ yarn-debug.log*
 
 #ugent - start
 vendor/bundle
+/env.sh
 #ugent - end
