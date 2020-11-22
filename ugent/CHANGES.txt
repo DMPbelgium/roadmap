@@ -1,5 +1,7 @@
 - fix datepicker import: https://github.com/DMPRoadmap/roadmap/issues/2186#issuecomment-726281457
 
+  fixed in 3.0.0
+
 - rapporteer de mega-query die deze lijn veroorzaakt:
 
   https://github.com/DMPRoadmap/roadmap/blob/master/app/controllers/plans_controller.rb#L22
@@ -72,6 +74,8 @@ GET "/assets/blocks/_tinymce_content.css" wordt voortdurend opgevraagd
 
 - app/model/plan.rb: preload roles en hergebruik ze
 
+  zie PR https://github.com/DMPRoadmap/roadmap/pull/2727
+
 - TODO: profile page
 
   * disable tab "password"
@@ -80,3 +84,17 @@ GET "/assets/blocks/_tinymce_content.css" wordt voortdurend opgevraagd
     * "organisation" readonly maken
     * "email" readonly maken
   PR: https://github.com/DMPRoadmap/roadmap/pull/2726
+
+- TODO: phases zonder sections mogen niet getoond worden in de navigatie
+
+  Plan.load_for_phase faalt daarom ..
+
+- TODO: willen we wel dat gebruikers organisaties ingeven? Beter geen autocomplete op "org"
+
+- config/initializers/ugent.rb
+
+  * overschrijft methode Identifier#value_uniqueness_with_scheme zodat 
+
+    * voor shibboleth meerdere loginroutes per org zijn
+    * voor orcid meerdere gebruikers per orcid mogelijk zijn
+      meerdere identifiers per gebruiker mogelijk zijn
