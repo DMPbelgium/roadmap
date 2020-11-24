@@ -623,6 +623,9 @@ def initNewQuestion(question, new_section, modifiable)
   return new_question
 end
 
+#keep timestamps as given
+NewAnswer.record_timestamps = false
+
 def initNewAnswer(answer, new_plan, new_question)
   new_answer                  = NewAnswer.new
   unless answer.nil?
@@ -652,6 +655,9 @@ def initQuestionOption(option, new_question)
   return question_option
 end
 
+#keep timestamps as given
+Note.record_timestamps = false
+
 def initNote(comment, new_answer)
   note                  = Note.new
   note.user_id          = comment.user_id
@@ -665,20 +671,32 @@ def initNote(comment, new_answer)
 end
 
 def initNewPlan(project)
-  new_plan              = NewPlan.new
-  new_plan.project_id   = project.id
-  new_plan.title        = project.title
-  new_plan.slug         = project.slug
-  new_plan.grant_number = project.grant_number
-  new_plan.identifier   = project.identifier
-  new_plan.description  = project.description
-  new_plan.principal_investigator             = project.principal_investigator
-  new_plan.principal_investigator_identifier  = project.principal_investigator_identifier
-  new_plan.data_contact = project.data_contact
-  new_plan.funder_name  = project.funder_name
-  new_plan.created_at   = project.created_at
-  new_plan.updated_at   = project.updated_at
-  new_plan.save!
+
+  con = ActiveRecord::Base.connection()
+
+  sql = "INSERT INTO new_plans(id,project_id,title,slug,grant_number,identifier,description,principal_investigator,principal_investigator_identifier,data_contact,funder_name,created_at,updated_at)"
+  binds = []
+  binds << con.quote(project.id)
+  binds << con.quote(project.id)
+  binds << con.quote(project.title)
+  binds << con.quote(project.slug)
+  binds << con.quote(project.grant_number)
+  binds << con.quote(project.identifier)
+  binds << con.quote(project.description)
+  binds << con.quote(project.principal_investigator)
+  binds << con.quote(project.principal_investigator_identifier)
+  binds << con.quote(project.data_contact)
+  binds << con.quote(project.funder_name)
+  binds << con.quote(project.created_at.strftime("%Y-%m-%d %T"))
+  binds << con.quote(project.updated_at.strftime("%Y-%m-%d %T"))
+  sql += " VALUES(" + binds.join(",") + ")"
+
+  $stderr.puts sql
+
+  con.execute(sql)
+
+  new_plan = NewPlan.find( project.id )
+
   #init guidance groups
   project.guidance_groups.each do |group|
     new_plan.guidance_groups << group
