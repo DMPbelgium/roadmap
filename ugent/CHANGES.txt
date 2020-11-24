@@ -98,3 +98,13 @@ GET "/assets/blocks/_tinymce_content.css" wordt voortdurend opgevraagd
     * voor shibboleth meerdere loginroutes per org zijn
     * voor orcid meerdere gebruikers per orcid mogelijk zijn
       meerdere identifiers per gebruiker mogelijk zijn
+
+- TODO: Identifier met als identifier_scheme voor shibboleth en identifiable_type "User" is leeg:
+
+  moet gevuld worden tijdens upgrade
+
+- TODO: https://github.com/DMPRoadmap/roadmap/issues/2742
+
+- TODO: hoe ken je een api_token toe aan een gebruiker? devise/registrations/_personal_details.html.erb veronderstelt dat het reeds ingevuld is
+
+  indien je rechten toekent, dan wordt die automatisch ingevuld
