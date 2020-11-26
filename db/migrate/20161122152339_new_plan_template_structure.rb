@@ -629,8 +629,11 @@ NewAnswer.record_timestamps = false
 def initNewAnswer(answer, new_plan, new_question)
   new_answer                  = NewAnswer.new
   if answer.nil?
+    $stderr.puts "initNewAnswer: old answer is NOT present for new_plan.id #{new_plan.id} and new_question #{new_question.id}"
     new_answer.created_at = Time.now
     new_answer.updated_at = new_answer.created_at
+    new_answer.new_plan_id      = new_plan.id
+    new_answer.new_question_id  = new_question.id
   else
     new_answer.text             = answer.text
     new_answer.new_plan_id      = new_plan.id
