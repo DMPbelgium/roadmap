@@ -628,7 +628,10 @@ NewAnswer.record_timestamps = false
 
 def initNewAnswer(answer, new_plan, new_question)
   new_answer                  = NewAnswer.new
-  unless answer.nil?
+  if answer.nil?
+    new_answer.created_at = Time.now
+    new_answer.updated_at = new_answer.created_at
+  else
     new_answer.text             = answer.text
     new_answer.new_plan_id      = new_plan.id
     new_answer.new_question_id  = new_question.id
