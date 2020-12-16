@@ -39,6 +39,7 @@ defaults: &defaults
     uantwerpen.be: UAntwerp
     ulb.ac.be: ULB
     ugent.be: UGENT
+    hotmail.com: hotmail
 
 development: *defaults
 production: *defaults

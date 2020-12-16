@@ -1,14 +1,12 @@
-- fix datepicker import: https://github.com/DMPRoadmap/roadmap/issues/2186#issuecomment-726281457
-
-  fixed in 3.0.0
-
 - rapporteer de mega-query die deze lijn veroorzaakt:
 
   https://github.com/DMPRoadmap/roadmap/blob/master/app/controllers/plans_controller.rb#L22
 
-- config/initializers/wicked_pdf.rb (in gitignore!)
+  fixed in branch development
 
-    "#{ENV['GEM_HOME']}/bin/wkhtmltopdf" (zoals in DMPonline_v4)
+- config/initializers/wicked_pdf_ugent.rb
+
+  sets path of wkhtmltopdf (like in DMPonline_v4)
 
 - TODO: rapporteer gebruik van "count" (ipv "size") op relations, "find_by", "where" e.d.
         preload alle records voor modellen die geen data maar types zijn (vb. Perm.all is een lijst van soorten permissies)
@@ -59,6 +57,11 @@
   Issue: https://github.com/DMPRoadmap/roadmap/issues/2724
   PR: https://github.com/DMPRoadmap/roadmap/pull/2726
 
+  Reden: org.plans != plannen van de organisatie,
+                   = plannen van leden van de organisatie.
+                     leden kunnen immers toegevoegd worden aan plannen van
+                     andere organisaties
+
 - TODO: tinymce
 
   * elk invulveld op de "write-plan-pagina" heeft een tinymce, dus een aparte frame!
@@ -72,18 +75,25 @@ GET "/assets/blocks/_tinymce_content.css" wordt voortdurend opgevraagd
 
   deze issue zou dus opgelost moeten zijn sinds versie 2.1.6
 
+  Nee: blijkbaar niet
+
 - app/model/plan.rb: preload roles en hergebruik ze
 
   zie PR https://github.com/DMPRoadmap/roadmap/pull/2727
 
-- TODO: profile page
+- app/views/branded/devise/registrations/edit.html.erb
 
-  * disable tab "password"
+    removed tab (and tab content) for password
 
-  * tab "personal details":
-    * "organisation" readonly maken
-    * "email" readonly maken
-  PR: https://github.com/DMPRoadmap/roadmap/pull/2726
+- app/views/devise/registrations/_personal_details.html.erb
+    email: readonly (+class form-control-plaintext)
+    org: readonly -> user[org_id] MOET json zijn volgens RegistrationsController#update
+    departments: removed
+    languages: removed (vertalingen toch beperkt)
+
+- app/views/branded/layouts/_signin_signout.html.erb
+
+  disabled language tab
 
 - TODO: phases zonder sections mogen niet getoond worden in de navigatie
 
@@ -99,12 +109,35 @@ GET "/assets/blocks/_tinymce_content.css" wordt voortdurend opgevraagd
     * voor orcid meerdere gebruikers per orcid mogelijk zijn
       meerdere identifiers per gebruiker mogelijk zijn
 
+      app/views/branded
+
 - TODO: Identifier met als identifier_scheme voor shibboleth en identifiable_type "User" is leeg:
 
   moet gevuld worden tijdens upgrade
 
 - TODO: https://github.com/DMPRoadmap/roadmap/issues/2742
 
-- TODO: hoe ken je een api_token toe aan een gebruiker? devise/registrations/_personal_details.html.erb veronderstelt dat het reeds ingevuld is
+  PR: https://github.com/DMPRoadmap/roadmap/pull/2764
 
-  indien je rechten toekent, dan wordt die automatisch ingevuld
+- app/views/branded/shared/_sign_in_form.html.erb
+  app/views/branded/shared/_access_controls.html.erb
+
+  * replace login/registration form with list of org identifiers
+  * if an organisation has multiple identifiers, then append the host name of that id
+
+- app/views/branded/home/index.html.erb
+
+  changed width of signin panel to give it more space
+
+- config/initializers/_dmproadmap_ugent.rb
+
+  overrides settings config/initializers/_dmproadmap.rb
+
+- config/initializers/devise_ugent.rb
+
+  overrides settings from config/initializers/devise.rb
+
+- config/initializers/contact_us.rb
+
+  not included in .gitigore,
+  and expected by roadmap to set (contact_us.rb.example not used)

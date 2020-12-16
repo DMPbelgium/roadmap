@@ -1,0 +1,47 @@
+<% if Rails.configuration.x.shibboleth.enabled %>
+  <% if session['devise.shibboleth_data'].nil? %>
+    <ul class="nav">
+      <li>
+        <h3>Sign in with your institutional account</h3>
+      </li>
+
+      <% scheme = IdentifierScheme.find_by_name!("shibboleth") %>
+      <% Org.includes(:identifiers)
+            .where(managed:true)
+            .order(name:"asc")
+            .each do |org| %>
+
+        <% identifiers = org.identifiers.select { |id| id.identifier_scheme_id == scheme.id } %>
+        <% next if identifiers.empty? %>
+
+        <% org_has_multiple_ids = identifiers.size > 1 %>
+
+        <% identifiers.each do |id| %>
+
+          <% label = org.name %>
+          <% label += " (#{URI(id.value).host})" if org_has_multiple_ids %>
+
+          <% p = { target: user_shibboleth_omniauth_callback_url, entityID: id.value } %>
+          <% l = (Rails.configuration.x.shibboleth.login_url + "?#{p.to_query.html_safe}") %>
+          <li><%= link_to(label, l, method: :post) %></li>
+
+        <% end %>
+
+
+      <% end %>
+
+      <li>
+        <h3>or with your ORCID iD</h3>
+      </li>
+      <li>
+        <%= link_to(
+              "Sign in with ORCID",
+              Rails.application.routes.url_helpers.send("user_orcid_omniauth_authorize_path"), method: :post) %>
+      </li>
+
+    </ul>
+
+  <% else %>
+    <%= f.hidden_field :shibboleth_id, :value => session['devise.shibboleth_data']['uid'] %>
+  <% end %>
+<% end %>
