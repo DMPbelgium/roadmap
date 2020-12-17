@@ -1,3 +1,10 @@
+# ugent: class solely here to generate an id
+class QuestionOptionsThemes < ActiveRecord::Base
+  self.table_name = "question_options_themes"
+  belongs_to :question_option
+  belong_to :theme
+end
+
 class NewPlanTemplateStructure < ActiveRecord::Migration
   def up
     # new template tables
@@ -195,6 +202,17 @@ class NewPlanTemplateStructure < ActiveRecord::Migration
       t.index [:theme_id, :new_question_id], name: 'theme_question_index'
     end
 
+    # ugent: rename "logs" to "ugent_logs"
+    # latest master branch has a model Ugent::Log for this legacy table
+    rename_table :logs, :ugent_logs
+    ActiveRecord::Base.connection.execute("update ugent_logs set item_type = 'Plan' where item_type = 'Project'")
+
+    # ugent: "question_options_themes" (will be filled with copies of options_themes)
+    create_table :question_options_themes do |t|
+      t.integer :question_option_id, null: false
+      t.integer :theme_id, null: false
+    end
+
     # migrate all of the data from plans into templates (user facing)
     #   first migrate all "pure"(uncustomised) plans
     #     find template for plan
@@ -292,6 +310,8 @@ class NewPlanTemplateStructure < ActiveRecord::Migration
                 question.options.each do |option|
                   question_option = initQuestionOption(option, new_question)
                   question_option.save!
+                  # ugent
+                  copyQuestionOptionsThemes(option, question_option)
                 end
                 question.suggested_answers.each do |suggested_answer|
                   # only bring suggested answers from the template creator or the
@@ -444,6 +464,8 @@ class NewPlanTemplateStructure < ActiveRecord::Migration
                   question.options.each do |option|
                     question_option = initQuestionOption(option, new_question)
                     question_option.save!
+                    # ugent
+                    copyQuestionOptionsThemes(option, question_option)
                   end
                   question.suggested_answers.each do |suggested_answer|
                     # only bring suggested answers from the template creator or the
@@ -510,6 +532,10 @@ class NewPlanTemplateStructure < ActiveRecord::Migration
     drop_table :new_plans
     drop_table :roles
     drop_table :new_plans_guidance_groups
+    # ugent
+    drop_table :question_options_themes
+    rename_table :ugent_logs, :logs
+    ActiveRecord::Base.connection.execute("update logs set item_type = 'Project' where item_type = 'Plan'")
   end
 end
 
@@ -659,6 +685,16 @@ def initQuestionOption(option, new_question)
   question_option.created_at      = option.created_at
   question_option.updated_at      = option.updated_at
   return question_option
+end
+
+# ugent: copy question_options_themes
+def copyQuestionOptionsThemes(option, question_option)
+  conn = ActiveRecord::Base.connection
+  conn.select_all("SELECT theme_id FROM options_themes WHERE option_id = " + conn.quote(option.id))
+      .each do |theme_id|
+    qot = QuestionOptionsThemes.new( theme_id: theme_id, question_option_id: question_option.id )
+    qot.save!
+  end
 end
 
 #keep timestamps as given
