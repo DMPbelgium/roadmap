@@ -693,6 +693,7 @@ def copyQuestionOptionsThemes(option, question_option)
   conn.select_all("SELECT theme_id FROM options_themes WHERE option_id = " + conn.quote(option.id))
       .each do |theme_id|
     qot = QuestionOptionsThemes.new( theme_id: theme_id, question_option_id: question_option.id )
+    $stderr.puts "creating QuestionOptionsThemes for theme_id #{theme_id}: #{qot.attributes}"
     qot.save!
   end
 end
