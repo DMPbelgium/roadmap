@@ -12,7 +12,19 @@ require "question_option"
 # beware that there is no model for this table, and it previously was called "options_themes",
 class QuestionOption
 
+  # ugent: couple themes to question_options
   has_and_belongs_to_many :themes, join_table: "question_options_themes"
+
+  # ugent: copy themes also
+  # see also: QuestionOption#deep_copy
+  def deep_copy(**options)
+    copy = dup
+    copy.question_id = options.fetch(:question_id, nil)
+    copy.theme_ids = theme_ids
+    copy.save!(validate: false)  if options.fetch(:save, false)
+    options[:question_option_id] = copy.id
+    copy
+  end
 
 end
 
