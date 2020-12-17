@@ -2,7 +2,7 @@
 class QuestionOptionsThemes < ActiveRecord::Base
   self.table_name = "question_options_themes"
   belongs_to :question_option
-  belong_to :theme
+  belongs_to :theme
 end
 
 class NewPlanTemplateStructure < ActiveRecord::Migration
