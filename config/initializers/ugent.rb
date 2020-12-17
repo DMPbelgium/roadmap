@@ -5,6 +5,16 @@ require "user"
 require "identifier"
 require "org"
 require "users/omniauth_callbacks_controller"
+require "question_option"
+
+# reuse old table that linked question options to themes
+# this is neither present in the original DMPonline_v4 nor in roadmap
+# beware that there is no model for this table, and it previously was called "options_themes",
+class QuestionOption
+
+  has_and_belongs_to_many :themes, join_table: "question_options_themes"
+
+end
 
 class Identifier
 
