@@ -1,6 +1,6 @@
 defaults: &defaults
   org_gdpr:
-    UGENT:
+    UGent:
       - hanne.elsen@ugent.be
       - katya.vandriessche@uzgent.be
     AHS:
