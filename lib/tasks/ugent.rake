@@ -28,4 +28,28 @@ namespace :ugent do
 
   end
 
+  desc "print out in csv existing question_options and their associated themes (for evaluation)"
+  task question_option_themes: :environment do
+
+    csv = CSV.new($stdout,{ write_headers: true, headers: %w(id text themes) })
+
+    QuestionOption.includes(:themes)
+                  .find_each do |question_option|
+
+      themes = question_option.themes
+
+      next if themes.size == 0
+
+      record = []
+      record << question_option.id
+      record << question_option.text
+      record << themes.map(&:title).join(" | ")
+      csv << record
+
+    end
+
+    csv.close
+
+  end
+
 end
