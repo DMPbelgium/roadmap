@@ -143,9 +143,8 @@ User.before_validation do |user|
       parts_email = user.email.split("@")
       if parts_email.size == 2
 
-        org_abbr = Rails.application.config.custom["org_domain"][parts_email[1]]
-        org = org_abbr.present? ? Org.find_by_abbreviation(org_abbr) : nil
-        user.org = org.present? ? org : Org.guest
+        org_domain = Ugent::OrgDomain.where(name: parts_email[1]).first
+        user.org = org_domain.present? ? org_domain.org : Org.guest
 
       end
 
@@ -165,6 +164,8 @@ User.before_validation do |user|
 end
 
 class Org
+
+  has_many :domains, class_name: "Ugent::OrgDomain"
 
   def self.guest
     where(abbreviation: "guests").first
