@@ -160,9 +160,7 @@ module Users
         #   1) no user in table users
         #   2) no identifier of scheme shibboleth yet
 
-        if user.nil?
-          user = User.find_by_email(auth.uid)
-        end
+        user = User.find_by_email(auth.uid) if user.nil?
 
         # still no user: create one
         if user.nil?
@@ -184,8 +182,8 @@ module Users
 
         # attach shibboleth identifiers for future use
         if user.identifiers
-                .select { |id| id.identifier_scheme_id == scheme.id }
-                .empty?
+               .select { |id| id.identifier_scheme_id == scheme.id }
+               .empty?
 
           if Identifier.create(identifier_scheme: scheme,
                                value: auth.uid,
