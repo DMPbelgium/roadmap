@@ -7,6 +7,7 @@ require "org"
 require "users/omniauth_callbacks_controller"
 require "question_option"
 require "plan"
+require "theme"
 
 # add organisational dpo (cf. DMPonline_v4/app/models/project.rb#add_gdpr)
 Plan.after_create do |plan|
@@ -43,6 +44,7 @@ end
 class QuestionOption
 
   # ugent: couple themes to question_options
+  # relations like this are automatically destroyed
   has_and_belongs_to_many :themes, join_table: "question_options_themes"
 
   # ugent: copy themes also
@@ -55,6 +57,13 @@ class QuestionOption
     options[:question_option_id] = copy.id
     copy
   end
+
+end
+
+class Theme
+
+  # relations like this are automatically destroyed
+  has_and_belongs_to_many :question_options, join_table: "question_options_themes"
 
 end
 
