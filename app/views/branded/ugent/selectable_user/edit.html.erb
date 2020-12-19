@@ -1,0 +1,17 @@
+<h1>Multiple accounts match for your login</h1>
+<%= form_tag({ controller: :selectable_user, action: :update}, { class: "form-horizontal" }) do %>
+  <div class="form-group">
+    <div class="col-sm-12 radio">
+      <% @selectable_users.each_with_index do |user,i| %>
+          <label class="radio">
+            <%= radio_button_tag("selectable_user[id]", user.id,i == 0) %> <%= user.email + " (" + user.plans.count.to_s + " plans)" %>
+          </label>
+        <% end %>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-12">
+      <button type="submit" class="btn btn-default">Sign in</button>
+    </div>
+  </div>
+<% end %>
