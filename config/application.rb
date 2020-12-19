@@ -48,6 +48,13 @@ module DMPRoadmap
     # Set the default host for mailer URLs
     config.action_mailer.default_url_options = { host: Socket.gethostname.to_s }
 
+    # ugent: start
+    # cf. https://makandracards.com/makandra/35133-how-to-split-config-routes-rb-in-rails-4
+    Dir[Rails.root.join("config/routes/*.rb")].each do |route_file|
+      config.paths["config/routes.rb"] << route_file
+    end
+    # ugent: end
+
   end
 
 end
