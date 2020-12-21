@@ -1,0 +1,50 @@
+<% title _('My Dashboard') %>
+<div class="row">
+  <div class="col-md-12">
+    <h1><%= _('My Dashboard') %></h1>
+    <!-- if the user has projects -->
+    <div class="well">
+      <p>The table below lists all the plans associated with the <b>current user account</b>. This includes the plans you have created with this account and  the plans that have been shared with you for this account.</p>
+      <a data-toggle="collapse" href="#plans_missing_more_info">Don't see all your plans?</a>
+      <div id="plans_missing_more_info" class="collapse">
+        <p>If you have multiple user accounts in DMPonline.be, and you want to view the plans associated with another account, switch to your other account. This can be done as follows:</p>
+        <ul>
+          <li>If your different accounts are linked to your ORCID iD, simply click your name in the upper right corner and select <a href="<%= edit_switch_user_path %>">Switch user</a>.</li>
+          <li>If your accounts are not yet linked to your ORCID iD, first add your ORCID iD to your accounts. To add your ORCID iD to an account, click on your name in the upper right corner, select 'Edit profile' and 'Link to ORCID'.</li>
+          <li>Alternatively, sign out and log into DMPonline.be again with your other account.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <%= paginable_renderise(
+      partial: '/paginable/plans/privately_visible',
+      controller: 'paginable/plans',
+      action: 'privately_visible',
+      scope: @plans,
+      query_params: { sort_field: 'plans.updated_at', sort_direction: 'desc' }) %>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <%= link_to _('Create plan'), new_plan_path, class: "btn btn-primary" %>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <% if @organisationally_or_publicly_visible.any? && !current_user.org.is_other? %>
+      <h2><%= _('%{org_title} Plans') % { :org_title => current_user.org.name } %></h2>
+      <p><%= _('The table below lists the plans that users at your organisation have created and shared within your organisation. This allows you to download a PDF and view their plans as samples or to discover new research data.') %></p>
+      <%= paginable_renderise(
+        partial: '/paginable/plans/organisationally_or_publicly_visible',
+        controller: 'paginable/plans',
+        action: 'organisationally_or_publicly_visible',
+        scope: @organisationally_or_publicly_visible,
+        query_params: { sort_field: 'plans.title', sort_direction: :asc }) %>
+    <% end %>
+  </div>
+</div>
+
+<%= render 'shared/create_plan_modal' unless @template.nil? %>

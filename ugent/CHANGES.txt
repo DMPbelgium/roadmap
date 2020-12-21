@@ -95,6 +95,8 @@ GET "/assets/blocks/_tinymce_content.css" wordt voortdurend opgevraagd
 
   disabled language tab
 
+  added link to /switch_user/edit
+
 - TODO: phases zonder sections mogen niet getoond worden in de navigatie
 
   Plan.load_for_phase faalt daarom ..
@@ -141,3 +143,9 @@ GET "/assets/blocks/_tinymce_content.css" wordt voortdurend opgevraagd
 
   not included in .gitigore,
   and expected by roadmap to set (contact_us.rb.example not used)
+
+- app/views/branded/plans/index.html.erb
+
+  overrides app/views/plans/index.html.erb
+
+  reason: override text above plans (switch to other user account)
