@@ -2,7 +2,10 @@
 
   https://github.com/DMPRoadmap/roadmap/blob/master/app/controllers/plans_controller.rb#L22
 
-  fixed in branch development
+  fixed in v3.0.1, maar onvolledig: het gebruikt nu Rails.cache,
+    maar in de toekomst moet dit herbekeken worden:
+
+  zie https://github.com/DMPRoadmap/roadmap/pull/2379
 
 - config/initializers/wicked_pdf_ugent.rb
 
@@ -26,6 +29,8 @@
                 maar die functies gebruiken find_by, die altijd query opnieuw uitvoert.
                aangezien er nooit veel permissies zijn, is het niet beter om alle permissies te laden?
 
+  zie PR https://github.com/DMPRoadmap/roadmap/pull/2734
+
 - TODO: app/model/org.plan#plans genereert héél lange IN-queries die lang duren
 
   in model Org wordt relation "plans" overschreven met een expliciete methode, en die voert deze query uit
@@ -35,7 +40,7 @@
                     .pluck(:plan_id).uniq
      Plan.includes(:template, :phases, :roles, :users)
          .where(id: plan_ids)
-  
+
 
   het aantal klopt ook niet?
 
@@ -61,21 +66,6 @@
                    = plannen van leden van de organisatie.
                      leden kunnen immers toegevoegd worden aan plannen van
                      andere organisaties
-
-- TODO: tinymce
-
-  * elk invulveld op de "write-plan-pagina" heeft een tinymce, dus een aparte frame!
-  * elke frame vraagt content.min.css en _tinymce.content.css. Dat laatste bestaat niet
-    wegens fout in rails helpers, maar kan je wel manueel maken (symlink naar laatst _tinymce_content-<fingerprint>.css)
-  * nu zijn alle vakken actief, dus daarmee ook onmiddellijk alle frames! Hoe lazy loading? Hoe opgelost voor DMPonline_v4?
-
-GET "/assets/blocks/_tinymce_content.css" wordt voortdurend opgevraagd
-
-  zie pull request https://github.com/DMPRoadmap/roadmap/pull/2379
-
-  deze issue zou dus opgelost moeten zijn sinds versie 2.1.6
-
-  Nee: blijkbaar niet
 
 - app/model/plan.rb: preload roles en hergebruik ze
 
@@ -105,7 +95,7 @@ GET "/assets/blocks/_tinymce_content.css" wordt voortdurend opgevraagd
 
 - config/initializers/ugent.rb
 
-  * overschrijft methode Identifier#value_uniqueness_with_scheme zodat 
+  * overschrijft methode Identifier#value_uniqueness_with_scheme zodat
 
     * voor shibboleth meerdere loginroutes per org zijn
     * voor orcid meerdere gebruikers per orcid mogelijk zijn
