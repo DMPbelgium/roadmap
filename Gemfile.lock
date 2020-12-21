@@ -438,6 +438,9 @@ GEM
       thread_safe (~> 0.1)
     unicode-display_width (1.7.0)
     uniform_notifier (1.13.0)
+    validates_hostname (1.0.11)
+      activerecord (>= 3.0)
+      activesupport (>= 3.0)
     warden (1.2.8)
       rack (>= 2.0.6)
     web-console (3.7.0)
@@ -542,6 +545,7 @@ DEPENDENCIES
   text
   translation
   turbolinks
+  validates_hostname
   web-console
   webdrivers
   webmock
