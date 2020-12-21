@@ -149,3 +149,9 @@ GET "/assets/blocks/_tinymce_content.css" wordt voortdurend opgevraagd
   overrides app/views/plans/index.html.erb
 
   reason: override text above plans (switch to other user account)
+
+- app/views/branded/orgs/admin_edit.html.erb
+
+  overrides app/views/orgs/admin_edit.html.erb
+
+  reason: disable tab schools/departments
