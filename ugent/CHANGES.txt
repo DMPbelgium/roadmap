@@ -101,15 +101,56 @@
     * voor orcid meerdere gebruikers per orcid mogelijk zijn
       meerdere identifiers per gebruiker mogelijk zijn
 
-      app/views/branded
+  * overschrijft methodes van Users::OmniauthCallbacksController
+
+    ook om orcid/shibboleth te regelen volgens onze regels
+
+  * voegt dpo toe aan plan na aanmaak
+
+  * hergebruik oude tabel options_themes, nu onder de naam question_options_themes
+
+  * voeg methoden toe aan model User:
+
+    * alternative_accounts
+    * nemo
+    * ensure_password
+    * guest?
+
+  * voeg before_validation toe aan model User:
+
+    * verhinder dat iemand email aanpast
+    * wijzig Org toe obv oude organisation_domains, nu onder de naam ugent_org_domains
+
+- app/controllers/ugent/selectable_user_controller.rb
+
+  ugent specifieke controller waarmee je kan kiezen tussen accounts
+  wanneer je een orcid overeenkomt met meer dan één account
+
+- app/controllers/ugent/switch_user_controller.rb
+
+  ugent specifieke controller waarmee naar een van je andere accounts
+  kan gaan, indien jouw orcid ook overeenkomt met een andere account
+
+- app/models/ugent/log.rb
+
+  hergebruik oude tabel "logs", nu onder de naam "ugent_logs"
+
+- app/models/ugent/org_domain.rb
+
+  hergebruik oude tabel "organisation_domains",
+  nu onder de naam "ugent_org_domains"
+
+- config/custom.yml
+
+  voegt ugent specifieke configuratie toe
+
+  gebruik:
+
+    * associëer elke Org met één of meerdere dpo's
 
 - TODO: Identifier met als identifier_scheme voor shibboleth en identifiable_type "User" is leeg:
 
   moet gevuld worden tijdens upgrade
-
-- TODO: https://github.com/DMPRoadmap/roadmap/issues/2742
-
-  PR: https://github.com/DMPRoadmap/roadmap/pull/2764
 
 - app/views/branded/shared/_sign_in_form.html.erb
   app/views/branded/shared/_access_controls.html.erb
@@ -133,6 +174,12 @@
 
   not included in .gitigore,
   and expected by roadmap to set (contact_us.rb.example not used)
+
+- config/routes/*.yml
+
+  voegt extra routes toe
+
+  config/application.rb werd hiervoor aangepast!
 
 - app/views/branded/plans/index.html.erb
 
