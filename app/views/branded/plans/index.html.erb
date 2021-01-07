@@ -5,6 +5,7 @@
     <!-- if the user has projects -->
     <div class="well">
       <p>The table below lists all the plans associated with the <b>current user account</b>. This includes the plans you have created with this account and  the plans that have been shared with you for this account.</p>
+      <% if current_user.alternative_accounts.any? %>
       <a data-toggle="collapse" href="#plans_missing_more_info">Don't see all your plans?</a>
       <div id="plans_missing_more_info" class="collapse">
         <p>If you have multiple user accounts in DMPonline.be, and you want to view the plans associated with another account, switch to your other account. This can be done as follows:</p>
@@ -14,6 +15,7 @@
           <li>Alternatively, sign out and log into DMPonline.be again with your other account.</li>
         </ul>
       </div>
+      <% end %>
     </div>
   </div>
 </div>
