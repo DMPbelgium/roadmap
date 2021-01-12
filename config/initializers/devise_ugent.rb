@@ -14,6 +14,9 @@ Devise.setup do |config|
   )
   config.omniauth(
     :shibboleth, {
+      # use 'header' when rails runs behind a reverse proxy, use env when inside passenger
+      # in the first case, add apache option "ShibUseHeaders On"
+      request_type: :header,
       uid_field: ENV["SHIBBOLETH_UID_FIELD"],
       fields: [],
       extra_fields: %i[
