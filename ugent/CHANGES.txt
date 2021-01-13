@@ -206,3 +206,9 @@
   This is also globally disabled in config/initializers/ugent.rb:
     Phase#allow_visibility?
     Plan#allow_visibility?
+
+- app/views/branded/layouts/_navigation.html.erb
+
+  disable link to page /public_plans
+
+  see previous
