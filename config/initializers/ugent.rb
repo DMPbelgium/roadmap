@@ -8,6 +8,25 @@ require "users/omniauth_callbacks_controller"
 require "question_option"
 require "plan"
 require "theme"
+require "phase"
+
+# disable feature that makes it possible to change the visibility
+# See also app/views/branded/plans/_share_form.html.erb
+class Phase
+
+  def visibility_allowed?(plan)
+    false
+  end
+
+end
+
+class Plan
+
+  def visibility_allowed?
+    false
+  end
+
+end
 
 # reuse old table that linked question options to themes
 # this is neither present in the original DMPonline_v4 nor in roadmap
