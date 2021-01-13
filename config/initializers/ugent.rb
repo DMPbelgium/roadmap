@@ -9,35 +9,6 @@ require "question_option"
 require "plan"
 require "theme"
 
-# add organisational dpo (cf. DMPonline_v4/app/models/project.rb#add_gdpr)
-Plan.after_create do |plan|
-  return true if plan.org.nil?
-
-  emails = Rails.application
-                .config
-                .custom["org_gdpr"][plan.org.abbreviation]
-
-  return true unless emails.is_a?(Array)
-
-  dpos = User.where(email: emails).all
-
-  dpos.each do |user|
-    # only one role with the same user can exist
-    role = plan.roles.select { |r| r.user_id == user.id }.first
-
-    # create if none exists
-    role = Role.new(plan_id: plan.id, active: true, user_id: user.id) if role.nil?
-
-    # merge rights
-    role.editor = true
-
-    # TODO: notify dpo. Problem: cannot just use UserMailer because that also requires to
-    #   check if the user even wants to receive those mails (see deliver_if in concers/conditional_user_mailer)
-
-    role.save!
-  end
-end
-
 # reuse old table that linked question options to themes
 # this is neither present in the original DMPonline_v4 nor in roadmap
 # beware that there is no model for this table, and it previously was called "options_themes",
