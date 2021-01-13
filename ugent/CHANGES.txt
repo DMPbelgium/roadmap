@@ -197,3 +197,12 @@
 
   automatically add contributors to the share tab, and merge the rights?
   what if someone removeds a contributor: what should happen to the rights?
+
+- app/views/branded/plans/_share_form.html.erb
+
+  disable section where you can set the visibility
+  of the plan
+
+  This is also globally disabled in config/initializers/ugent.rb:
+    Phase#allow_visibility?
+    Plan#allow_visibility?
