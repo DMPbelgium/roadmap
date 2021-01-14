@@ -212,3 +212,12 @@
   disable link to page /public_plans
 
   see previous
+
+- ugent/etc/systemd/roadmap.service
+
+  Systemd Service file, to be copied to /etc/systemd/system
+
+- ugent/etc/systemd/roadmap.conf
+
+  Default EnvironmentFile, to be used in /etc/systemd/system/roadmap.service,
+  and to be copied to /etc/sysconfig/roadmap.conf
