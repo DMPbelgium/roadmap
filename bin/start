@@ -1,0 +1,11 @@
+#!/bin/bash
+cd `dirname $0`/..
+
+[ -f env.sh ] && . env.sh
+
+if [ ! -d "tmp" ];then
+  mkdir tmp
+fi
+
+#note: if you start rails using "bin/rails" all puma config options like port or host will be ignored
+bundle exec puma "$@"
