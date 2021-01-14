@@ -16,6 +16,21 @@ BuildRoot: %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 #   yum install epel-release
 # nodesource-release:
 #    yum install nodesource-release
+# [nodesource]
+# name=Node.js Packages for Enterprise Linux 7 - $basearch
+# baseurl=https://rpm.nodesource.com/pub_10.x/el/7/$basearch
+# failovermethod=priority
+# enabled=1
+# gpgcheck=1
+# gpgkey=file:///etc/pki/rpm-gpg/NODESOURCE-GPG-SIGNING-KEY-EL
+#
+# remi:
+#
+# [remi]
+# name=Remi
+# baseurl=http://remi.mirrors.cu.be/enterprise/7/remi/x86_64/
+# enabled=1
+# gpgcheck=0
 
 # yum repo for special ruby versions
 BuildRequires: centos-release-scl
@@ -58,7 +73,8 @@ Requires: libXext
 Requires: libjpeg-turbo
 Requires: libpng
 Requires: bison
-Requires: imagemagick
+#requires repo "remi" (which has dependency on repo "epel-release"
+Requires: ImageMagick7
 Requires: nodejs >= 10
 
 Source: %{name}.tar.gz
