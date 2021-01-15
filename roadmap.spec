@@ -114,8 +114,10 @@ sed -i "s/# gem 'sqlite3'/gem 'sqlite3'/" Gemfile
 source /opt/rh/devtoolset-9/enable
 
 # start installing gems into vendor/bundler folder
-bundle config set path 'vendor/bundle'
-bundle install --with=mysql,puma --without=pgsql
+bundle _2.1.4_ config set --local path 'vendor/bundle'
+bundle _2.1.4_ config set --local with "mysl,puma"
+bundle _2.1.4_ config set --local without pgsql
+bundle _2.1.4_ install
 
 # install node modules
 npm install
