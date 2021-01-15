@@ -40,7 +40,8 @@ BuildRequires: devtoolset-9
 
 BuildRequires: rh-ruby26
 BuildRequires: rh-ruby26-ruby-devel
-BuildRequires: rh-ruby26-rubygem-bundler
+#this is bundler 1.17, so too old
+#BuildRequires: rh-ruby26-rubygem-bundler
 BuildRequires: make
 BuildRequires: automake
 BuildRequires: autoconf
@@ -61,7 +62,8 @@ BuildRequires: bison
 BuildRequires: nodejs >= 10
 
 Requires: rh-ruby26
-Requires: rh-ruby26-rubygem-bundler
+#this is bundler 1.17, so too old
+#Requires: rh-ruby26-rubygem-bundler
 Requires: openssl-libs
 Requires: libxml2
 Requires: libyaml
@@ -98,6 +100,9 @@ export PATH=vendor/bundle/ruby/2.6.0/bin:$PATH
 export GEM_HOME=vendor/bundle/ruby/2.6.0
 export GEM_PATH=vendor/bundle/ruby/2.6.0:$GEM_PATH
 export RAILS_ENV=production
+
+# install newer version of bundler
+gem install bundler:2.1.4
 
 # fix ruby version from 2.6.3 (not in scl) to 2.6.2
 sed -i 's/ruby ">= 2.6.3"/ruby ">= 2.6.2"/' Gemfile
@@ -160,12 +165,15 @@ export GEM_HOME=vendor/bundle/ruby/2.6.0
 export GEM_PATH=vendor/bundle/ruby/2.6.0:$GEM_PATH
 export RAILS_ENV=production
 
+# install newer version of bundler
+gem install bundler:2.1.4
+
 # run db migration
-bin/rake db:migrate &&
+bin/rails db:migrate &&
 
 # generate assets
 rm -rf tmp/cache
-bin/rake assets:precompile || exit 1
+bin/rails assets:precompile || exit 1
 
 # reload daemon
 if [ ! -e /opt/%{name}/log ];then
