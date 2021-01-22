@@ -10,27 +10,12 @@ BuildRoot: %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 #
 # rh-ruby26
 #   from repo centos-release-scl: yum install centos-release-scl
-# percona:
-#   from repo http://pulp.mgmtprod.inuits.eu/pulp/repos/private/environments/dmpuat/upstream/
 # epel-release
 #   yum install epel-release
-# nodesource-release:
-#    yum install nodesource-release
-# [nodesource]
-# name=Node.js Packages for Enterprise Linux 7 - $basearch
-# baseurl=https://rpm.nodesource.com/pub_10.x/el/7/$basearch
-# failovermethod=priority
-# enabled=1
-# gpgcheck=1
-# gpgkey=file:///etc/pki/rpm-gpg/NODESOURCE-GPG-SIGNING-KEY-EL
-#
-# remi:
-#
-# [remi]
-# name=Remi
-# baseurl=http://remi.mirrors.cu.be/enterprise/7/remi/x86_64/
-# enabled=1
-# gpgcheck=0
+# remi
+# percona-release
+#   yum install https://repo.percona.com/yum/percona-release-latest.noarch.rpm
+# or use the repo's from http://pulp.mgmtprod.inuits.eu/pulp/repos/private/environments/dmpuat/upstream/
 
 # yum repo for special ruby versions
 BuildRequires: centos-release-scl
@@ -48,9 +33,8 @@ BuildRequires: autoconf
 BuildRequires: libtool
 BuildRequires: gcc
 BuildRequires: gcc-c++
-BuildRequires: mysql-devel
-#TODO: uninstall mariadb first
-#BuildRequires: Percona-Server-shared-56
+BuildRequires: Percona-Server-devel-56
+BuildRequires: Percona-Server-shared-56
 BuildRequires: sqlite-devel
 BuildRequires: openssl-devel
 BuildRequires: libxml2-devel
@@ -59,7 +43,6 @@ BuildRequires: readline-devel
 BuildRequires: libyaml-devel
 BuildRequires: libffi-devel
 BuildRequires: bison
-BuildRequires: nodejs >= 10
 
 Requires: rh-ruby26
 #this is bundler 1.17, so too old
@@ -67,17 +50,15 @@ Requires: rh-ruby26
 Requires: openssl-libs
 Requires: libxml2
 Requires: libyaml
-#TODO: uninstall mariadb first
-#Requires: Percona-Server-shared-56
-#Requires: Percona-Server-client-56
+Requires: Percona-Server-shared-56
+Requires: Percona-Server-client-56
 Requires: libXrender
 Requires: libXext
 Requires: libjpeg-turbo
 Requires: libpng
 Requires: bison
-#requires repo "remi" (which has dependency on repo "epel-release"
+#requires repo "remi" (which has dependency on repo "epel-release")
 Requires: ImageMagick7
-Requires: nodejs >= 10
 
 Source: %{name}.tar.gz
 
@@ -122,12 +103,9 @@ bundle _2.1.4_ config set --local with "mysl,puma"
 bundle _2.1.4_ config set --local without pgsql
 bundle _2.1.4_ install
 
-# install node modules
-npm install
-bin/rake yarn:install
-
-# TODO: "rm -rf vendor/bundle/ruby/2.6.0/cache"
-# That directory now contains 250MB of gemspec
+# remove temporary files
+rm -rf tmp/
+rm -rf vendor/bundle/ruby/2.6.0/cache
 
 # Not possible to compile assets here:
 #   need to load rails which requires config/credentials.yml.enc
@@ -143,6 +121,7 @@ mkdir -p %{buildroot}/var/log/%{name}
 mkdir -p %{buildroot}/etc/systemd/system
 
 cp -r $RPM_BUILD_DIR/%{name}/* %{buildroot}/opt/%{name}/
+cp -r $RPM_BUILD_DIR/%{name}/.bundle %{buildroot}/opt/%{name}/
 cp $RPM_BUILD_DIR/%{name}/ugent/etc/systemd/%{name}.service %{buildroot}/etc/systemd/system/
 
 %clean
@@ -174,11 +153,15 @@ export RAILS_ENV=production
 gem install bundler:2.1.4
 
 # run db migration
-bin/rails db:migrate &&
+bin/rails db:migrate
 
-# generate assets
-rm -rf tmp/cache
-bin/rails assets:precompile || exit 1
+# generate assets: run this at dev time, and copy public/packs and public/asset to server
+# warning: webpack requires a lot of memory, "bin/rails assets:precompile" may fail with "Compilation failed:"
+# see https://github.com/rails/webpacker/issues/955
+
+# rm -rf tmp/cache
+# bin/rake yarn:install
+# bin/rails assets:precompile
 
 # reload daemon
 if [ ! -e /opt/%{name}/log ];then
