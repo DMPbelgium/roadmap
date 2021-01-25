@@ -121,6 +121,12 @@
     * verhinder dat iemand email aanpast
     * wijzig Org toe obv oude organisation_domains, nu onder de naam ugent_org_domains
 
+  * voegt methode "gdpr?" toe aan model Template:
+
+    een template met persoonsinformatie kan worden
+    herkend door het thema "UGENT:DATA" toe te voegen
+    aan één van de vragen.
+
 - app/controllers/ugent/selectable_user_controller.rb
 
   ugent specifieke controller waarmee je kan kiezen tussen accounts
