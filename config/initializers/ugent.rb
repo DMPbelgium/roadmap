@@ -9,6 +9,26 @@ require "question_option"
 require "plan"
 require "theme"
 require "phase"
+require "template"
+
+class Template
+
+  # Does a template contain personal data?
+  # One question must include theme with title "UGENT:DATA"
+  def gdpr?
+
+    gdpr_theme = Theme.where(title: "UGENT:DATA").first
+    return false if gdpr_theme.nil?
+
+    questions.each do |q|
+      return true if q.themes.include?(gdpr_theme)
+    end
+
+    false
+
+  end
+
+end
 
 # disable feature that makes it possible to change the visibility
 # See also app/views/branded/plans/_share_form.html.erb
