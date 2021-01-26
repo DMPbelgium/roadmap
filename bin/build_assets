@@ -1,0 +1,19 @@
+#!/bin/bash
+cd `dirname $0`/..
+
+[ -f env.sh ] && . env.sh
+
+# force mode production
+export RAILS_ENV=production
+
+if [ ! -d "tmp" ];then
+  mkdir tmp
+fi
+
+# compile assets into public/assets and public/packs
+bin/rails assets:precompile &&
+# and store them in git (no way to run this on the production server)
+rm -rf ugent/public &&
+mkdir ugent/public &&
+cp -r public/assets ugent/public/ &&
+cp -r public/packs ugent/public
