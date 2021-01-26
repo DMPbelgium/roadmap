@@ -227,3 +227,18 @@
 
   Default EnvironmentFile, to be used in /etc/systemd/system/roadmap.service,
   and to be copied to /etc/sysconfig/roadmap.conf
+
+- ugent/public/packs and ugent/public/assets
+
+  precompiled assets for production mode
+  this is generated at development time,
+  so that it does not have to be generated when installed
+  (and therefore should need nodejs, yarn and all that stuff)
+
+  see also bin/build_assets
+
+- bin/build_assets
+
+  precompile all javascript and css assets
+  in production mode, and copy them
+  to ugent/public

@@ -110,6 +110,8 @@ rm -rf vendor/bundle/ruby/2.6.0/cache
 # Not possible to compile assets here:
 #   need to load rails which requires config/credentials.yml.enc
 #   need to have working database
+#   need nodejs
+#   requires too much memory
 
 %install
 rm -rf %{buildroot}
@@ -123,6 +125,10 @@ mkdir -p %{buildroot}/etc/systemd/system
 cp -r $RPM_BUILD_DIR/%{name}/* %{buildroot}/opt/%{name}/
 cp -r $RPM_BUILD_DIR/%{name}/.bundle %{buildroot}/opt/%{name}/
 cp $RPM_BUILD_DIR/%{name}/ugent/etc/systemd/%{name}.service %{buildroot}/etc/systemd/system/
+
+# copy assets precompiled at development time
+cp -r $RPM_BUILD_DIR/%{name}/ugent/public/packs %{buildroot}/opt/%{name}/public/
+cp -r $RPM_BUILD_DIR/%{name}/ugent/public/assets %{buildroot}/opt/%{name}/public/
 
 %clean
 rm -rf %{buildroot}
@@ -154,14 +160,6 @@ gem install bundler:2.1.4
 
 # run db migration
 bin/rails db:migrate
-
-# generate assets: run this at dev time, and copy public/packs and public/asset to server
-# warning: webpack requires a lot of memory, "bin/rails assets:precompile" may fail with "Compilation failed:"
-# see https://github.com/rails/webpacker/issues/955
-
-# rm -rf tmp/cache
-# bin/rake yarn:install
-# bin/rails assets:precompile
 
 # reload daemon
 if [ ! -e /opt/%{name}/log ];then
