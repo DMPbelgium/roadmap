@@ -87,6 +87,7 @@ gem install bundler:2.1.4
 
 # remove unused helper that requires git
 rm -f app/helpers/version_helper.rb
+sed -i 's/<%= version %>/3.0.1/' app/views/layouts/application.html.erb
 
 # fix ruby version from 2.6.3 (not in scl) to 2.6.2
 sed -i 's/ruby ">= 2.6.3"/ruby ">= 2.6.2"/' Gemfile
