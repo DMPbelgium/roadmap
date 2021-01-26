@@ -10,6 +10,49 @@ require "plan"
 require "theme"
 require "phase"
 require "template"
+require "contributor"
+
+# give contributor access to a plan
+# TODO: what when contributor is removed? Remove also rights from plan.roles?
+# TODO: make field "email" readonly in the form?
+# TODO: make field "email" unique within plan?
+Contributor.after_save do |contributor|
+
+  role = plan.roles
+             .select { |role| role.user.email == contributor.email }
+             .first
+
+  if role.nil?
+
+    user = User.where(email: contributor.email).first
+
+    if user.nil?
+
+      user = User.new(email: contributor.email)
+      user.save!
+
+    end
+
+    role = plan.roles.build(user: user)
+
+  end
+
+  if contributor.project_administration
+    role.administrator = true
+  end
+
+  if contributor.data_curation
+    role.editor = true
+  end
+
+  if contributor.investigation
+    role.administrator = true
+    role.editor = true
+  end
+
+  role.save!
+
+end
 
 class Template
 
