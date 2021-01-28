@@ -34,14 +34,14 @@ RailsAdmin.config do |config|
     end
     export
     bulk_delete do
-      only %w()
+      only %w(Ugent::OrgDomain)
     end
     show
     edit do
-      only %w(QuestionOption)
+      only %w(QuestionOption Ugent::OrgDomain)
     end
     delete do
-      only %w()
+      only %w(Ugent::OrgDomain)
     end
     show_in_app
   end
@@ -49,6 +49,7 @@ RailsAdmin.config do |config|
   # only allow these model in RailsAdmin
   config.included_models = [
     :Org,
+    :'Ugent::OrgDomain',
     :Template,
     :Phase,
     :Section,
@@ -60,6 +61,8 @@ RailsAdmin.config do |config|
   config.model "Org" do
 
     navigation_label "Organisation management"
+    label "Organisation"
+    label_plural "Organisations"
 
     weight 0
     object_label_method :name
@@ -71,6 +74,17 @@ RailsAdmin.config do |config|
       field :created_at
       field :updated_at
     end
+
+  end
+
+  config.model "Ugent::OrgDomain" do
+
+    navigation_label "Organisation management"
+    label "Organisation domain"
+    label_plural "Organisation domains"
+
+    weight 1
+    object_label_method :name
 
   end
 
@@ -269,6 +283,15 @@ RailsAdmin.config do |config|
 
     weight 6
     object_label_method :title
+
+    list do
+      field :id
+      field :title
+      field :description
+      field :created_at
+      field :updated_at
+    end
+
   end
 
 end
