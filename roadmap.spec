@@ -127,9 +127,10 @@ cp -r $RPM_BUILD_DIR/%{name}/* %{buildroot}/opt/%{name}/
 cp -r $RPM_BUILD_DIR/%{name}/.bundle %{buildroot}/opt/%{name}/
 cp $RPM_BUILD_DIR/%{name}/ugent/etc/systemd/%{name}.service %{buildroot}/etc/systemd/system/
 
-# copy assets precompiled at development time
-cp -r $RPM_BUILD_DIR/%{name}/ugent/public/packs %{buildroot}/opt/%{name}/public/
-cp -r $RPM_BUILD_DIR/%{name}/ugent/public/assets %{buildroot}/opt/%{name}/public/
+# move assets precompiled at development time
+# to build assets in ugent/public, run bin/build_assets
+mv %{buildroot}/opt/%{name}/ugent/public/packs %{buildroot}/opt/%{name}/public/
+mv %{buildroot}/opt/%{name}/ugent/public/assets %{buildroot}/opt/%{name}/public/
 
 %clean
 rm -rf %{buildroot}
