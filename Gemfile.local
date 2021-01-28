@@ -1,1 +1,2 @@
 gem "validates_hostname"
+gem "rails_admin"

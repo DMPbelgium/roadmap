@@ -8,6 +8,8 @@ Rails.application.routes.draw do
   get "switch_user/edit", controller: "ugent/switch_user", action: :edit, as: :edit_switch_user
   post "switch_user", controller: "ugent/switch_user", action: :update, as: :update_switch_user
 
+  mount RailsAdmin::Engine => "/admin", as: "rails_admin"
+
 =begin TODO
   get "/internal/exports/v01/organisations/:organisation/:name.json",
     :to => "internal/exports#show_link",
