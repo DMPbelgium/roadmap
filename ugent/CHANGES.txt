@@ -1,85 +1,17 @@
-- rapporteer de mega-query die deze lijn veroorzaakt:
-
-  https://github.com/DMPRoadmap/roadmap/blob/master/app/controllers/plans_controller.rb#L22
-
-  fixed in v3.0.1, maar onvolledig: het gebruikt nu Rails.cache,
-    maar in de toekomst moet dit herbekeken worden:
-
-  zie https://github.com/DMPRoadmap/roadmap/pull/2379
-
 - config/initializers/wicked_pdf_ugent.rb
 
   sets path of wkhtmltopdf (like in DMPonline_v4)
-
-- TODO: rapporteer gebruik van "count" (ipv "size") op relations, "find_by", "where" e.d.
-        preload alle records voor modellen die geen data maar types zijn (vb. Perm.all is een lijst van soorten permissies)
-
-        [roadmap-ugent]   Perm Load (7.7ms)  SELECT  `perms`.* FROM `perms` WHERE `perms`.`name` = 'add_organisations' LIMIT 1
-        [roadmap-ugent]   CACHE (0.1ms)  SELECT  `perms`.* FROM `perms` WHERE `perms`.`name` = 'add_organisations' LIMIT 1  [["name", "add_organisations"]]
-        [roadmap-ugent]   Perm Load (1.7ms)  SELECT  `perms`.* FROM `perms` WHERE `perms`.`name` = 'modify_templates' LIMIT 1
-        [roadmap-ugent]   CACHE (0.0ms)  SELECT  `perms`.* FROM `perms` WHERE `perms`.`name` = 'add_organisations' LIMIT 1  [["name", "add_organisations"]]
-        [roadmap-ugent]   Perm Load (1.7ms)  SELECT  `perms`.* FROM `perms` WHERE `perms`.`name` = 'modify_guidance' LIMIT 1
-        [roadmap-ugent]   CACHE (0.0ms)  SELECT  `perms`.* FROM `perms` WHERE `perms`.`name` = 'add_organisations' LIMIT 1  [["name", "add_organisations"]]
-        [roadmap-ugent]   Perm Load (0.7ms)  SELECT  `perms`.* FROM `perms` WHERE `perms`.`name` = 'grant_permissions' LIMIT 1
-        [roadmap-ugent]   CACHE (0.0ms)  SELECT  `perms`.* FROM `perms` WHERE `perms`.`name` = 'add_organisations' LIMIT 1  [["name", "add_organisations"]]
-        [roadmap-ugent]   CACHE (0.0ms)  SELECT  `perms`.* FROM `perms` WHERE `perms`.`name` = 'add_organisations' LIMIT 1  [["name", "add_organisations"]]
-        [roadmap-ugent]   CACHE (0.0ms)  SELECT  `perms`.* FROM `perms` WHERE `perms`.`name` = 'add_organisations' LIMIT 1  [["name", "add_organisations"]]
-
-        Reden: current_user.can_org_admin? en andere functies roepen Perm.<permission> op (vb. Perm.add_orgs),
-                maar die functies gebruiken find_by, die altijd query opnieuw uitvoert.
-               aangezien er nooit veel permissies zijn, is het niet beter om alle permissies te laden?
-
-  zie PR https://github.com/DMPRoadmap/roadmap/pull/2734
-
-- TODO: app/model/org.plan#plans genereert héél lange IN-queries die lang duren
-
-  in model Org wordt relation "plans" overschreven met een expliciete methode, en die voert deze query uit
-
-     plan_ids = Role.administrator
-                    .where(user_id: self.users.pluck(:id), active: true)
-                    .pluck(:plan_id).uniq
-     Plan.includes(:template, :phases, :roles, :users)
-         .where(id: plan_ids)
-
-
-  het aantal klopt ook niet?
-
-      org = Org.find(4)
-      Plan.where( :org_id => org.id ).count -> 4218
-      org.plans.size -> 4228
-
-  er werden namelijk 10 plannen geselecteerd van een andere organisatie!
-
-      >   org_plans.map(&:org_id).select { |org_id| org_id != 4 }
-      => [14, 16, 14, 16, 92, 92, 131, 14, 52, 171]
-
-      fout in de tabel "roles"? -> nee: het is normaal dat mensen van andere organisaties
-        kunnen voorkomen, want die kunnen via de tab "share" toegang gekregen hebben,
-        maar het is natuurlijk fout om dat te gebruiken in de context van een org_admin.
-        Dat zou immers willen zeggen dat een org_admin van een andere instelling hier ook
-        org_admin-rechten op zou hebben..
-
-  Issue: https://github.com/DMPRoadmap/roadmap/issues/2724
-  PR: https://github.com/DMPRoadmap/roadmap/pull/2726
-
-  Reden: org.plans != plannen van de organisatie,
-                   = plannen van leden van de organisatie.
-                     leden kunnen immers toegevoegd worden aan plannen van
-                     andere organisaties
-
-- app/model/plan.rb: preload roles en hergebruik ze
-
-  zie PR https://github.com/DMPRoadmap/roadmap/pull/2727
 
 - app/views/branded/devise/registrations/edit.html.erb
 
     removed tab (and tab content) for password
 
-- app/views/devise/registrations/_personal_details.html.erb
+- app/views/branded/devise/registrations/_personal_details.html.erb
+
     email: readonly (+class form-control-plaintext)
-    org: readonly -> user[org_id] MOET json zijn volgens RegistrationsController#update
+    org: readonly -> user[org_id] must be json according to RegistrationsController#update
     departments: removed
-    languages: removed (vertalingen toch beperkt)
+    languages: removed (translations limited anyway)
 
 - app/views/branded/layouts/_signin_signout.html.erb
 
@@ -87,76 +19,81 @@
 
   added link to /switch_user/edit
 
-- TODO: phases zonder sections mogen niet getoond worden in de navigatie
-
-  Plan.load_for_phase faalt daarom ..
-
-- TODO: willen we wel dat gebruikers organisaties ingeven? Beter geen autocomplete op "org"
-
 - config/initializers/ugent.rb
 
-  * overschrijft methode Identifier#value_uniqueness_with_scheme zodat
+  * overrides method Identifier#value_uniqueness_with_scheme in such a way that
 
-    * voor shibboleth meerdere loginroutes per org zijn
-    * voor orcid meerdere gebruikers per orcid mogelijk zijn
-      meerdere identifiers per gebruiker mogelijk zijn
+    * multiple shibboleth identifiers per org are possible (and therefore loginroutes)
+    * multiple orcid identifiers per user are possible
 
-  * overschrijft methodes van Users::OmniauthCallbacksController
+  * overrides methods of Users::OmniauthCallbacksController
 
-    ook om orcid/shibboleth te regelen volgens onze regels
+  * reuse old (custom!) table options_themes, now under the name question_options_themes
 
-  * voegt dpo toe aan plan na aanmaak
-
-  * hergebruik oude tabel options_themes, nu onder de naam question_options_themes
-
-  * voeg methoden toe aan model User:
+  * adds methods to model User:
 
     * alternative_accounts
     * nemo
     * ensure_password
     * guest?
 
-  * voeg before_validation toe aan model User:
+  * adds before_validation to model User:
 
-    * verhinder dat iemand email aanpast
-    * wijzig Org toe obv oude organisation_domains, nu onder de naam ugent_org_domains
+    * prevent someone from editing email attribute
+    * change attribute org_id based on old table organisation_domains (now: table ugent_org_domains)
 
-  * voegt methode "gdpr?" toe aan model Template:
+  * adds method gdpr? to model Template:
 
-    een template met persoonsinformatie kan worden
-    herkend door het thema "UGENT:DATA" toe te voegen
-    aan één van de vragen.
+    a template contains privacy related data
+    if one of the questions contains the theme "UGENT:DATA"
 
 - app/controllers/ugent/selectable_user_controller.rb
 
-  ugent specifieke controller waarmee je kan kiezen tussen accounts
-  wanneer je een orcid overeenkomt met meer dan één account
+  ugent specific controller
+
+  when user authenticates with orcid,
+  and this orcid matches with multiple users at this end,
+  this controller shows a select box from which one
+  can choose the user to login to
+
+  this use case is necessary to accomodate for users
+  that are part of multiple organisations,
+  but for some reason only have orcid as a login method.
 
 - app/controllers/ugent/switch_user_controller.rb
 
-  ugent specifieke controller waarmee naar een van je andere accounts
-  kan gaan, indien jouw orcid ook overeenkomt met een andere account
+  ugent specific controller
+
+  if a user has an orcid that matches with other user accounts
+  he/she can switch to that other user account
+
+  differences with selectable_user_controller.rb:
+    * only the OTHER users accounts are shown in the select box
+    * happens when already logged in
 
 - app/models/ugent/log.rb
 
-  hergebruik oude tabel "logs", nu onder de naam "ugent_logs"
+  reuse old table "logs", now under the name "ugent_logs"
+  Used in the past to track deleted "projects"
+
+  Now one cannot delete plans anymore: the "remove" button
+    simply removes all collaborators (plan.roles = [])
+  Of course a plan can be removed in the CLI
+
+  Still usefull?
 
 - app/models/ugent/org_domain.rb
 
-  hergebruik oude tabel "organisation_domains",
-  nu onder de naam "ugent_org_domains"
+  reuse old table "organisation_domains",
+  now under the name ugent_org_domains
 
 - config/custom.yml
 
-  voegt ugent specifieke configuratie toe
+  adds ugent specific configuration toe
 
-  gebruik:
+  not used at the moment
 
-    * associëer elke Org met één of meerdere dpo's
-
-- TODO: Identifier met als identifier_scheme voor shibboleth en identifiable_type "User" is leeg:
-
-  moet gevuld worden tijdens upgrade
+  if removed, also remove load statement from config/initializers/ugent.rb
 
 - app/views/branded/shared/_sign_in_form.html.erb
   app/views/branded/shared/_access_controls.html.erb
@@ -172,6 +109,9 @@
 
   overrides settings config/initializers/_dmproadmap.rb
 
+  that _dmproadmap.rb is included in git,
+  which makes it hard to configure it at the server
+
 - config/initializers/devise_ugent.rb
 
   overrides settings from config/initializers/devise.rb
@@ -181,11 +121,12 @@
   not included in .gitigore,
   and expected by roadmap to set (contact_us.rb.example not used)
 
-- config/routes/*.yml
+- config/routes/*.rb
 
-  voegt extra routes toe
+  add extra routes
 
-  config/application.rb werd hiervoor aangepast!
+  in order to load to extra files,
+  I had to edit config/application.rb!
 
 - app/views/branded/plans/index.html.erb
 
@@ -198,11 +139,6 @@
   overrides app/views/orgs/admin_edit.html.erb
 
   reason: disable tab schools/departments
-
-- TODO: Contributors?
-
-  automatically add contributors to the share tab, and merge the rights?
-  what if someone removeds a contributor: what should happen to the rights?
 
 - app/views/branded/plans/_share_form.html.erb
 
@@ -221,12 +157,14 @@
 
 - ugent/etc/systemd/roadmap.service
 
-  Systemd Service file, to be copied to /etc/systemd/system
+  Systemd Service file
+
+  Copied to /etc/systemd/system at rpm build time
 
 - ugent/etc/systemd/roadmap.conf
 
-  Default EnvironmentFile, to be used in /etc/systemd/system/roadmap.service,
-  and to be copied to /etc/sysconfig/roadmap.conf
+  Default EnvironmentFile, to be used in /etc/systemd/system/roadmap.service.
+  Overrides must be put in /etc/sysconfig/roadmap.conf at the server.
 
 - ugent/public/packs and ugent/public/assets
 
@@ -235,13 +173,15 @@
   so that it does not have to be generated when installed
   (and therefore should need nodejs, yarn and all that stuff)
 
-  see also bin/build_assets
+  see also ugent/bin/build_assets
 
-- bin/build_assets
+- ugent/bin/build_assets
 
   precompile all javascript and css assets
   in production mode, and copy them
   to ugent/public
+
+  run this from the application directory
 
 - add gem rails_admin to Gemfile.local
 
@@ -266,3 +206,14 @@
 
     see config/initializers/assets.rb
     that file already existed, so may conflict in the future.
+
+- app/helpers/version_helper.rb
+
+  Removed at rpm build time.
+  This file causes problems when rails is started outside of a git environment
+
+  This file is already removed in the base repository,
+  so this statement may be removed in the future
+
+  See PR https://github.com/DMPRoadmap/roadmap/pull/2792
+  See ticket https://github.com/DMPRoadmap/roadmap/issues/2782

@@ -1,0 +1,20 @@
+- PR https://github.com/DMPRoadmap/roadmap/pull/2734
+
+- PR https://github.com/DMPRoadmap/roadmap/pull/2727
+
+- disable autocomplete on input field for organisations
+
+  We do not want our users to add organisations
+
+- Identifier with identifier_scheme for shibboleth and identifiable_type "User" is empty:
+
+  prefill at upgrade time
+
+- Contributors?
+
+  automatically add contributors to the share tab, and merge the rights?
+  what if someone removeds a contributor: what should happen to the rights?
+
+- remove config/custom.yml?
+
+  in that case, also remove load statement from config/initializers/ugent.rb
