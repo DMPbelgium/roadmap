@@ -500,6 +500,7 @@ module Users
 
 end
 
+# not used at the moment. Remove?
 DMPRoadmap::Application.class_eval do
   config.custom = config_for(:custom) if File.exist?(Rails.root.join("config", "custom.yml"))
 end

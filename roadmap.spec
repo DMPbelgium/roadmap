@@ -2,6 +2,7 @@ Name: roadmap
 Summary: DMP Roadmap is a Data Management Planning tool
 License: MIT
 Version: 3.0.1
+# "X" is replaced by jenkins at build time
 Release: X
 BuildArch: x86_64
 BuildRoot: %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
@@ -25,7 +26,7 @@ BuildRequires: devtoolset-9
 
 BuildRequires: rh-ruby26
 BuildRequires: rh-ruby26-ruby-devel
-#this is bundler 1.17, so too old
+# this bundler 1.17 is too old, so we install bundler 2.1.4 at build time
 #BuildRequires: rh-ruby26-rubygem-bundler
 BuildRequires: make
 BuildRequires: automake
@@ -33,9 +34,9 @@ BuildRequires: autoconf
 BuildRequires: libtool
 BuildRequires: gcc
 BuildRequires: gcc-c++
+# we use Percona as mysql server
 BuildRequires: Percona-Server-devel-56
 BuildRequires: Percona-Server-shared-56
-BuildRequires: sqlite-devel
 BuildRequires: openssl-devel
 BuildRequires: libxml2-devel
 BuildRequires: libcurl-devel
@@ -45,11 +46,12 @@ BuildRequires: libffi-devel
 BuildRequires: bison
 
 Requires: rh-ruby26
-#this is bundler 1.17, so too old
-#Requires: rh-ruby26-rubygem-bundler
+# this bundler 1.17 is too old, so we install bundler 2.1.4 at post install
+#Requires: rh-ruby26-rubygem-bundler,
 Requires: openssl-libs
 Requires: libxml2
 Requires: libyaml
+# we use Percona as mysql server
 Requires: Percona-Server-shared-56
 Requires: Percona-Server-client-56
 Requires: libXrender
@@ -86,16 +88,17 @@ export RAILS_ENV=production
 gem install bundler:2.1.4
 
 # remove unused helper that requires git
-rm -f app/helpers/version_helper.rb
-sed -i 's/<%= version %>/3.0.1/' app/views/layouts/application.html.erb
+# remove if PR https://github.com/DMPRoadmap/roadmap/pull/2792 is merged
+if [ -f "app/helpers/version_helper.rb" ];then
+  rm -f app/helpers/version_helper.rb
+  sed -i 's/<%= version %>/3.0.1/' app/views/layouts/application.html.erb
+fi
 
 # fix ruby version from 2.6.3 (not in scl) to 2.6.2
 sed -i 's/ruby ">= 2.6.3"/ruby ">= 2.6.2"/' Gemfile
 
-# uncomment sqlite3
-sed -i "s/# gem 'sqlite3'/gem 'sqlite3'/" Gemfile
-
 # switch to higher dev tools
+# without these some gems will not compile
 source /opt/rh/devtoolset-9/enable
 
 # start installing gems into vendor/bundler folder
@@ -113,6 +116,8 @@ rm -rf vendor/bundle/ruby/2.6.0/cache
 #   need to have working database
 #   need nodejs
 #   requires too much memory
+#
+# Run ugent/bin/build_assets to recompile assets
 
 %install
 rm -rf %{buildroot}
@@ -128,6 +133,7 @@ cp -r $RPM_BUILD_DIR/%{name}/.bundle %{buildroot}/opt/%{name}/
 cp $RPM_BUILD_DIR/%{name}/ugent/etc/systemd/%{name}.service %{buildroot}/etc/systemd/system/
 
 # copy assets precompiled at development time
+# Run ugent/bin/build_assets to recompile assets
 cp -r $RPM_BUILD_DIR/%{name}/ugent/public/packs %{buildroot}/opt/%{name}/public/
 cp -r $RPM_BUILD_DIR/%{name}/ugent/public/assets %{buildroot}/opt/%{name}/public/
 
@@ -160,6 +166,7 @@ export RAILS_ENV=production
 gem install bundler:2.1.4
 
 # run db migration
+# important: have a working rails configuration and database in place
 bin/rails db:migrate
 
 # reload daemon
