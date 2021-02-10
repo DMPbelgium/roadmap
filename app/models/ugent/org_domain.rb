@@ -2,6 +2,20 @@
 
 # Purpose: attach domains to an org
 
+=begin create table in mysql
+
+CREATE TABLE `ugent_org_domains` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `org_id` int NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `index_organisation_domains_on_name` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
+
+=end
+
 module Ugent
 
   class OrgDomain < ApplicationRecord
