@@ -177,7 +177,7 @@ The base repository of the DCC is added as remote `github`.
 
 ## update to latest changes from the base repository
 
-If you want to be up to date with the latest changes in that repository,
+If you want to be up to date with the latest changes in the DCC repository,
 do the following:
 
 * pull in the latest changes
@@ -237,7 +237,14 @@ See also `ugent/CHANGES.txt` for detailed information
 
 * `config/initializers/rails_admin.rb`
 
-  Adds RailsAdmin
+  Adds [RailsAdmin](https://github.com/sferik/rails_admin)
+  RailsAdmin adds a CRUD interface at /admin to edit/preview
+  models that cannot be manipulated in any other way in 
+  roadmap:
+    * model `Ugent::RestUser` which adds organisational REST users
+    * model `Ugent::WayflessEntity` (deprecated)
+    * associate themes with question options
+  Most of the models in the RailsAdmin are read only
 
 * `env.sh`
 
@@ -257,10 +264,6 @@ Old tables added when we used DMPOnline_v4:
 
 * `ugent_logs`
 
-* `wayfless_entities`
+* `ugent_wayfless_entities`
 
-  TODO: add renaming to migration
-
-* `rest_users`
-
-  TODO: add renaming to migration
+* `ugent_rest_users`
