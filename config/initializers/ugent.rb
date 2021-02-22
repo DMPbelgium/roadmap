@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# apparently these modules are not loaded yet, so there functionality does not work yet
+# apparently these modules are not loaded yet, so their functionality does not work yet
 require "user"
 require "identifier"
 require "org"
@@ -11,6 +11,29 @@ require "theme"
 require "phase"
 require "template"
 require "contributor"
+require "role"
+
+# To remove when Ugent::Internal::ExportsController is removed
+class Role
+
+  # Purpose: access level to be shown in internal_exports_controller per Role
+  #   taken from old ProjectGroup
+  def code_access_level
+    if creator
+      return :owner
+    elsif administrator
+      return :co_owner
+    elsif editor
+      return :editor
+    elsif commenter
+      return :commenter
+    elsif reviewer
+      return :reviewer
+    end
+    :read_only
+  end
+
+end
 
 # give contributor access to a plan
 # TODO: what when contributor is removed? Remove also rights from plan.roles?
@@ -63,8 +86,12 @@ class Template
     gdpr_theme = Theme.where(title: "UGENT:DATA").first
     return false if gdpr_theme.nil?
 
-    questions.each do |q|
-      return true if q.themes.include?(gdpr_theme)
+    phases.each do |phase|
+      phase.sections.each do |section|
+        section.questions.each do |q|
+          return true if q.themes.include?(gdpr_theme)
+        end
+      end
     end
 
     false
@@ -87,6 +114,322 @@ class Plan
 
   def visibility_allowed?
     false
+  end
+
+  # To remove when Ugent::Internal::ExportsController is removed
+  # Purpose: deprecated json api ugent/internal_exports_controller.rb
+  def ld_uri
+
+    Rails.application.routes.url_helpers.plan_url(self, host: ENV["DMP_HOST"], protocol: ENV["DMP_PROTOCOL"])
+
+  end
+
+  # To remove when Ugent::Internal::ExportsController is removed
+  def ld
+
+    # old Project == new Plan
+    # TODO: data contact and principal investigator not recognisable..
+    pr = {
+      id: id,
+      type: "Project",
+      url: ld_uri,
+      created_at: created_at.utc.strftime("%FT%TZ"),
+      updated_at: updated_at.utc.strftime("%FT%TZ"),
+      title: title,
+      description: description,
+      identifier: identifier,
+      grant_number: grant_number,
+      collaborators: roles.map { |role|
+        # collaborators -> plan.roles -> old project groups
+        u = role.user
+        pg_r = {
+          type: "ProjectGroup",
+          user: nil,
+          access_level: role.code_access_level,
+          created_at: role.created_at.utc.strftime("%FT%TZ"),
+          updated_at: role.updated_at.utc.strftime("%FT%TZ")
+        }
+        unless u.nil?
+
+          orcid = u.identifier_orcid
+
+          pg_r[:user] = {
+            id: u.id,
+            type: "User",
+            created_at: u.created_at.utc.strftime("%FT%TZ"),
+            updated_at: u.updated_at.utc.strftime("%FT%TZ"),
+            email: u.email,
+            orcid: orcid.present? ? orcid.value : nil
+          }
+
+        end
+        pg_r
+      },
+      organisation: nil,
+      plans: []
+    }
+
+    # presence of "org" only proves that this plan
+    #   was created with this organisation selected for extra guidance
+    # See https://github.com/DMPRoadmap/roadmap/issues/2801
+    owning_org = owner.present? && owner.org.present? ? owner.org : nil
+    if owning_org.present?
+
+      pr[:organisation] = {
+        type: "Organisation",
+        id: owning_org.id,
+        name: owning_org.name
+      }
+
+    end
+
+    pr[:template] = {
+      id: template.id,
+      created_at: template.created_at.utc.strftime("%FT%TZ"),
+      updated_at: template.updated_at.utc.strftime("%FT%TZ"),
+      title: template.title,
+      description: template.description,
+      published: template.published,
+      is_default: template.is_default,
+      gdpr: template.gdpr?,
+      type: "Template"
+    }
+    pr[:template][:type] = "Template"
+
+    if funder.present?
+
+      pr[:funder] = {
+        type: "Organisation",
+        id: funder.id,
+        name: funder.name
+      }
+
+    elsif funder_name.present?
+
+      pr[:funder] = {
+        type: nil,
+        id: nil,
+        name: funder_name
+      }
+
+    else
+
+      pr[:funder] = nil
+
+    end
+
+    pr[:plans] = []
+
+    plan_answers = answers.all
+
+    question_formats = QuestionFormat.all
+
+    template.phases.each do |phase|
+
+      pl = {
+        version: {
+          type: "Version",
+          id: phase.versionable_id,
+          title: phase.title
+        },
+        id: phase.id,
+        type: "Plan",
+        url: ld_uri + "/edit?phase_id=" + phase.id.to_s,
+        sections: []
+      }
+
+      phase.sections.each do |section|
+
+        sc = {
+          id: section.id,
+          type: "Section",
+          number: section.number,
+          title: section.title,
+          questions: []
+        }
+
+        section.questions
+               .sort { |a,b| a.number <=> b.number }
+               .each do |question|
+
+          question_format = question_formats.select { |qf| qf.id == question.question_format_id }.first
+
+          q = {
+            id: question.id,
+            type: "Question",
+            text: question.text,
+            default_value: question.default_value,
+            number: question.number,
+            question_format: {
+              id: question_format.id,
+              type: "QuestionFormat",
+              title: question_format.title,
+              description: question_format.description,
+              created_at: question_format.created_at.utc.strftime("%FT%TZ"),
+              updated_at: question_format.updated_at.utc.strftime("%FT%TZ")
+            },
+            # should only be of one org
+            suggested_answers: question.annotations
+                                       .select { |annotation| annotation.type == Annotation.types[:example_answer] }
+                                       .select { |annotation| annotation.text.present? }
+                                       .map { |annotation|
+
+              {
+                id: annotation.id,
+                type: "SuggestedAnswer",
+                text: annnotation.text,
+                is_example: true,
+                created_at: annotation.created_at.utc.strftime("%FT%TZ"),
+                updated_at: annotation.created_at.utc.strftime("%FT%TZ")
+              }
+
+            },
+            answer: nil,
+            themes: question.themes.map { |theme|
+              {
+                id: theme.id,
+                type: "Theme",
+                title: theme.title,
+                created_at: theme.created_at.utc.strftime("%FT%TZ"),
+                updated_at: theme.updated_at.utc.strftime("%FT%TZ")
+              }
+            }
+          }
+
+          # select answer from plan related answers we have precollected
+          answer = plan_answers.select { |a| a.question_id == question.id }.first
+
+          if question_format.option_based?
+
+            q[:options] = question.question_options.sort_by(&:number).map do |op|
+              {
+                id: op.id,
+                type: "Option",
+                text: op.text,
+                number: op.number,
+                is_default: op.is_default,
+                created_at: op.created_at.utc.strftime("%FT%TZ"),
+                updated_at: op.created_at.utc.strftime("%FT%TZ"),
+                themes: op.themes.map { |theme|
+                  {
+                    id: theme.id,
+                    type: "Theme",
+                    title: theme.title,
+                    created_at: theme.created_at.utc.strftime("%FT%TZ"),
+                    updated_at: theme.updated_at.utc.strftime("%FT%TZ")
+                  }
+                }
+              }
+            end
+
+          end
+
+          if answer.present? && question_format.option_based?
+
+            q[:selected] = {}
+
+            answer.question_options.each do |o|
+
+              q[:selected][o.number] = o.text
+
+            end
+
+          end
+
+          if answer.present?
+
+            au = answer.user
+            identifier_orcid = au.identifier_orcid
+            q[:answer] = {
+              id: answer.id,
+              type: "Answer",
+              text: answer.text,
+              user: nil,
+              created_at: answer.created_at.utc.strftime("%FT%TZ"),
+              updated_at: answer.updated_at.utc.strftime("%FT%TZ")
+            }
+            unless au.nil?
+
+              q[:answer][:user] = {
+                id: au.id,
+                type: "User",
+                email: au.email,
+                orcid: identifier_orcid.present? ? identifier_orcid.value : nil
+              }
+
+            end
+
+          end
+
+          q[:comments] = []
+
+          # old question.comments is now answer.notes
+          # so not only change of name, but also tied now to an answer instead of a question
+          if answer.present?
+
+            answer.notes.each do |note|
+
+              c = {
+                id: note.id,
+                type: "Comment",
+                created_at: note.created_at.utc.strftime("%FT%TZ"),
+                updated_at: note.updated_at.utc.strftime("%FT%TZ"),
+                text: note.text,
+                created_by: nil,
+                archived_by: nil,
+                archived: note.archived ? true : false
+              }
+
+              created_by = note.user
+
+              if created_by.present?
+
+                identifier_orcid = created_by.identifier_orcid
+
+                c[:created_by] = {
+                  id: created_by.id,
+                  type: "User",
+                  email: created_by.email,
+                  orcid: identifier_orcid.present? ? identifier_orcid.value : nil
+                }
+
+              end
+
+              archived_by = note.archived_by.present? ? User.find(note.archived_by) : nil
+
+              if archived_by.present?
+
+                identifier_orcid = archived_by.identifier_orcid
+
+                c[:archived_by] = {
+                  id: archived_by.id,
+                  type: "User",
+                  email: archived_by.email,
+                  orcid: identifier_orcid.present? ? identifier_orcid.value : nil
+                }
+
+              end
+
+              q[:comments] << c
+
+            end
+
+          end
+
+          sc[:questions] << q
+
+        end
+
+        pl[:sections] << sc
+
+      end
+
+      pr[:plans] << pl
+
+    end
+
+    pr
+
   end
 
 end
@@ -165,15 +508,23 @@ class User
     firstname.blank? || surname.blank? || firstname == User.nemo || surname == User.nemo
   end
 
+  def self.identifier_scheme_orcid
+    @identifier_scheme_orcid ||= IdentifierScheme.find_by_name("orcid")
+  end
+
+  def identifier_orcid
+    scheme = User.identifier_scheme_orcid
+    identifiers.select { |id| id.identifier_scheme_id == scheme.id }.first
+  end
+
   def alternative_accounts
-    scheme = IdentifierScheme.find_by_name("orcid")
-    orcid = identifiers.select { |id| id.identifier_scheme_id == scheme.id }.first
+    orcid = identifier_orcid
 
     return [] if orcid.nil?
 
     Identifier.where(
       "identifier_scheme_id = ? AND identifiable_type = ? AND value = ? AND identifiable_id <> ?",
-      scheme.id,
+      orcid.identifier_scheme_id,
       "User",
       orcid.value,
       id
@@ -229,8 +580,87 @@ class Org
 
   has_many :domains, class_name: "Ugent::OrgDomain"
 
+  # users whose email address does not belong to any organisation domains
+  # become part of the guest org
   def self.guest
     where(abbreviation: "guests").first
+  end
+
+  # To remove when Ugent::Internal::ExportsController is removed
+  # internal export per organisation
+  def internal_export_dir
+
+    File.join(
+      (ENV["INTERNAL_EXPORTS"].present? ?
+        ENV["INTERNAL_EXPORTS"] : "/opt/dmponline_internal"),
+      abbreviation
+    )
+
+  end
+
+  # To remove when Ugent::Internal::ExportsController is removed
+  # <base_url>/internal/exports/v01/organisations/<org.abbreviation>
+  def internal_export_url
+
+    hst   = ENV["DMP_HOST"].present? ? ENV["DMP_HOST"] : "localhost:3000"
+    prot  = ENV["DMP_PROTOCOL"].present? ? ENV["DMP_PROTOCOL"] : "http"
+
+    u = Rails.application
+      .routes
+      .url_helpers
+      .root_url(host: hst, protocol: prot)
+    u.chomp!("/")
+    u += "/internal/exports/v01/organisations/" + abbreviation
+    u
+
+  end
+
+  # To remove when Ugent::Internal::ExportsController is removed
+  def internal_export_files
+
+    base_dir = internal_export_dir
+    base_url = internal_export_url
+
+    files = Dir
+      .glob( File.join(base_dir, "*", "*", "*.json") )
+      .map { |f|
+
+        rel_name = f.gsub(base_dir + "/" , "" )
+        full_url = base_url + "/" + rel_name
+        self_url = base_url + "/" + rel_name
+
+        {
+          id => full_url,
+          type: "file",
+          links: { self: self_url },
+          attributes => {
+            updated_at: File.mtime(f).utc.strftime("%FT%TZ")
+          }
+        }
+
+      }
+
+    files += Dir
+      .glob( File.join(base_dir,"*.json") )
+      .select { |f| File.symlink?(f) }
+      .map { |f|
+
+        rel_name = f.gsub(base_dir + "/" , "")
+        full_url = base_url + "/" + rel_name
+        self_rel_name = File.readlink(f).gsub(base_dir + "/" , "")
+        self_url = base_url + "/" + self_rel_name
+
+        {
+          id: full_url,
+          type: "link",
+          links: { self: self_url },
+          attributes: {
+            updated_at: File.mtime(f).utc.strftime("%FT%TZ")
+          }
+        }
+
+      }
+
   end
 
 end

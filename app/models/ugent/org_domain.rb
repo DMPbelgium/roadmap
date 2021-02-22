@@ -23,7 +23,11 @@ module Ugent
     self.table_name = "ugent_org_domains"
     belongs_to :org
     validates :org, presence: true
-    validates :name, length: { minimum: 1 }, uniqueness: true, hostname: true
+    validates :name,
+      presence: true,
+      length: { minimum: 1 },
+      uniqueness: true,
+      hostname: true
 
   end
 

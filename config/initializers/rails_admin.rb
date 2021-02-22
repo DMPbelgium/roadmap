@@ -30,7 +30,7 @@ RailsAdmin.config do |config|
     dashboard                     # mandatory
     index                         # mandatory
     new do
-      only %w()
+      only %w(Ugent::OrgDomain Ugent::RestUser)
     end
     export
     bulk_delete do
@@ -38,10 +38,10 @@ RailsAdmin.config do |config|
     end
     show
     edit do
-      only %w(QuestionOption Ugent::OrgDomain)
+      only %w(QuestionOption Ugent::OrgDomain Ugent::RestUser)
     end
     delete do
-      only %w(Ugent::OrgDomain)
+      only %w(Ugent::OrgDomain Ugent::RestUser)
     end
     show_in_app
   end
@@ -50,6 +50,7 @@ RailsAdmin.config do |config|
   config.included_models = [
     :Org,
     :'Ugent::OrgDomain',
+    :'Ugent::RestUser',
     :Template,
     :Phase,
     :Section,
@@ -85,6 +86,17 @@ RailsAdmin.config do |config|
 
     weight 1
     object_label_method :name
+
+  end
+
+  config.model "Ugent::RestUser" do
+
+    navigation_label "Organisation management"
+    label "Org REST user"
+    label_plural "Org REST users"
+
+    weight 2
+    object_label_method :code
 
   end
 

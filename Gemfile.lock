@@ -147,6 +147,7 @@ GEM
     faraday (1.0.1)
       multipart-post (>= 1.2, < 3)
     ffi (1.13.1)
+    file_utils (1.1.2)
     flag_shih_tzu (0.3.23)
     fog-aws (3.6.5)
       fog-core (~> 2.1)
@@ -538,6 +539,7 @@ DEPENDENCIES
   dragonfly-s3_data_store
   factory_bot_rails
   faker
+  file_utils
   flag_shih_tzu
   font-awesome-sass (~> 5.13.0)
   fuubar

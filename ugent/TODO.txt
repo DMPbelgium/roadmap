@@ -15,6 +15,9 @@
   automatically add contributors to the share tab, and merge the rights?
   what if someone removeds a contributor: what should happen to the rights?
 
+  data contact and principal investigator not recognisable
+  in plan.roles
+
 - remove config/custom.yml?
 
   in that case, also remove load statement from config/initializers/ugent.rb
