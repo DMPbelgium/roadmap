@@ -4,14 +4,14 @@
 
 - app/views/branded/devise/registrations/edit.html.erb
 
-    removed tab (and tab content) for password
+  removed tab (and tab content) for password
 
 - app/views/branded/devise/registrations/_personal_details.html.erb
 
-    email: readonly (+class form-control-plaintext)
-    org: readonly -> user[org_id] must be json according to RegistrationsController#update
-    departments: removed
-    languages: removed (translations limited anyway)
+  email: readonly (+class form-control-plaintext)
+  org: readonly -> user[org_id] must be json according to RegistrationsController#update
+  departments: removed
+  languages: removed (translations limited anyway)
 
 - app/views/branded/layouts/_signin_signout.html.erb
 
