@@ -1,5 +1,67 @@
 namespace :ugent do
 
+  desc "reimport exported_plans from older installation"
+  task reimport_exported_plans: :environment do
+
+    ExportedPlan.transaction do
+
+      # expected fields: id,phase_title,user_id,format,created_at,updated_at
+      # col_sep: ,
+      # reads from stdin
+      # please use an empty table as this imports new data
+      csv = CSV.new( $stdin, {
+          :headers => true,
+          :col_sep => ","
+        }
+      )
+
+      csv.each do |r|
+
+        row   = r.to_hash.slice("id","phase_title","user_id","format","created_at","updated_at")
+
+        # id: plan id (project.id in old database)
+        plan  = Plan.find_by_id(row["id"])
+        if plan.nil?
+          $stderr.puts "no plan found with id "+row["id"]
+          next
+        end
+
+        # select phase by searching on its title (no other way)
+        phase = plan.phases.select { |ph| ph.title == row["phase_title"] }.first
+        if phase.nil?
+          $stderr.puts "no phase found with title \""+row["phase_title"]+"\" from plan id "+row["id"]
+          next
+        end
+
+        # select user by searching on its id (has not changed)
+        user = User.find_by_id(row["user_id"])
+        if user.nil?
+          $stderr.puts "no user found with id "+row["user_id"]+" from plan id "+row["id"]
+          next
+        end
+
+        exported_plan = ExportedPlan.new(
+          plan: plan,
+          user: user,
+          format: row["format"],
+          created_at: row["created_at"].in_time_zone("Europe/Brussels"),
+          updated_at: row["updated_at"].in_time_zone("Europe/Brussels")
+        )
+
+        if exported_plan.save
+          puts "saved exported_plan for Plan[id=#{plan.id}"
+        else
+          $stderr.puts "unable to save exported_plan: #{exported_plan.errors.full_messages.join(',')}"
+        end
+
+      end
+
+      csv.close
+
+    end
+
+  end
+
   desc "create shibboleth ds based on old table wayfless_entities"
   task move_wayfless_entities: :environment do
 
