@@ -267,3 +267,10 @@ Old tables added when we used DMPOnline_v4:
 * `ugent_wayfless_entities`
 
 * `ugent_rest_users`
+
+# Technical model overview
+
+A handy overview of the available models, and their attributes:
+
+* https://github.com/DMPRoadmap/roadmap/wiki/DB-Schema
+* https://github.com/DMPRoadmap/roadmap/issues/1382#issuecomment-405252771
