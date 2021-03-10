@@ -100,21 +100,7 @@ class Template
 
 end
 
-# disable feature that makes it possible to change the visibility
-# See also app/views/branded/plans/_share_form.html.erb
-class Phase
-
-  def visibility_allowed?(plan)
-    false
-  end
-
-end
-
 class Plan
-
-  def visibility_allowed?
-    false
-  end
 
   # To remove when Ugent::Internal::ExportsController is removed
   # Purpose: deprecated json api ugent/internal_exports_controller.rb
