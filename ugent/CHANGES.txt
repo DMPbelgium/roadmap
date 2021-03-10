@@ -78,14 +78,6 @@
     a user with that email is given access
     to that plan
 
-  * overrides Plan.visibility_allowed?
-
-    disables feature that makes it possible to change the visibility
-
-    We do not allow public plans
-
-    See also app/views/branded/plans/_share_form.html.erb
-
 - app/controllers/ugent/selectable_user_controller.rb
 
   ugent specific controller
@@ -249,12 +241,15 @@
 
 - app/views/branded/plans/_share_form.html.erb
 
-  disable section where you can set the visibility
-  of the plan
+  edit section where you can set the visibility
+  of the plan. In the upstream version you can set:
+  * privately visible (default)
+  * organisationally visible
+  * publicly visible
 
-  This is also globally disabled in config/initializers/ugent.rb:
-    Phase#allow_visibility?
-    Plan#allow_visibility?
+  we removed the radio button to set "publicy visible"
+
+  anyway, one can only change these if 50% of all questions are answered
 
 - app/views/branded/layouts/_navigation.html.erb
 
