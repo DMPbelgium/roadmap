@@ -257,6 +257,15 @@
 
   see previous
 
+- app/views/branded/contributors/_form.html.erb
+
+  overrides app/views/contributors/_form.html.erb
+
+  removes field "phone"
+
+  replaces shared/org_selector/combined by shared/org_selector/local_only
+  because we only allow for local organisations
+
 - ugent/etc/systemd/roadmap.service
 
   Systemd Service file
