@@ -743,8 +743,8 @@ module Users
 
       end
 
-      # Redirect to the User Profile page
-      redirect_to edit_user_registration_path
+      # Redirect to root url
+      redirect_to root_url
     end
     # rubocop: enable Metrics/MethodLength, Metrics/AbcSize
 
