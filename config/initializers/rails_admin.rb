@@ -38,7 +38,7 @@ RailsAdmin.config do |config|
     end
     show
     edit do
-      only %w(QuestionOption Ugent::OrgDomain Ugent::RestUser)
+      only %w(Question QuestionOption Ugent::OrgDomain Ugent::RestUser)
     end
     delete do
       only %w(Ugent::OrgDomain Ugent::RestUser)
@@ -236,6 +236,30 @@ RailsAdmin.config do |config|
       field :section
       field :created_at
       field :updated_at
+    end
+
+    edit do
+      field :template do
+        read_only true
+        help ""
+      end
+      field :phase do
+        read_only true
+        help ""
+      end
+      field :section do
+        read_only true
+        help ""
+      end
+      field :number do
+        read_only true
+        help ""
+      end
+      field :text do
+        read_only true
+        help ""
+      end
+      field :themes
     end
 
   end
