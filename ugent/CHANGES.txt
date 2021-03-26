@@ -317,3 +317,10 @@
 
     see config/initializers/assets.rb
     that file already existed, so may conflict in the future.
+
+- temporary fix to Gemfile.lock in order to fix https://github.com/DMPRoadmap/roadmap/issues/2842
+
+  -    mimemagic (0.3.5)
+  +    mimemagic (0.3.9)
+  +      nokogiri (~> 1)
+  +      rake
