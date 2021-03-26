@@ -1,7 +1,3 @@
-- PR https://github.com/DMPRoadmap/roadmap/pull/2734
-
-- PR https://github.com/DMPRoadmap/roadmap/pull/2727
-
 - disable autocomplete on input field for organisations
 
   We do not want our users to add organisations
