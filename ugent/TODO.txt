@@ -21,3 +21,74 @@
 - remove config/custom.yml?
 
   in that case, also remove load statement from config/initializers/ugent.rb
+
+- show archived notes?
+
+  https://github.com/DMPRoadmap/roadmap/issues/2817
+
+- restore plan.org_id
+
+  to what? To plan.owner.org (if plan.roles is not empty)
+
+  plan.org == plan.owner.org
+           ofwel == old_project.org
+           ofwel == plan.template.org if plan.template.org.funder_only?
+
+- plan.funder_name goed omgezet, want dat wordt niet meer gebruikt..?
+
+- plan wizard: only use fixed set of orgs
+
+  https://github.com/DMPRoadmap/roadmap/issues/2818#issuecomment-786198414
+
+
+2021-03-09
+
+- plan owner moet automatisch pi worden
+
+  problematisch: circulaire dependency:
+
+    * maak "role" aan indien "contributor" wordt aangemaakt (om contributor rechten te geven)
+    * maak "contributor" aan indien "role" wordt aangemaakt (om pi toe te voegen)
+        dit laatste kon enkel in Role.after_save, en niet in Plan.after_save
+        omdat de plan wizard eerst het plan opslaat, en dan pas de creator role
+        toevoegt. Plan.after_save ziet maw de creator role nog niet.
+
+- plan export tweaken?
+
+  app/views/shared/export/_plan_coversheet.erb:
+    enkel contributor van het type "principal investigator" worden getoond,
+    en wel enkel als ze een orcid hebben én je de optie "project details coversheet"
+    hebt aangevinkt
+
+- new contributor: enkel email en rechten laten invullen
+
+  "name" zal toch wel nodig zijn, aangezien dat apart beheerd wordt?
+
+- onder elke plan description toevoegen die zegt wat het doet
+
+  wordt bezorgd
+
+- plan visibility in share-tab: eigenlijk enkel "public" weg
+
+- theme's van dcc zijn gewijzigd: oude naar nieuwe mappen (soms samengegooid)
+
+  https://github.com/DMPRoadmap/roadmap/wiki/Themes
+
+- lijst van themes: onder elkaar?
+
+- onze UGENT:* theme's hernoemen (?)
+
+  NEE: onzichtbaar maken (hidden fields)
+       ook http:¨* themes onzichtbaar maken
+
+       én koppelen van vragen aan themes via /admin mogelijk maken
+
+- ORCID vereisen (maw optie wegnemen om orcid te verwijderen, en gebruiker omleiden naar orcid indien geen orcid)
+
+  vervelende melding plaatsen op je profielpagina?
+
+- new contributor: enkel lokale orgs!
+
+- /admin: themes kunnen toevoegen aan vragen
+
+  ok: commit f3f5e0fe73ae7d6617abbb10b40d304eecb8d19a
