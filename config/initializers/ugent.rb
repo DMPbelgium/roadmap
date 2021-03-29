@@ -12,6 +12,17 @@ require "phase"
 require "template"
 require "contributor"
 require "role"
+require "plan_policy"
+
+class PlanPolicy
+
+  # guest user should not be able to access the plan creation wizard
+  # action new? determined by create? (see app/models/application_policy.rb)
+  def create?
+    @user.present? && !@user.guest?
+  end
+
+end
 
 # To remove when Ugent::Internal::ExportsController is removed
 class Role

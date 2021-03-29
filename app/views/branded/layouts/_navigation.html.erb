@@ -22,9 +22,11 @@
           <li <%= 'class=active' if active_page?(plans_path, true)%>>
             <%= link_to _('My Dashboard'), plans_path %>
           </li>
+          <% if policy(Plan.new).new? %>
           <li <%= 'class=active' if active_page?(new_plan_path, true) %>>
             <%= link_to _('Create plans'), new_plan_path %>
           </li>
+          <% end %>
             <li class="dropdown <%= 'active' if active_page?(public_plans_path, true) || active_page?(public_templates_path, true) %>" id="reference-dropdown">
               <a href="#" class="dropdown-toggle" role="button" id="reference-menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-book" aria-hidden="true">&nbsp;</i>
