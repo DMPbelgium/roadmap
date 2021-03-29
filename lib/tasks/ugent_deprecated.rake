@@ -283,7 +283,7 @@ def projects_ld(org)
          ]
        }
      )
-     .each do |plan|
+     .find_each(batch_size: 100) do |plan|
 
        if block_given?
         yield(plan.ld)
