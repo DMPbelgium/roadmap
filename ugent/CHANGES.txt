@@ -13,6 +13,9 @@
   departments: removed
   languages: removed (translations limited anyway)
 
+  #5 : remove Remove sentence about the email being used as username (commit: c187c851b60c8c408847e93bdd376397286b2d4c)
+  #5 : only allow to edit orcid (commit: bb776cd52e79d957e6998e89aad56d4cb22dfe82)
+
 - app/views/branded/layouts/_signin_signout.html.erb
 
   disabled language tab
@@ -20,6 +23,9 @@
   added link to /switch_user/edit
 
 - config/initializers/ugent.rb
+
+  * change PlanPolicy#create? so that users with Org "guests" cannot
+      create plans
 
   * overrides method Identifier#value_uniqueness_with_scheme in such a way that
 
@@ -254,8 +260,18 @@
 - app/views/branded/layouts/_navigation.html.erb
 
   disable link to page /public_plans
+  disable link to /public_templates when PlanPolicy does not allow it
+    reason for this is that users of org "guests" are not allowed
+    to create plans (see override of PlanPolicy in config/initializers/ugent.rb)
 
   see previous
+
+- app/views/branded/paginable/templates/_publicly_visible.html.erb
+
+  overrides app/views/paginable/templates/_publicly_visible.html.erb
+
+  hides link to plan creation wizard when PlanPolicy does not allow it
+    see previous
 
 - app/views/branded/contributors/_form.html.erb
 
