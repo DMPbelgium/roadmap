@@ -78,11 +78,21 @@
 
     only used in Plan.ld and Ugent::Internal::ExportsController
 
-  * adds hook after_save to model Contributor
+  * add hook User.after_save:
 
-    when a contributor is added/updated,
-    a user with that email is given access
-    to that plan
+    copies firstname, surname and org_id to Contributor with same email
+
+  * add hook Role.after_save:
+
+    * creates Contributor with same email, org_id and name (if not exists) as role.user
+    * copies orcid identifiers from role.user.identifiers
+
+  * add hook Identifier.after_save:
+
+    when an Identifier of model User is saved,
+    and has scheme "orcid", then it is copied
+    to all contributors with the same email as that user
+
 
 - app/controllers/ugent/selectable_user_controller.rb
 
@@ -256,6 +266,8 @@
   we removed the radio button to set "publicy visible"
 
   anyway, one can only change these if 50% of all questions are answered
+
+  adds extra sentence: "Collaborators with permissions "co-owner" and "editor" will be mentioned as "principal investigator" and "project administrator" respectively on the plan"
 
 - app/views/branded/layouts/_navigation.html.erb
 
