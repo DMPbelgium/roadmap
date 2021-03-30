@@ -35,6 +35,34 @@ namespace :ugent do
 
   end
 
+  desc "fix duplicate contributors with same email"
+  task fix_duplicate_contributor: :environment do
+
+    ActiveRecord::Base.transaction do
+
+      ActiveRecord::Base.connection
+                        .select_all("select email,plan_id,count(*) from contributors where email is not null group by email,plan_id having count(*) > 1")
+                        .each do |row|
+
+        plan = Plan.find(row["plan_id"])
+        contributors = plan.contributors.select { |contributor| contributor.email == row["email"] }
+
+        first_contributor = contributors.shift
+
+        contributors.each do |contributor|
+          first_contributor.roles |= contributor.roles
+        end
+
+        contributors.map(&:destroy)
+
+        first_contributor.save!
+
+      end
+
+    end
+
+  end
+
   desc "reimport exported_plans from older installation"
   task reimport_exported_plans: :environment do
 

@@ -60,6 +60,15 @@
 
   "name" zal toch wel nodig zijn, aangezien dat apart beheerd wordt?
 
+  -> "n.n" of "email" en later aanvullen indien die info beschikbaar wordt,
+     ofwel naam laten invullen -> mag ook
+     ook dan orcid daar invullen
+  -> enkel optie voor pi instellen, en verbergen, zodat we label "contributors"
+     kunnen wijzigen naar "promotors"
+
+  beter: contributor tab wég, en omgekeerd werken:
+    voeg elke (co)owner toe als contributor
+
 - onder elke plan description toevoegen die zegt wat het doet
 
   wordt bezorgd
@@ -83,8 +92,33 @@
 
   vervelende melding plaatsen op je profielpagina?
 
+  bij inloggen omleiden naar profielpagina, én flash message bovenaan,
+  anders rechtstreeks door naar plan-pagina,
+
+  of: omleiden naar pagina waar je je moet MOET ingeven,
+    en je niet binnen kant TOT die ingevuld is
+
+  of: foutmelding op /plans
+
 - new contributor: enkel lokale orgs!
 
 - /admin: themes kunnen toevoegen aan vragen
 
   ok: commit f3f5e0fe73ae7d6617abbb10b40d304eecb8d19a
+
+- https://github.com/DMPRoadmap/roadmap/issues/2842
+
+- https://github.com/DMPRoadmap/roadmap/pull/2844
+
+- nieuwe knop in /plans die "create new" die gaat naar plan wizard
+  maar die project-details en shares meeneemt die dan automatisch worden ingevuld..
+
+  ??
+
+- url voor json export naar Dries sturen zodat sharepoint kan testen
+
+- eind april: test.dmponline.be moet nieuwe software bevatten
+
+  (preview mag pas later komen, nl tijdens overzetten van productie)
+
+  vergadering met Kris
