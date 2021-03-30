@@ -46,45 +46,158 @@ class Role
 
 end
 
-# give contributor access to a plan
-# TODO: what when contributor is removed? Remove also rights from plan.roles?
-# TODO: make field "email" readonly in the form?
-# TODO: make field "email" unique within plan?
-Contributor.after_save do |contributor|
+class Contributor
 
-  role = plan.roles
-             .select { |role| role.user.email == contributor.email }
-             .first
+  # update contributor based on user data
+  # note: only do this for contributors with the same email!
+  def update_from_user(user)
 
-  if role.nil?
+    # update user data
+    self.name    = user.nemo? ? User.nemo : "#{user.firstname} #{user.surname}"
+    self.org_id  = user.org_id
 
-    user = User.where(email: contributor.email).first
+    # update contributor identifier
+    scheme_orcid = User.identifier_scheme_orcid
+    user_orcid   = user.identifiers
+                       .select { |id| id.identifier_scheme_id == scheme_orcid.id }
+                       .first
 
-    if user.nil?
+    contr_orcid = nil
 
-      user = User.new(email: contributor.email)
-      user.save!
+    if user_orcid.present?
+
+      contr_orcid = self.identifiers
+                        .select { |id| id.identifier_scheme_id == scheme_orcid.id }
+                        .first
+
+      if contr_orcid.nil?
+
+        contr_orcid = self.identifiers
+                          .build(identifier_scheme_id: scheme_orcid.id, value: user_orcid.value)
+
+      else
+
+        contr_orcid.value = user_orcid.value
+
+      end
 
     end
 
-    role = plan.roles.build(user: user)
+    if contr_orcid.nil?
+
+      identifiers = []
+
+    else
+
+      identifiers = [contr_orcid]
+
+    end
 
   end
 
-  if contributor.project_administration
-    role.administrator = true
+end
+
+# Automatically synchronise user data to contributors
+User.after_save do |user|
+
+  next if user.previous_changes.empty?
+
+  Contributor.where(email: user.email)
+             .update_all(
+                name: user.nemo? ? User.nemo : "#{user.firstname} #{user.surname}",
+                org_id: user.org_id)
+
+end
+
+# Automatically update/create identifier orcid in Contributor when User orcid is created/updated
+Identifier.after_save do |id|
+
+  next if id.previous_changes.empty?
+
+  next unless id.identifiable_type == "User"
+
+  next unless id.identifier_scheme_id == User.identifier_scheme_orcid.id
+
+  user = id.identifiable
+
+  Contributor.includes(:identifiers)
+             .where(email: user.email)
+             .each do |contributor|
+
+    orcids = contributor.identifiers.select { |i| i.identifier_scheme_id == User.identifier_scheme_orcid.id }
+    next if orcids.size > 0
+    contributor.identifiers
+               .build(identifier_scheme: User.identifier_scheme_orcid, value: id.value)
+               .save
+
   end
 
-  if contributor.data_curation
-    role.editor = true
+end
+
+# Automatically (co)owners and editors as contributors
+Role.after_save do |role|
+
+  plan = role.plan
+  user = role.user
+  contributor = plan.contributors
+                    .select { |contributor| contributor.email == user.email }
+                    .first
+
+  if contributor.nil?
+    contributor = plan.contributors.build(email: user.email)
   end
 
-  if contributor.investigation
-    role.administrator = true
-    role.editor = true
+  # update permissions (set all to prevent incremental updates)
+  contributor.roles = 0
+  if role.creator || role.administrator
+
+    contributor.investigation = true
+
+  elsif role.editor
+
+    contributor.project_administration = true
+
   end
 
-  role.save!
+  # remove if no roles
+  if contributor.roles == 0
+
+    contributor.destroy
+
+  else
+
+    # update user data
+    contributor.update_from_user(user)
+
+    contributor.save!
+
+  end
+
+end
+
+Role.after_destroy do |role|
+
+  plan = role.plan
+  user = role.user
+  contributor = plan.contributors
+                    .select { |contributor| contributor.email == user.email }
+                    .first
+
+  # update permissions
+  if role.creator || role.administrator
+
+    contributor.investigation = false
+
+  elsif role.editor
+
+    contributor.project_administration = false
+
+  end
+
+  # destroy contributor when no permissions are left (roles == 0 is not allowed)
+  if contributor.roles == 0
+    contributor.destroy
+  end
 
 end
 
@@ -472,7 +585,7 @@ class Identifier
 
     # override - end
     # old code
-    if Identifier.where(identifier_scheme: identifier_scheme,
+    if new_record? && Identifier.where(identifier_scheme: identifier_scheme,
                         identifiable: identifiable).any?
       errors.add(:identifier_scheme, _("already assigned a value"))
     end
