@@ -1,5 +1,40 @@
 namespace :ugent do
 
+  desc "fix empty contributor email"
+  task fix_contributor_email: :environment do
+
+    fixed = 0
+    contributors = Contributor.where(email: nil).all
+
+    contributors.each do |contributor|
+
+      if contributor.name.include?("@")
+
+        email = contributor.name.strip.downcase
+        contributor.email = email
+
+        user = User.find_by_email(email)
+
+        if user.present?
+
+          contributor.update_from_user(user)
+          contributor.save!
+          fixed += 1
+
+        else
+
+          $stderr.puts "found contributor email #{email} that is not in user database"
+
+        end
+
+      end
+
+    end
+
+    puts "fixed: #{fixed}, not fixed: #{contributors.size - fixed}"
+
+  end
+
   desc "reimport exported_plans from older installation"
   task reimport_exported_plans: :environment do
 
