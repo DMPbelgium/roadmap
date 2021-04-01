@@ -173,18 +173,24 @@ which is handy in a systemd file (see above)
 This git repository is a fork of [roadmap](https://github.com/DMPRoadmap/roadmap) from the DCC,
 with a lot of local additions, which are documented in `ugent/CHANGES.txt`
 
-The base repository of the DCC is added as remote `github`.
+You will need to add the base repository of the DCC as a git remote.
 
 ## update to latest changes from the base repository
 
 If you want to be up to date with the latest changes in the DCC repository,
 do the following:
 
+* add base repository as a new git remote (if you haven't already):
+
+```
+git remote add dcc https://github.com/DMPRoadmap/roadmap
+```
+
 * pull in the latest changes
 
 ```
 git checkout master
-git pull github master
+git pull dcc master
 ```
 
 * resolve any merge conflicts
