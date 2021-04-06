@@ -779,6 +779,12 @@ module Users
 
   class OmniauthCallbacksController
 
+    def notify_missing_orcid
+      unless flash[:alert].present?
+        flash[:alert] = _("Please link your account to ORCID")
+      end
+    end
+
     # rubocop: disable Metrics/MethodLength, Metrics/AbcSize
     def handle_shibboleth(scheme)
       auth = request.env["omniauth.auth"]
@@ -835,6 +841,11 @@ module Users
 
           end
 
+        end
+
+        # missing orcid?
+        unless user.identifier_orcid.present?
+          notify_missing_orcid()
         end
 
         sign_in(user)
