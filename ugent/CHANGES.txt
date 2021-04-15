@@ -15,6 +15,7 @@
 
   #5 : remove Remove sentence about the email being used as username (commit: c187c851b60c8c408847e93bdd376397286b2d4c)
   #5 : only allow to edit orcid (commit: bb776cd52e79d957e6998e89aad56d4cb22dfe82)
+  #5 : change text "You can edit any of the details below." to "Verify your profile details below."
 
 - app/views/branded/layouts/_signin_signout.html.erb
 
