@@ -247,7 +247,8 @@
 
   overrides app/views/plans/index.html.erb
 
-  reason: override text above plans (switch to other user account)
+  reason: * override text above plans (switch to other user account)
+          * hide link "Create plan" if user is not allowed to create plans (guest users)
 
 - app/views/branded/orgs/admin_edit.html.erb
 
