@@ -780,8 +780,8 @@ module Users
   class OmniauthCallbacksController
 
     def notify_missing_orcid
-      unless flash[:alert].present?
-        flash[:alert] = _("Please link your account to ORCID")
+      unless flash[:notice].present?
+        flash[:notice] = %q(Your account is not linked to an ORCID account. Please go to your <a class="alert-link" href=") + edit_user_registration_url + %q(">profile</a> and click on the link <strong>"Create or connect your ORCID iD"</strong>.)
       end
     end
 
