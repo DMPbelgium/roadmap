@@ -183,6 +183,8 @@ Role.after_destroy do |role|
                     .select { |contributor| contributor.email == user.email }
                     .first
 
+  next if contributor.nil?
+
   # update permissions
   if role.creator || role.administrator
 
