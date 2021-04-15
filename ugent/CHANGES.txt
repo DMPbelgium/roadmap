@@ -271,6 +271,11 @@
 
   adds extra sentence: "Collaborators with permissions "co-owner" and "editor" will be mentioned as "principal investigator" and "project administrator" respectively on the plan"
 
+  sets html flag "required=true" for fields email and access. Without this,
+    the method roles_controller.rb#create crashes
+
+    see PR https://github.com/DMPRoadmap/roadmap/pull/2874 where those html flags are also added
+
 - app/views/branded/layouts/_navigation.html.erb
 
   disable link to page /public_plans
