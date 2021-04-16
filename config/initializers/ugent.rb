@@ -205,28 +205,64 @@ end
 
 class Template
 
-  # Does a template contain personal data?
-  # One question must include theme with title "UGENT:DATA"
-  def gdpr?
+  def gdpr_question
 
-    gdpr_theme = Theme.where(title: "UGENT:DATA").first
-    return false if gdpr_theme.nil?
+    gdpr_theme = Theme.GDPR
+    return nil if gdpr_theme.nil?
 
     phases.each do |phase|
       phase.sections.each do |section|
         section.questions.each do |q|
-          return true if q.themes.include?(gdpr_theme)
+          return q if q.themes.include?(gdpr_theme)
         end
       end
     end
 
-    false
+    nil
+
+  end
+
+  # Does a template possibly contain gdpr?
+  def gdpr_question?
+
+    gdpr_question.present?
 
   end
 
 end
 
 class Plan
+
+  def gdpr?
+
+    # get gdpr question
+    gdpr_question = template.gdpr_question
+
+    return false if gdpr_question.nil?
+
+    # "yes" is expected to be the first option
+    qo = gdpr_question.question_options
+                      .sort { |a,b| a.number <=> b.number }
+                      .first
+
+    return false if qo.nil?
+
+    # select answer for question
+    answer = answers.select { |a| a.question_id == gdpr_question.id }
+                    .first
+
+    return false if answer.nil?
+
+    # select selected option (returns QuestionOption!)
+    answer_qo = answer.question_options
+                      .sort { |a,b| a.number <=> b.number }
+                      .first
+
+    return false if answer_qo.nil?
+
+    qo.id == answer_qo.id
+
+  end
 
   # To remove when Ugent::Internal::ExportsController is removed
   # Purpose: deprecated json api ugent/internal_exports_controller.rb
@@ -303,7 +339,7 @@ class Plan
       description: template.description,
       published: template.published,
       is_default: template.is_default,
-      gdpr: template.gdpr?,
+      gdpr: gdpr?,
       type: "Template"
     }
     pr[:template][:type] = "Template"
@@ -569,6 +605,10 @@ class QuestionOption
 end
 
 class Theme
+
+  def self.GDPR
+    @GDPR ||= where(title: "UGENT:DATA")&.first&.freeze
+  end
 
   # relations like this are automatically destroyed
   has_and_belongs_to_many :question_options, join_table: "question_options_themes"
