@@ -638,13 +638,13 @@ end
 class User
 
   def ensure_password
-    generate_password unless encrypted_password.present?
+    self.generate_password unless self.encrypted_password.present?
   end
 
   # rubocop: disable Lint/UselessAssignment
   def generate_password
-    password = Devise.friendly_token[0, 20]
-    password_confirmation = password
+    self.password = Devise.friendly_token[0, 20]
+    self.password_confirmation = self.password
   end
   # rubocop: enable Lint/UselessAssignment
 
@@ -684,16 +684,19 @@ class User
               .map(&:identifiable)
   end
 
-  def set_org_by_email
+  def self.org_from_email(email)
 
     parts_email = email.split("@")
-    if parts_email.size == 2
 
-      org_domain = Ugent::OrgDomain.where(name: parts_email[1])
-                                   .first
-      org = org_domain.present? ? org_domain.org : Org.guest
+    org_domain = Ugent::OrgDomain.where(name: parts_email[1])
+                                 .first
+    org_domain.present? ? org_domain.org : Org.guest
 
-    end
+  end
+
+  def set_org_by_email
+
+    self.org = User.org_from_email(self.email)
 
   end
 
@@ -732,7 +735,6 @@ User.before_validation do |user|
   user.firstname = User.nemo if user.firstname.blank?
   user.surname = User.nemo if user.surname.blank?
 
-  true
 end
 
 # skip invitation email
@@ -839,11 +841,18 @@ module Users
       if current_user.present? && current_user.invitation_token.present?
 
         # remove invitation token
-        current_user.accept_invitation!
+        current_user.assign_attributes(
+          invitation_token: nil,
+          invitation_created_at: nil,
+          invitation_sent_at: nil,
+          invitation_accepted_at: nil
+        )
 
         # changes during User.before_invitation_created have no effect on create,
         # so we're changing the org here
         current_user.set_org_by_email
+
+        current_user.save!
 
       end
     end
@@ -880,7 +889,9 @@ module Users
 
           unless user.save
 
-            flash[:alert] = user.errors.full_messages
+            flash[:alert] = user.errors
+                                .full_messages
+                                .join("<br>")
             redirect_to root_path
             return
 
@@ -1007,6 +1018,7 @@ module Users
       # Match orcid with one of more users
       selectable_users = Identifier.where(identifiable_type: "User", identifier_scheme_id: scheme.id, value: full_uid)
                                    .map(&:identifiable)
+                                   .reject(&:nil?)
 
       # TODO: create controller
       if selectable_users.size > 1
@@ -1072,8 +1084,10 @@ module Users
 
         unless user.save
 
-          flash[:alert] = user.errors.full_messages
-          redirect_to root_url
+          flash[:alert] = user.errors
+                              .full_messages
+                              .join("<br>")
+          return redirect_to root_url
 
         end
 
