@@ -684,6 +684,19 @@ class User
               .map(&:identifiable)
   end
 
+  def set_org_by_email
+
+    parts_email = email.split("@")
+    if parts_email.size == 2
+
+      org_domain = Ugent::OrgDomain.where(name: parts_email[1])
+                                   .first
+      org = org_domain.present? ? org_domain.org : Org.guest
+
+    end
+
+  end
+
 end
 
 User.before_validation do |user|
@@ -705,13 +718,7 @@ User.before_validation do |user|
 
     if user.email.present?
 
-      parts_email = user.email.split("@")
-      if parts_email.size == 2
-
-        org_domain = Ugent::OrgDomain.where(name: parts_email[1]).first
-        user.org = org_domain.present? ? org_domain.org : Org.guest
-
-      end
+      user.set_org_by_email
 
     else
 
@@ -726,6 +733,13 @@ User.before_validation do |user|
   user.surname = User.nemo if user.surname.blank?
 
   true
+end
+
+# skip invitation email
+User.before_invitation_created do |user|
+
+  user.skip_invitation = true
+
 end
 
 class Org
@@ -820,6 +834,19 @@ end
 module Users
 
   class OmniauthCallbacksController
+
+    after_action do
+      if current_user.present? && current_user.invitation_token.present?
+
+        # remove invitation token
+        current_user.accept_invitation!
+
+        # changes during User.before_invitation_created have no effect on create,
+        # so we're changing the org here
+        current_user.set_org_by_email
+
+      end
+    end
 
     def notify_missing_orcid
       unless flash[:notice].present?

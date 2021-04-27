@@ -51,6 +51,9 @@
     * nemo
     * ensure_password
     * guest?
+    * set_org_by_email
+
+  * skip invitation email, and clears invitation_token when you login
 
   * adds before_validation to model User:
 
