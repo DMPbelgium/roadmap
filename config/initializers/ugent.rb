@@ -307,7 +307,8 @@ class Plan
             created_at: u.created_at.utc.strftime("%FT%TZ"),
             updated_at: u.updated_at.utc.strftime("%FT%TZ"),
             email: u.email,
-            orcid: orcid.present? ? orcid.value : nil
+            # dmponline_v4 did not store the prefix
+            orcid: orcid.present? ? orcid.value.sub("https://orcid.org/","") : nil
           }
 
         end
@@ -337,10 +338,15 @@ class Plan
       updated_at: template.updated_at.utc.strftime("%FT%TZ"),
       title: template.title,
       description: template.description,
-      published: template.published,
-      is_default: template.is_default,
+      published: !!template.published,
+      is_default: !!template.is_default,
       gdpr: gdpr?,
-      type: "Template"
+      type: "Template",
+      organisation_id: template.org_id,
+      # unused attribute in dmponline_v4, and now removed from table
+      user_id: nil,
+      # template.locale is now "en-GB", but used to be "en" in dmponline_v4
+      locale: "en"
     }
     pr[:template][:type] = "Template"
 
@@ -455,7 +461,7 @@ class Plan
                 type: "Option",
                 text: op.text,
                 number: op.number,
-                is_default: op.is_default,
+                is_default: !!op.is_default,
                 created_at: op.created_at.utc.strftime("%FT%TZ"),
                 updated_at: op.created_at.utc.strftime("%FT%TZ"),
                 themes: op.themes.map { |theme|
@@ -502,7 +508,8 @@ class Plan
                 id: au.id,
                 type: "User",
                 email: au.email,
-                orcid: identifier_orcid.present? ? identifier_orcid.value : nil
+                # dmponline_v4 did not store the prefix
+                orcid: identifier_orcid.present? ? identifier_orcid.value.sub("https://orcid.org/","") : nil
               }
 
             end
@@ -538,7 +545,8 @@ class Plan
                   id: created_by.id,
                   type: "User",
                   email: created_by.email,
-                  orcid: identifier_orcid.present? ? identifier_orcid.value : nil
+                  # dmponline_v4 did not store the prefix
+                  orcid: identifier_orcid.present? ? identifier_orcid.value.sub("https://orcid.org/","") : nil
                 }
 
               end
@@ -553,7 +561,8 @@ class Plan
                   id: archived_by.id,
                   type: "User",
                   email: archived_by.email,
-                  orcid: identifier_orcid.present? ? identifier_orcid.value : nil
+                  # dmponline_v4 did not store the prefix
+                  orcid: identifier_orcid.present? ? identifier_orcid.value.sub("https://orcid.org/","") : nil
                 }
 
               end
