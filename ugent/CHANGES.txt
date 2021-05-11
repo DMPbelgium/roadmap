@@ -97,6 +97,12 @@
     and has scheme "orcid", then it is copied
     to all contributors with the same email as that user
 
+- app/controllers/ugent/legacy/projects_controller.rb
+
+  adds legacy routes to redirect
+
+  /projects to /plans
+  /projects/:id to /plans/:id
 
 - app/controllers/ugent/selectable_user_controller.rb
 

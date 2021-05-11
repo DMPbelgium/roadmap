@@ -22,4 +22,8 @@ Rails.application.routes.draw do
     month: /\d{2}/,
     name: /[a-zA-Z0-9_\-\.:]+/
 
+  # legacy routes
+  get "/projects", to: "ugent/legacy/projects#index"
+  get "/projects/:id", to: "ugent/legacy/projects#show"
+
 end
