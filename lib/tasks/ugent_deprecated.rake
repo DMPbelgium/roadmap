@@ -307,7 +307,7 @@ namespace :ugent do
 
         else
 
-          orgs.find_each do |org|
+          Org.find_each do |org|
 
             export_org_projects(org)
 
