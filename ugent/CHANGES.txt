@@ -1,3 +1,13 @@
+- column `answers.text` should be `MEDIUMTEXT` in mysql
+
+  This is done during migration, and should make sure
+
+  old data isn't lost.
+
+  See branch `dmponline4_upgrade_step2_ugent`, migration file
+
+  `20161122152339_new_plan_template_structure.rb`
+
 - config.ru
 
   application can be run within a prefix
