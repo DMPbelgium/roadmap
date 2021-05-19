@@ -128,7 +128,7 @@ module DMPRoadmap
     # will be driven out to your federation's discovery service
     #
     # A super admin will also be able to associate orgs with their shibboleth entityIds if this is set to true
-    config.x.shibboleth.use_filtered_discovery_service = false
+    config.x.shibboleth.use_filtered_discovery_service = true
 
     # ------- #
     # LOCALES #
