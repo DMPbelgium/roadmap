@@ -198,6 +198,18 @@ module DMPRoadmap
     # ------------------------------------------------------------------------ #
     config.x.recaptcha.enabled = false
 
+    ENV["DMP_HOST"] ||= "localhost:3000"
+    ENV["DMP_PROTOCOL"] ||= "http"
+
+    # default url options for mailers
+    config.action_mailer.default_url_options ||= {}
+    config.action_mailer.default_url_options[:host] = ENV["DMP_HOST"]
+    config.action_mailer.default_url_options[:protocol] = ENV["DMP_PROTOCOL"]
+
+    # default url options for route helpers (outside of request context)
+    Rails.application.routes.default_url_options ||= {}
+    Rails.application.routes.default_url_options[:host] = ENV["DMP_HOST"]
+    Rails.application.routes.default_url_options[:protocol] = ENV["DMP_PROTOCOL"]
   end
 
 end

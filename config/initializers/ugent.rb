@@ -268,7 +268,7 @@ class Plan
   # Purpose: deprecated json api ugent/internal_exports_controller.rb
   def ld_uri
 
-    Rails.application.routes.url_helpers.plan_url(self, host: ENV["DMP_HOST"], protocol: ENV["DMP_PROTOCOL"])
+    Rails.application.routes.url_helpers.plan_url(self)
 
   end
 
@@ -779,13 +779,10 @@ class Org
   # <base_url>/internal/exports/v01/organisations/<org.abbreviation>
   def internal_export_url
 
-    hst   = ENV["DMP_HOST"].present? ? ENV["DMP_HOST"] : "localhost:3000"
-    prot  = ENV["DMP_PROTOCOL"].present? ? ENV["DMP_PROTOCOL"] : "http"
-
     u = Rails.application
       .routes
       .url_helpers
-      .root_url(host: hst, protocol: prot)
+      .root_url()
     u.chomp!("/")
     u += "/internal/exports/v01/organisations/" + abbreviation
     u
