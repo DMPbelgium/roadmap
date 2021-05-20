@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+ENV["BASE_URL"] ||= "http://localhost:3000"
+
 # rubocop:disable Metrics/BlockLength
 Devise.setup do |config|
   config.mailer_sender = "info@dmponline.be"
