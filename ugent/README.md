@@ -198,6 +198,10 @@ git pull dcc master
 * read ugent/CHANGES.txt and see if the changes mentioned are still
   necessary, still work or need update
 
+* always set file format to `dos` if you're using `vi(m)` because the DCC does.
+  Setting this to `unix` will show unrelated differences because of different
+  line endings.
+
 * read ugent/TODO.txt and see if all still apply
 
 ## branding information
