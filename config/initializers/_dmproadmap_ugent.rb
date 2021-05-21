@@ -210,6 +210,13 @@ module DMPRoadmap
     Rails.application.routes.default_url_options ||= {}
     Rails.application.routes.default_url_options[:host] = ENV["DMP_HOST"]
     Rails.application.routes.default_url_options[:protocol] = ENV["DMP_PROTOCOL"]
+
+    # "rails assets:precompile" crashes with segmentation fault without this
+    # cf. https://github.com/sass/sassc-ruby/issues/207
+    # cf. https://github.com/mvz/example-app-sprockets-crash
+    config.assets.configure do |env|
+      env.export_concurrent = false
+    end
   end
 
 end
