@@ -154,6 +154,8 @@ export PATH=vendor/bundle/ruby/2.6.0/bin:$PATH
 export GEM_HOME=vendor/bundle/ruby/2.6.0
 export GEM_PATH=vendor/bundle/ruby/2.6.0:$GEM_PATH
 export RAILS_ENV=production
+# without this javascript runtime is still needed, even in production mode
+export EXECJS_RUNTIME=Disabled
 
 # install newer version of bundler
 gem install bundler:2.1.4
