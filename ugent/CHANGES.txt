@@ -254,6 +254,12 @@
   that _dmproadmap.rb is included in git,
   which makes it hard to configure it at the server
 
+  also used to override default_url_options for action_mailer and controller
+
+  as configured in config/application.rb
+
+  Please set DMP_HOST and DMP_PROTOCOL in your environment
+
 - config/initializers/devise_ugent.rb
 
   overrides settings from config/initializers/devise.rb

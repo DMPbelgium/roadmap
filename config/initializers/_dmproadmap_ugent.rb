@@ -65,7 +65,7 @@ module DMPRoadmap
     # -------------------- #
 
     # Used throughout the system via ApplicationService.application_name
-    config.x.application.name = "DMPRoadmap"
+    config.x.application.name = "DMPonline.be"
     # Used as the default domain when 'archiving' (aka anonymizing) a user account
     # for example `jane.doe@uni.edu` becomes `1234@removed_accounts-example.org`
     config.x.application.archived_accounts_email_suffix = "@removed_accounts-dmponline.be"
@@ -198,6 +198,18 @@ module DMPRoadmap
     # ------------------------------------------------------------------------ #
     config.x.recaptcha.enabled = false
 
+    ENV["DMP_HOST"] ||= "localhost:3000"
+    ENV["DMP_PROTOCOL"] ||= "http"
+
+    # default url options for mailers
+    config.action_mailer.default_url_options ||= {}
+    config.action_mailer.default_url_options[:host] = ENV["DMP_HOST"]
+    config.action_mailer.default_url_options[:protocol] = ENV["DMP_PROTOCOL"]
+
+    # default url options for route helpers (outside of request context)
+    Rails.application.routes.default_url_options ||= {}
+    Rails.application.routes.default_url_options[:host] = ENV["DMP_HOST"]
+    Rails.application.routes.default_url_options[:protocol] = ENV["DMP_PROTOCOL"]
   end
 
 end
