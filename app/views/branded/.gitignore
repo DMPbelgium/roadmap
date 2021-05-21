@@ -1,0 +1,11 @@
+# reinclude ignored files
+!home/
+!shared/
+!layouts/
+!devise/
+!ugent/
+!plans/
+!orgs/
+!contributors/
+!paginable/
+!user_mailer/
