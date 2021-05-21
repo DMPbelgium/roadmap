@@ -1,7 +1,7 @@
 Name: roadmap
 Summary: DMP Roadmap is a Data Management Planning tool
 License: MIT
-Version: 3.0.1
+Version: 3.0.2
 # "X" is replaced by jenkins at build time
 Release: X
 BuildArch: x86_64
