@@ -317,6 +317,10 @@
 
     see PR https://github.com/DMPRoadmap/roadmap/pull/2874 where those html flags are also added
 
+- app/views/branded/plans/_navigation.html.erb
+
+  hide link to tab "contributors"
+
 - app/views/branded/layouts/_navigation.html.erb
 
   disable link to page /public_plans
