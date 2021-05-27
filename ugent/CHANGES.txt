@@ -19,6 +19,26 @@
 
   sets path of wkhtmltopdf (like in DMPonline_v4)
 
+- app/views/branded/org_admin/shared/_theme_selector.html.erb
+
+  overrides app/views/org_admin/shared/_theme_selector.html.erb
+
+  removes special themes from array "all_themes" so
+
+  that these are not visible in the org admin interface.
+
+  Affected:
+
+  * edit question
+
+  * edit guidance
+
+  Reason:
+
+  * themes with title "UGENT:*" are ugent specific
+
+  * themes with title "https://w3id.org/GDPRtEXT#*" are ugent specific
+
 - app/views/branded/plans/_project_details.html.erb
 
   overrides app/views/plans/_project_details.html.erb
