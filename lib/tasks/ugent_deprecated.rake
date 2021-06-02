@@ -190,6 +190,68 @@ def export_org_projects(org)
   end
   #export updated projects - end
 
+  #export "deleted" projects - start
+  begin
+
+    cur_fn = File.join(
+      sub_dir,
+      "deleted_projects_" + new_timestamp + ".json"
+    )
+    cur_file = File.join(org_dir, cur_fn)
+    prev_fn = Dir
+      .glob( File.join(org_dir, "*", "*", "deleted_projects_*.json") )
+      .map { |f| f.sub(org_dir, "").sub(/^\//,"") }
+      .sort
+      .last
+
+    links = {
+      self: uri_base + "/" + cur_fn
+    }
+    if prev_fn.present?
+
+      links[:prev] = uri_base + "/" + prev_fn
+
+    end
+
+    fh_json = File.open(cur_file, "w:UTF-8")
+
+    fh_json.print "{"
+
+    fh_json.print "\"meta\": { \"version\": \"0.1\",\"created_at\": \"#{new_timestamp}\" }"
+
+    fh_json.print ",\"links\": " + links.to_json
+
+    fh_json.print ",\"data\": ["
+
+    i = 0
+    prev_i = nil
+
+    Plan.where("(SELECT COUNT(*) FROM roles WHERE roles.plan_id = plans.id) = 0")
+        .each do |plan|
+
+          fh_json.print "," unless prev_i.nil?
+
+          # TODO: timestamp of deletion unknown
+          fh_json.print({ id: plan.id, type: "Project", datetime: plan.updated_at.utc.strftime("%FT%TZ") }.to_json)
+
+          prev_i = i
+          i = i + 1
+
+        end
+
+    fh_json.print "]}"
+
+    fh_json.close()
+
+    ref_file = File.join(org_dir, "deleted_projects.json")
+    File.delete(ref_file ) if File.exists?(ref_file)
+    File.symlink(cur_file, ref_file)
+    File.utime(now,now,cur_file)
+    File.utime(now,now,ref_file)
+
+  end
+  #export "deleted" projects - end
+
   #timestamp - start
   begin
 
