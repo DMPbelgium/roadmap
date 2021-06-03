@@ -90,6 +90,9 @@ gem install bundler:2.1.4
 # fix ruby version from 2.6.3 (not in scl) to 2.6.2
 sed -i 's/ruby ">= 2.6.3"/ruby ">= 2.6.2"/' Gemfile
 
+# fix issue https://github.ugent.be/Universiteitsbibliotheek/roadmap/issues/4 for now here
+sed -i 's/plan_contributors_path(/plan_path(/' app/controllers/plans_controller.rb
+
 # switch to higher dev tools
 # without these some gems will not compile
 source /opt/rh/devtoolset-9/enable
