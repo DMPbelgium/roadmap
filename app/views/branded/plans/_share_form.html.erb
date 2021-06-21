@@ -40,6 +40,7 @@
       <tr>
         <th scope="col"><%= _('Email address')%></th>
         <th scope="col"><%= _('Permissions')%></th>
+        <th scope="col"><%= _('Contribution') %></th>
         <% if administerable %>
           <th scope="col"><span aria-hidden="false" class="sr-only"><%= _('Actions') %></span></th>
         <% end %>
@@ -74,6 +75,39 @@
                 <% else %>
                     <span><%= display_role(role) %></span>
                 <% end %>
+            <% end %>
+          </td>
+          <td>
+            <% contributor = Contributor.where(email: role.user.email, plan_id: @plan.id).first %>
+            <% contributor = Contributor.new(email: role.user.email, plan_id: @plan.id) if contributor.nil? %>
+
+            <%= form_with(url: update_role_with_contributor_path(role),
+                          method: :patch,
+                          class: "form-role-update-contributor") do |role_form| %>
+
+              <%= hidden_field_tag("role[id]", role.id, id: "roles[#{role.id}][id]") %>
+
+              <% Contributor.roles.each do |contributor_access| %>
+
+                <label style="font-weight:normal;cursor:pointer">
+                  <%= check_box_tag(
+                        "contributor["+contributor_access.to_s+"]",
+                        "1",
+                        contributor.send(contributor_access),
+                        {
+                          disabled: !administerable,
+                          id: "roles[#{role.id}][contributor][#{contributor_access}]",
+                          class: "checkbox-role-update-contributor"
+                        }
+                      )
+                  %>
+                  <%= ContributorPresenter.role_symbol_to_string(symbol: contributor_access) %>
+                </label><br>
+
+              <% end %>
+              <!--see comments below at checkbox-role-update-contributor-->
+              <%= submit_tag("go", { style: "display: none"}) %>
+
             <% end %>
           </td>
           <% if administerable %>
@@ -135,8 +169,63 @@
       </div>
     <% end %>
     <div class="clearfix"></div>
+    <div class="form-group col-xs-6">
+      <legend>Contribution</legend>
+      <% %i(investigation data_curation project_administration).each do |contributor_access| %>
+        <div class="checkbox">
+          <label>
+            <%= check_box_tag("contributor["+contributor_access.to_s+"]") %>
+            <%= ContributorPresenter.role_symbol_to_string(symbol: contributor_access) %>
+          </label>
+        </div>
+      <% end %>
+    </div>
+    <div class="clearfix"></div>
     <div class="form-group col-xs-2">
     <%= f.button(_('Submit'), class: "btn btn-primary", type: "submit") %>
     </div>
   <% end %>
 <% end %>
+
+<script type="text/javascript">
+(function($){
+
+  "use strict";console.log($);
+
+  $(document).ready(function(){
+
+    /*
+      we wanted to fire a background form with ajax.
+      There are two ways to do this:
+
+      1. add a submit button, and attach events for ajax:success and ajax:error to the the form
+      2. fire Rails.fire(this.form, "submit"), if you want to automatically submit form on change
+
+      unfortunately this function from rails_ujs is not exposed. There we add a submit button,
+      hidden it, and automatically click that button.
+    */
+
+    $("form.form-role-update-contributor")
+      .on("ajax:success", function(e){
+        const data = e.detail[0];
+        renderNotice(data.msg);
+      })
+      .on("ajax:error", function(e){
+        const xhr = e.detail[2];
+        if(typeof xhr.responseJSON == "object"){
+          renderAlert(xhr.responseJSON.msg);
+        } else {
+          renderAlert(`${xhr.statusCode} - ${xhr.statusText}`);
+        }
+      });
+
+    $(".checkbox-role-update-contributor")
+      .on("change", function(){
+        $(this.form).find('input[type=submit]')
+                    .trigger("click");
+      });
+
+  });
+
+})(jQuery);
+</script>

@@ -26,4 +26,7 @@ Rails.application.routes.draw do
   get "/projects", to: "ugent/legacy/projects#index"
   get "/projects/:id", to: "ugent/legacy/projects#show"
 
+  # extra route to update a plan role with an existing contributor together
+  patch "/roles/:id/with_contributor", controller: "ugent/roles", action: :update_role_with_contributor, as: :update_role_with_contributor
+
 end
