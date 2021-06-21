@@ -95,6 +95,10 @@ class Contributor
 
   end
 
+  def self.roles
+    @roles ||= %i[investigation data_curation project_administration].freeze
+  end
+
 end
 
 # Automatically synchronise user data to contributors
@@ -134,47 +138,7 @@ Identifier.after_save do |id|
 
 end
 
-# Automatically (co)owners and editors as contributors
-Role.after_save do |role|
-
-  plan = role.plan
-  user = role.user
-  contributor = plan.contributors
-                    .select { |contributor| contributor.email == user.email }
-                    .first
-
-  if contributor.nil?
-    contributor = plan.contributors.build(email: user.email)
-  end
-
-  # update permissions (set all to prevent incremental updates)
-  contributor.roles = 0
-  if role.creator || role.administrator
-
-    contributor.investigation = true
-
-  elsif role.editor
-
-    contributor.project_administration = true
-
-  end
-
-  # remove if no roles
-  if contributor.roles == 0
-
-    contributor.destroy
-
-  else
-
-    # update user data
-    contributor.update_from_user(user)
-
-    contributor.save!
-
-  end
-
-end
-
+# if role is removed, automatically remove associated contributor
 Role.after_destroy do |role|
 
   plan = role.plan
@@ -185,23 +149,14 @@ Role.after_destroy do |role|
 
   next if contributor.nil?
 
-  # update permissions
-  if role.creator || role.administrator
-
-    contributor.investigation = false
-
-  elsif role.editor
-
-    contributor.project_administration = false
-
-  end
-
-  # destroy contributor when no permissions are left (roles == 0 is not allowed)
-  if contributor.roles == 0
-    contributor.destroy
-  end
+  Rails.logger.info("Role #{role} is destroyed, so removing associated contributor #{contributor}")
+  contributor.destroy
 
 end
+
+# if role is deactivated, do NOT REMOVE associated contributor
+# reason: role is still visible in the tab "share" to other that
+# still have access to that plan
 
 class Template
 
@@ -1136,6 +1091,57 @@ module Users
       end
     end
 
+  end
+
+end
+
+RolesController.after_action(only: %i[create]) do |controller|
+
+  # only apply when role was persisted, and therefore valid
+  next unless @role.persisted?
+
+  # no boxes checked, no parameters sent
+  controller.params[:contributor] ||= Hash[Contributor.roles.map { |cr| [cr, 0] }]
+
+  contributor_params = controller.params
+                                 .require(:contributor)
+                                 .permit(*Contributor.roles)
+
+  contributor = Contributor.where(plan_id: @role.plan_id, email: @role.user.email)
+                           .first
+
+  if contributor.nil?
+
+    contributor = Contributor.new(plan_id: @role.plan_id, email: @role.user.email)
+
+  end
+
+  contributor.roles = 0
+
+  Contributor.roles.each do |contributor_access|
+    if contributor_params.key?(contributor_access.to_s)
+      contributor.send("#{contributor_access}=", contributor_params[contributor_access])
+    end
+  end
+
+  if contributor.roles == 0
+
+    contributor.destroy if contributor.persisted?
+
+  else
+
+    contributor.update_from_user(@role.user)
+    contributor.save!
+
+  end
+
+end
+
+# add method update_role_with_contributor? for controller Ugent::RolesController#update_role_with_contributor
+class PlanPolicy
+
+  def update_role_with_contributor?
+    @plan.administerable_by?(@user.id)
   end
 
 end
