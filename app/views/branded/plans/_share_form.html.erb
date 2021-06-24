@@ -96,7 +96,9 @@
                         {
                           disabled: !administerable,
                           id: "roles[#{role.id}][contributor][#{contributor_access}]",
-                          class: "checkbox-role-update-contributor"
+                          class: "checkbox-role-update-contributor",
+                          data: { toggle: "tooltip" },
+                          title: ContributorPresenter.role_tooltip(symbol: contributor_access)
                         }
                       )
                   %>
@@ -170,10 +172,19 @@
     <div class="clearfix"></div>
     <div class="form-group col-xs-6">
       <legend>Contribution</legend>
-      <% %i(investigation data_curation project_administration).each do |contributor_access| %>
+      <% Contributor.roles.each do |contributor_access| %>
         <div class="checkbox">
           <label>
-            <%= check_box_tag("contributor["+contributor_access.to_s+"]") %>
+            <%= check_box_tag(
+                  "contributor["+contributor_access.to_s+"]",
+                  1,
+                  false,
+                  {
+                    data: { toggle: "tooltip" },
+                    title: ContributorPresenter.role_tooltip(symbol: contributor_access)
+                  }
+                )
+            %>
             <%= ContributorPresenter.role_symbol_to_string(symbol: contributor_access) %>
           </label>
         </div>
@@ -189,7 +200,7 @@
 <script type="text/javascript">
 (function($){
 
-  "use strict";console.log($);
+  "use strict";
 
   $(document).ready(function(){
 
