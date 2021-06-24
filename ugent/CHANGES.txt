@@ -143,6 +143,16 @@
     and has scheme "orcid", then it is copied
     to all contributors with the same email as that user
 
+  * adds Contributor.roles, a list of possible roles in class Contributor
+
+  * adds Role.on_destroy that automatically removes Contributor with same email and plan_id
+
+  * adds RolesController.after_action on method "create" that catches
+    parameter "contributor" and creates a Contributor with same plan_id, email,
+    and sets the rest of the attributes from role.user
+
+  * adds PlanPolicy#update_role_with_contributor? for new controller method Ugent::RolesController#update_role_with_contributor
+
 - app/controllers/ugent/legacy/projects_controller.rb
 
   adds legacy routes to redirect
