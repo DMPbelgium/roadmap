@@ -123,10 +123,12 @@ mkdir -p %{buildroot}/opt/%{name}
 mkdir -p %{buildroot}/opt/%{name}/tmp
 mkdir -p %{buildroot}/var/log/%{name}
 mkdir -p %{buildroot}/etc/systemd/system
+mkdir -p %{buildroot}/etc/cron.d
 
 cp -r $RPM_BUILD_DIR/%{name}/* %{buildroot}/opt/%{name}/
 cp -r $RPM_BUILD_DIR/%{name}/.bundle %{buildroot}/opt/%{name}/
 cp $RPM_BUILD_DIR/%{name}/ugent/etc/systemd/%{name}.service %{buildroot}/etc/systemd/system/
+cp $RPM_BUILD_DIR/%{name}/ugent/cron.d/roadmap.cron %{buildroot}/etc/cron.d/roadmap
 
 # move assets precompiled at development time
 # to build assets in ugent/public, run bin/build_assets
@@ -141,6 +143,7 @@ rm -rf %{buildroot}
 /opt/%{name}/
 /var/log/%{name}/
 %attr(644,root,root) /etc/systemd/system/%{name}.service
+%attr(644,root,root) /etc/cron.d/roadmap
 
 %pre
 # add user and group "roadmap"
