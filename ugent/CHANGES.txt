@@ -448,3 +448,7 @@
   +    mimemagic (0.3.9)
   +      nokogiri (~> 1)
   +      rake
+
+- ugent/cron.d/roadmap.cron
+
+  cronjob that is moved to /etc/cron.d/roadmap in the rpm
