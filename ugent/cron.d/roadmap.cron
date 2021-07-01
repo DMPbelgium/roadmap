@@ -6,4 +6,4 @@ PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin:/usr/local/sbin
 # BASH_ENV: shell environment to load before executing any command in /opt/roadmap
 # MAILTO:   mail uncaught stdout/stderr to this mail address
 
-0 0 * * * dmponline cd /opt/roadmap && bin/rails stat:build
+0 0 * * * roadmap cd /opt/roadmap && bin/rails stat:build
