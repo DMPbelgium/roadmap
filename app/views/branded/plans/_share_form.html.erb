@@ -89,7 +89,7 @@
 
               <% Contributor.roles.each do |contributor_access| %>
 
-                <label style="font-weight:normal;cursor:pointer">
+                <label style="font-weight:normal;cursor:pointer" data-toggle="tooltip" title="<%= ContributorPresenter.role_tooltip(symbol: contributor_access) %>">
                   <%= check_box_tag(
                         "contributor["+contributor_access.to_s+"]",
                         "1",
@@ -97,9 +97,7 @@
                         {
                           disabled: !administerable,
                           id: "roles[#{role.id}][contributor][#{contributor_access}]",
-                          class: "checkbox-role-update-contributor",
-                          data: { toggle: "tooltip" },
-                          title: ContributorPresenter.role_tooltip(symbol: contributor_access)
+                          class: "checkbox-role-update-contributor"
                         }
                       )
                   %>
@@ -175,15 +173,11 @@
       <legend>Contribution</legend>
       <% Contributor.roles.each do |contributor_access| %>
         <div class="checkbox">
-          <label>
+          <label data-toggle="tooltip" title="<%= ContributorPresenter.role_tooltip(symbol: contributor_access) %>">
             <%= check_box_tag(
                   "contributor["+contributor_access.to_s+"]",
                   1,
-                  false,
-                  {
-                    data: { toggle: "tooltip" },
-                    title: ContributorPresenter.role_tooltip(symbol: contributor_access)
-                  }
+                  false
                 )
             %>
             <%= ContributorPresenter.role_symbol_to_string(symbol: contributor_access) %>
