@@ -294,9 +294,12 @@
   if removed, also remove load statement from config/initializers/ugent.rb
 
 - app/views/branded/shared/_sign_in_form.html.erb
+  app/views/branded/shared/_dev_sign_in_form.html.erb
   app/views/branded/shared/_access_controls.html.erb
 
-  * replace login/registration form with list of org identifiers
+  * replace login/registration form with list of org identifiers when production environment is on,
+    otherwise load app/views/branded/shared/_dev_sign_in_form.html.erb (copy of original app/views/shared/_sign_in_form.html.erb)
+    this makes it more suitable to login during development phase
   * if an organisation has multiple identifiers, then append the host name of that id
 
 - app/views/branded/home/index.html.erb
