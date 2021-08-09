@@ -99,6 +99,12 @@ class Contributor
     @roles ||= %i[investigation data_curation project_administration].freeze
   end
 
+  # get User record for Contributor, based on email address
+  def to_user
+    User.where(email: self.email)
+        .first
+  end
+
 end
 
 # Automatically synchronise user data to contributors
@@ -661,6 +667,50 @@ class User
   def set_org_by_email
 
     self.org = User.org_from_email(self.email)
+
+  end
+
+  def self.orcid_logo
+    "https://orcid.org/sites/default/files/images/orcid_16x16.png"
+  end
+
+  # get HTML snippet to show in docx/pdf for User
+  def orcid_link
+
+    orcid_id = self.identifier_orcid
+    return nil unless orcid_id.present?
+    orcid_id = orcid_id.value
+
+    str = []
+
+    orcid_base_url = "https://orcid.org"
+
+    str << %q(<a class="orcid-link" href=")
+    str << orcid_base_url
+    str << %q("><img alt="ORCID logo" src=")
+    str << User.orcid_logo
+    str << %q("></a>)
+    str << %q( <a class="orcid-link" href=")
+    str << orcid_id
+    str << %q(" title=")
+    str << orcid_id
+    str << %q(">)
+    str << orcid_id
+    str << %q(</a>)
+
+    str.join("").html_safe
+
+  end
+
+  def name_with_orcid
+
+    str = [ self.name(false) ]
+
+    l = self.orcid_link
+
+    str << " " << l unless l.nil?
+
+    str.join("").html_safe
 
   end
 
