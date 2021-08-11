@@ -6,10 +6,10 @@ require 'active_support/core_ext/integer/time'
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
-  # In the development environment your application's code is reloaded on
-  # every request. This slows down response time but is perfect for development
-  # since you don't have to restart the web server when you make code changes.
-  config.cache_classes = false
+  # warning: do not set this to "false".
+  # we add methods to models and controllers from initializers (e.g. ugent.rb),
+  # and those initializers are not reloaded per request..
+  config.cache_classes = true
 
   # Do not eager load code on boot.
   config.eager_load = false
