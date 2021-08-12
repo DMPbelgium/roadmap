@@ -15,6 +15,12 @@
   see https://github.com/DMPRoadmap/roadmap/issues/2897
   see https://github.com/DMPRoadmap/roadmap/pull/2900
 
+- app/views/branded/contact_us/contacts/new.html.erb
+
+  overrides app/views/contact_us/contacts/new.html.erb
+
+  replaces intro text above
+
 - app/views/branded/layouts/_footer.html.erb
 
   overrides app/views/branded/layouts/_footer.html.erb
@@ -87,6 +93,9 @@
   added link to /switch_user/edit
 
 - config/initializers/ugent.rb
+
+  * override ApplicationService.application_name until 3.0.3
+    is merged (so that string is no longer converted to lowercase)
 
   * change PlanPolicy#create? so that users with Org "guests" cannot
       create plans
