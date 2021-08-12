@@ -41,9 +41,9 @@ module DMPRoadmap
     config.x.organisation.telephone = "+32 9 264 94 55"
     # Your organisation's address - used on the contact us page
     config.x.organisation.address = {
-      line_1: "Ghent University Library",
-      line_2: "Sint-Hubertusstraat 8",
-      line_3: "9000 Ghent",
+      line1: "Ghent University Library",
+      line2: "Rozier 9",
+      line3: "9000 Ghent",
       country: "Belgium"
     }
 
