@@ -15,6 +15,24 @@
   see https://github.com/DMPRoadmap/roadmap/issues/2897
   see https://github.com/DMPRoadmap/roadmap/pull/2900
 
+- app/views/branded/home/_welcome.html.erb
+
+  overrides app/views/home/_welcome.html.erb
+
+- app/views/branded/static_pages/privacy.html.erb
+
+  overrides app/views/static_pages/privacy.html.erb
+
+- app/views/branded/static_pages/termsuse.html.erb
+
+  overrides app/views/static_pages/termsuse.html.erb
+
+- app/views/branded/contact_us/contacts/new.html.erb
+
+  overrides app/views/contact_us/contacts/new.html.erb
+
+  replaces intro text above
+
 - app/views/branded/layouts/_footer.html.erb
 
   overrides app/views/branded/layouts/_footer.html.erb
@@ -87,6 +105,9 @@
   added link to /switch_user/edit
 
 - config/initializers/ugent.rb
+
+  * override ApplicationService.application_name until 3.0.3
+    is merged (so that string is no longer converted to lowercase)
 
   * change PlanPolicy#create? so that users with Org "guests" cannot
       create plans
@@ -386,6 +407,9 @@
 
   hides link to plan creation wizard when PlanPolicy does not allow it
     see previous
+
+  after a while we decided to hide the link to "create plan".
+  reason: selection procedure is different from the plan creation wizard.
 
 - app/views/branded/contributors/_form.html.erb
 
