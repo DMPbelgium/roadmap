@@ -408,6 +408,9 @@
   hides link to plan creation wizard when PlanPolicy does not allow it
     see previous
 
+  after a while we decided to hide the link to "create plan".
+  reason: selection procedure is different from the plan creation wizard.
+
 - app/views/branded/contributors/_form.html.erb
 
   overrides app/views/contributors/_form.html.erb
