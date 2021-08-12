@@ -1,0 +1,22 @@
+<% title _('Contact Us') %>
+<div class="row">
+  <div class="col-md-12">
+    <h1><%= _("Contact Us") %></h1>
+    <p>
+      <b><%= ApplicationService.application_name %></b> is provided by the <b>DMPbelgium Consortium</b>. If you would like to contact us about <b><%= ApplicationService.application_name %></b> software, please enter your query in the form below or email <a href="mailto:info@dmponline.be">info@dmponline.be</a>.
+    </p>
+    <p>
+      If you have a feature request or think you have found a bug, please check out the <a href="https://github.com/DMPbelgium/roadmap/issues">list of issues on DMPbelgium's GitHub</a>. If your issue isn't listed there, please add it; if it is, please add a comment if you have more information or just to let people know how important it is to you. This will help DMPbelgium to prioritise future developments.
+    </p>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-6"><!-- Left column container -->
+      <%= render :partial => "contact_us/contacts/new_left" %>
+  </div><!-- Left column container -->
+  <div class="col-md-6"><!-- Right column container -->
+    <div class="pull-right">
+      <%= render :partial => "contact_us/contacts/new_right" %>
+    </div>
+ </div><!-- Right column container -->
+</div>
