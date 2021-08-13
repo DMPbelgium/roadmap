@@ -22,6 +22,35 @@
 }
 
 .inverse-dropdown > li > a:hover {
-  background-color: #f5f5f5 !important;
-  color: #444 !important;
+  background-color: #f5f5f5;
+  color: #444;
+}
+
+#org-navbar {
+  .navbar-nav li a {
+    color: #1a1a1a;
+  }
+  .inverse-dropdown .active a {
+    color: #FFF !important;
+    background-color: #444 !important;
+  }
+  .dropdown-menu > .active > a {
+    color: #262626;
+    text-decoration: none;
+    background-color: #f5f5f5;
+    outline-width: 2px !important;
+    outline-style: solid !important;
+    outline-color: #107896 !important;
+  }
+}
+
+#app-navbar {
+  .dropdown-menu.inverse-dropdown > .active > a, .dropdown-menu.inverse-dropdown > li > a:hover  {
+    color: #262626 !important;
+    text-decoration: none;
+    background-color: #f5f5f5 !important;
+    outline-width: 2px !important;
+    outline-style: solid !important;
+    outline-color: #107896 !important;
+  }
 }
