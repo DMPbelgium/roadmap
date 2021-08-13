@@ -15,6 +15,50 @@
   see https://github.com/DMPRoadmap/roadmap/issues/2897
   see https://github.com/DMPRoadmap/roadmap/pull/2900
 
+- app/views/branded/shared/export/_plan_coversheet.erb
+
+  overrides app/views/shared/export/_plan_coversheet.erb
+
+  changes:
+
+  * show all contributor roles
+  * remove unclear line "ID's" (orcid ids) that does not show
+    who these id's belong to
+
+- app/views/branded/shared/export/_plan_styling.erb
+
+  overrides app/views/shared/export/_plan_styling.erb
+
+  adds css rules to style orcid links on html/docx/pdf export
+
+- app/views/branded/shared/export/_plan_txt.erb
+
+  overrides app/views/shared/export/_plan_txt.erb
+
+  changes:
+
+  * show all contributor roles
+  * remove unclear line "ID's" (orcid ids) that does not show
+    who these id's belong to
+
+- app/views/branded/home/_welcome.html.erb
+
+  overrides app/views/home/_welcome.html.erb
+
+- app/views/branded/static_pages/privacy.html.erb
+
+  overrides app/views/static_pages/privacy.html.erb
+
+- app/views/branded/static_pages/termsuse.html.erb
+
+  overrides app/views/static_pages/termsuse.html.erb
+
+- app/views/branded/contact_us/contacts/new.html.erb
+
+  overrides app/views/contact_us/contacts/new.html.erb
+
+  replaces intro text above
+
 - app/views/branded/layouts/_footer.html.erb
 
   overrides app/views/branded/layouts/_footer.html.erb
@@ -87,6 +131,16 @@
   added link to /switch_user/edit
 
 - config/initializers/ugent.rb
+
+  * add method Contributor#to_user that fetches
+    user record, based on shared email attribute
+
+  * add method User#orcid_logo, User#orcid_link and User#name_and_orcid.
+    these methods are used in order to render an orcid link
+    on the html/docx/pdf plan export
+
+  * override ApplicationService.application_name until 3.0.3
+    is merged (so that string is no longer converted to lowercase)
 
   * change PlanPolicy#create? so that users with Org "guests" cannot
       create plans
@@ -386,6 +440,9 @@
 
   hides link to plan creation wizard when PlanPolicy does not allow it
     see previous
+
+  after a while we decided to hide the link to "create plan".
+  reason: selection procedure is different from the plan creation wizard.
 
 - app/views/branded/contributors/_form.html.erb
 

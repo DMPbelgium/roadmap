@@ -56,7 +56,8 @@ RailsAdmin.config do |config|
     :Section,
     :Question,
     :Theme,
-    :QuestionOption
+    :QuestionOption,
+    :Guidance
   ]
 
   config.model "Org" do
@@ -327,6 +328,23 @@ RailsAdmin.config do |config|
       field :created_at
       field :updated_at
     end
+
+    show do
+      field :title
+      field :description
+      field :questions
+      field :guidances
+      field :created_at
+      field :updated_at
+    end
+
+  end
+
+  config.model "Guidance" do
+
+    navigation_label "Template management"
+
+    weight 7
 
   end
 

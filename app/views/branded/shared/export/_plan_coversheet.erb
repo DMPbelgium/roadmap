@@ -1,0 +1,74 @@
+<hr />
+<h1><%= @plan.title %></h1>
+<p><em><%= _("A Data Management Plan created using %{application_name}") % { application_name: ApplicationService.application_name } %></em></p>
+<br/>
+<div class="cover-page">
+  <p>
+    <%
+      owner_and_coowners = @plan.owner_and_coowners
+    %>
+    <b><%= owner_and_coowners.size > 1 ? _("Creators: ") : _("Creator: ") %></b>
+    <%= owner_and_coowners.map { |u| u.name_with_orcid }
+                          .join(", ")
+                          .html_safe %>
+  </p><br>
+
+  <p><b><%= _("Affiliation: ") %></b><%= @hash[:affiliation] %></p><br>
+
+  <% if @hash[:funder].present? %>
+    <p><b><%= _("Funder: ") %></b><%= @hash[:funder] %></p><br>
+  <% end %>
+
+    <p><b><%= _("Template: ") %></b><%= @hash[:template] + @hash[:customizer] %></p><br>
+
+  <% principal_investigators = @plan.contributors.investigation.all %>
+  <% if principal_investigators.size > 0 %>
+    <p>
+      <b>Principal Investigator:</b>
+      <%= principal_investigators.map { |c| c.to_user.name_with_orcid }
+                                 .join(", ")
+                                 .html_safe %>
+    </p><br>
+  <% end %>
+
+  <% data_curators = @plan.contributors.data_curation.all %>
+  <% if data_curators.size > 0 %>
+    <p>
+      <b>Data Manager:</b>
+      <%= data_curators.map { |c| c.to_user.name_with_orcid }
+                       .join(", ")
+                       .html_safe %>
+    </p><br>
+  <% end %>
+
+  <% admins = @plan.contributors.project_administration.all %>
+  <% if admins.size > 0 %>
+    <p>
+      <b>Project Administrator:</b>
+      <%= admins.map { |c| c.to_user.name_with_orcid }
+                .join(", ")
+                .html_safe %>
+    </p><br>
+  <% end %>
+
+  <% if @plan.grant_number.present? %>
+    <p><b><%= _("Grant number: ") %></b><%= @plan.grant_number %></p> <br>
+  <% end %>
+
+  <% if @plan.description.present? %>
+    <p><b><%= _("Project abstract: ") %></b></p>
+    <div style="margin-left: 15px;"><%= sanitize(@plan.description) %></div><br>
+  <% end %>
+
+  <p><b><%= _("Last modified: ") %></b><%=  l(@plan.updated_at.to_date, formats: :short) %></p> <br>
+
+  <% if @public_plan %>
+    <p><b><%= _("Copyright information:") %></b></p>
+    <div style="margin-left: 15px;">
+      <p>
+        <%= _(" The above plan creator(s) have agreed that others may use as much of the text of this plan as they would like in their own plans, and customise it as necessary. You do not need to credit the creator(s) as the source of the language used, but using any of the plan's text does not imply that the creator(s) endorse, or have any relationship to, your project or proposal") %>
+      </p>
+    </div>
+  <% end %>
+</div>
+<hr class="bottom" />
