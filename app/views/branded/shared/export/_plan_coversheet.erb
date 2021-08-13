@@ -24,7 +24,7 @@
   <% principal_investigators = @plan.contributors.investigation.all %>
   <% if principal_investigators.size > 0 %>
     <p>
-      <b>Principal Investigator / Researcher:</b>
+      <b>Principal Investigator:</b>
       <%= principal_investigators.map { |c| c.to_user.name_with_orcid }
                                  .join(", ")
                                  .html_safe %>
@@ -34,10 +34,20 @@
   <% data_curators = @plan.contributors.data_curation.all %>
   <% if data_curators.size > 0 %>
     <p>
-      <b>Project Data Manager:</b>
+      <b>Data Manager:</b>
       <%= data_curators.map { |c| c.to_user.name_with_orcid }
                        .join(", ")
                        .html_safe %>
+    </p><br>
+  <% end %>
+
+  <% admins = @plan.contributors.project_administration.all %>
+  <% if admins.size > 0 %>
+    <p>
+      <b>Project Administrator:</b>
+      <%= admins.map { |c| c.to_user.name_with_orcid }
+                .join(", ")
+                .html_safe %>
     </p><br>
   <% end %>
 
