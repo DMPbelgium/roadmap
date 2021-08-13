@@ -10,6 +10,11 @@ if [ ! -d "tmp" ];then
   mkdir tmp
 fi
 
+# cleanup
+rm -rf tmp/cache
+rm -rf public/packs/
+rm -rf pulic/assets/
+
 # compile assets into public/assets and public/packs
 bin/rails assets:precompile &&
 # and store them in git (no way to run this on the production server)
