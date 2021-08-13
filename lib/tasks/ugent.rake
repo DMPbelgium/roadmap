@@ -177,4 +177,76 @@ namespace :ugent do
 
   end
 
+  desc "add/update org identifiers"
+  task import_org_id: :environment do
+
+    csv = CSV.new($stdin, { headers: true, col_sep: ";" })
+    fields = %w(org_abbreviation id_scheme_name id_value)
+
+    csv.each do |r|
+
+      row = r.to_hash.slice(*fields)
+
+      unless fields.all? { |f| row.key?(f) && row[f].present? }
+
+        $stderr.puts "missing fields"
+        break
+
+      end
+
+      scheme = IdentifierScheme.where(name: row["id_scheme_name"])
+                               .first
+
+      if scheme.nil?
+
+        $stderr.puts "unable to find scheme for name #{row["id_scheme_name"]}"
+        next
+
+      end
+
+      org = Org.where(abbreviation: row["org_abbreviation"])
+               .first
+
+      if org.nil?
+
+        $stderr.puts "unable to find org for abbreviation #{row["org_abbreviation"]}"
+        next
+
+      end
+
+      id = org.identifiers
+              .select { |i| i.identifier_scheme_id == scheme.id }
+              .first
+
+      is_new = !(id.present?)
+
+      if id.present?
+
+        # update
+
+      else
+
+        id = org.identifiers.build
+        id.identifier_scheme = scheme
+
+      end
+
+      id.value = row["id_value"]
+
+      if id.save
+
+        $stdout.puts "#{is_new ? 'added' : 'updated'} Identifier #{id.id} to Org #{org.abbreviation}"
+
+      else
+
+        $stderr.puts "failed to add/update Identifier to Org #{org.abbreviation}: #{id.errors.full_messages.join(', ')}"
+
+      end
+
+    end
+
+    csv.close
+
+  end
+
 end
