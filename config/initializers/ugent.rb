@@ -1122,7 +1122,7 @@ module Users
       # No orcid, no email: warn user
       else
 
-        flash[:alert] = "Unable to login with orcid: try setting the visibility of your email address to \"everyone\" or \"trusted parties\" (<a href=\"https://orcid.org/account\">orcid profile</a>)"
+        flash[:alert] = "Unable to login with orcid: try setting the visibility of your email address to \"everyone\" or \"trusted parties\" (<a href=\"https://orcid.org/account\">orcid profile</a>). Do not forget to add this website to your \"Trusted Organisations\" if you're choosing for \"trusted parties\""
         redirect_to root_url
         return
 
