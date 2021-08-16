@@ -377,6 +377,8 @@
 
   overrides settings from config/initializers/devise.rb
 
+  adds fix for https://github.com/datacite/omniauth-orcid/issues/14
+
 - config/initializers/contact_us.rb
 
   not included in .gitigore,
