@@ -93,6 +93,9 @@ sed -i 's/ruby ">= 2.6.3"/ruby ">= 2.6.2"/' Gemfile
 # fix issue https://github.ugent.be/Universiteitsbibliotheek/roadmap/issues/4 for now here
 sed -i 's/plan_contributors_path(/plan_path(/' app/controllers/plans_controller.rb
 
+# fix issue https://github.com/DMPRoadmap/roadmap/issues/3004
+sed -i 's/config.log_level = :debug/config.log_level = :warn/' config/environments/production.rb
+
 # switch to higher dev tools
 # without these some gems will not compile
 source /opt/rh/devtoolset-9/enable

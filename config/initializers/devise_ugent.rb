@@ -10,8 +10,12 @@ Devise.setup do |config|
     :orcid,
     ENV["ORCID_CLIENT_ID"],
     ENV["ORCID_CLIENT_SECRET"], {
-      member: false,
-      sandbox: false
+      member: true,
+      sandbox: false,
+      authorize_params: {
+        # default scope for member api is too broad ("/read-limited /activities/update /person/update")
+        scope: "/read-limited"
+      }
     }
   )
   config.omniauth(
@@ -38,3 +42,23 @@ Devise.setup do |config|
   )
 end
 # rubocop:enable Metrics/BlockLength
+
+# fix for api_base_url (see https://github.com/datacite/omniauth-orcid/pull/15/files)
+require "omniauth/strategies/orcid"
+module OmniAuth
+  module Strategies
+    class ORCID
+
+      def api_base_url
+        site + "/v#{API_VERSION}"
+      end
+
+      # warning: setting env OAUTH_DEBUG=true gives StackLocked
+      # cf. https://github.com/oauth-xx/oauth2/issues/189
+      def request_info
+        @request_info ||= access_token.get( "#{api_base_url}/#{uid}/person", headers: { accept: 'application/json' } ).parsed || {}
+      end
+
+    end
+  end
+end
