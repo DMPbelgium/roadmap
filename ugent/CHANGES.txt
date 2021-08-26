@@ -379,6 +379,9 @@
 
   adds fix for https://github.com/datacite/omniauth-orcid/issues/14
 
+  adds fix for omniauth-shibboleth when attributes are passed by headers
+    and they contain utf-8 characters
+
 - config/initializers/contact_us.rb
 
   not included in .gitigore,
