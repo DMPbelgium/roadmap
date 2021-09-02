@@ -25,8 +25,6 @@ Devise.setup do |config|
       request_type: :header,
       uid_field: :mail,
       fields: [],
-      # when multiple values are given (joined by ';'), then split on ';' and return first
-      multi_values: :first,
       extra_fields: %i[
         persistent-id
         eppn
