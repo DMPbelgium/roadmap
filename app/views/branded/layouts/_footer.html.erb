@@ -9,7 +9,6 @@
   <div class="container-fluid">
     <ul class="nav navbar-nav">
       <li><%= link_to sanitize("&copy; 2004 - #{Time.now.year} #{Rails.configuration.x.organisation.name}"), "#{Rails.configuration.x.organisation.url}"%></li>
-      <li>•</li>
       <li><a href="<%= about_us_path %>"><%= _('About') %></a></li>
       <li><a href="<%= contact_us %>"><%= _('Contact us') %></a></li>
       <li><a href="<%= terms_path %>"><%= _('Terms of use') %></a></li>
