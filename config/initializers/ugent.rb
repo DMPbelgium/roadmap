@@ -512,7 +512,7 @@ class Plan
 
               end
 
-              archived_by = note.archived_by.present? ? User.find(note.archived_by) : nil
+              archived_by = note.archived_by.present? ? User.where(id: note.archived_by).first : nil
 
               if archived_by.present?
 
