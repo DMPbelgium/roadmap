@@ -260,7 +260,13 @@ RailsAdmin.config do |config|
         read_only true
         help ""
       end
-      field :themes
+      field :themes do
+        associated_collection_scope do
+          Proc.new { |scope|
+            scope.limit(100)
+          }
+        end
+      end
     end
 
   end
@@ -309,7 +315,13 @@ RailsAdmin.config do |config|
         read_only true
         help ""
       end
-      field :themes
+      field :themes do
+        associated_collection_scope do
+          Proc.new { |scope|
+            scope.limit(100)
+          }
+        end
+      end
     end
 
   end
@@ -322,6 +334,7 @@ RailsAdmin.config do |config|
     object_label_method :title
 
     list do
+      sort_by :title
       field :id
       field :title
       field :description
