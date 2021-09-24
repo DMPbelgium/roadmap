@@ -347,6 +347,8 @@ def projects_ld(org)
      )
      .find_each(batch_size: 100) do |plan|
 
+       next if plan.is_test?
+
        if block_given?
         yield(plan.ld)
        end
