@@ -98,6 +98,10 @@
 
   that these are not visible in the org admin interface.
 
+  those invisible themes are added of course to the form
+
+  as hidden inputs though
+
   Affected:
 
   * edit question

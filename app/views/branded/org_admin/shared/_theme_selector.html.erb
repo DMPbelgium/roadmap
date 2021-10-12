@@ -5,15 +5,30 @@
 
 <%
   # HIDE special themes
-  all_themes = all_themes.select { |theme| !theme.title.start_with?("UGENT:") } 
-                         .select { |theme| !theme.title.start_with?("https://w3id.org/GDPRtEXT#") }
+  hidden_themes = []
+  visible_themes = []
+  all_themes.each { |theme|
+    if theme.title.start_with?("UGENT:") || theme.title.start_with?("https://w3id.org/GDPRtEXT#")
+      hidden_themes << theme
+    else
+      visible_themes << theme
+    end
+  }
 %>
 <div class="form-group">
-  <% if all_themes.length > 0 %>
+  <% hidden_themes.each do |theme| %>
+    <% next unless f.object.themes.include?(theme) %>
+    <% namespace = f.object.class.name.downcase %>
+    <input id="<%= f.object.id %>_<%= namespace %>_theme_ids_<%= theme.id %>"
+           name="<%= namespace %>[theme_ids][]"
+           type="hidden"
+           value="<%= theme.id %>">
+  <% end %>
+  <% if visible_themes.length > 0 %>
     <%
       cntr = 0
       per_col = Rails.configuration.x.max_number_themes_per_column
-      nbr_of_cols = (all_themes.length.to_f / per_col.to_f).ceil
+      nbr_of_cols = (visible_themes.length.to_f / per_col.to_f).ceil
       col_size = (12 / (nbr_of_cols > 4 ? 3 : nbr_of_cols)).round
     %>
     <fieldset<%= in_error ? ' class=field_with_errors' : '' %>>
@@ -24,7 +39,7 @@
       </legend>
 
       <div class="col-md-<%= col_size %>">
-        <% all_themes.each do |theme| %>
+        <% visible_themes.each do |theme| %>
           <% if cntr >= per_col %>
             </div>
             <div class="col-md-<%= col_size %>">
@@ -36,7 +51,7 @@
             <input id="<%= id %>_<%= namespace %>_theme_ids_<%= theme.id %>"
                    name="<%= namespace %>[theme_ids][]"
                    type="<%= as_radio ? 'radio' : 'checkbox' %>"
-                   <%= required && (theme == all_themes.first ? ' aria-required=true ' : '') %>
+                   <%= required && theme == visible_themes.first ? ' aria-required=true ' : '' %>
                    value="<%= theme.id %>"<%= f.object.themes.include?(theme) ? ' checked="checked"' : '' %>>
             <%= theme.title %>
           </div>
