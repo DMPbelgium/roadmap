@@ -90,6 +90,8 @@
 
   To be removed when issue is solved and branch merged
 
+  KEEP FOR NOW
+
 - app/views/branded/org_admin/shared/_theme_selector.html.erb
 
   overrides app/views/org_admin/shared/_theme_selector.html.erb
@@ -152,9 +154,6 @@
   * add method User#orcid_logo, User#orcid_link and User#name_and_orcid.
     these methods are used in order to render an orcid link
     on the html/docx/pdf plan export
-
-  * override ApplicationService.application_name until 3.0.3
-    is merged (so that string is no longer converted to lowercase)
 
   * change PlanPolicy#create? so that users with Org "guests" cannot
       create plans
@@ -291,6 +290,16 @@
     - config/routes/ugent.rb
     - config/initializers/ugent.rb
     - lib/tasks/ugent_deprecated.rake
+
+- app/controllers/ugent/roles_controller.rb
+
+  ugent specific controller
+
+  added to routes in config/routes/ugent.rb
+
+  extra route to update a plan role with an existing contributor together
+
+  used in share tab of a plan in ugent branch
 
 - app/models/ugent/rest_user.rb
 
@@ -529,13 +538,6 @@
 
     see config/initializers/assets.rb
     that file already existed, so may conflict in the future.
-
-- temporary fix to Gemfile.lock in order to fix https://github.com/DMPRoadmap/roadmap/issues/2842
-
-  -    mimemagic (0.3.5)
-  +    mimemagic (0.3.9)
-  +      nokogiri (~> 1)
-  +      rake
 
 - ugent/cron.d/roadmap.cron
 

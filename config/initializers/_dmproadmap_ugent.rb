@@ -110,6 +110,8 @@ module DMPRoadmap
       }
     }
 
+    config.x.application.restrict_orgs = true
+
     # ------------------- #
     # SHIBBOLETH SETTINGS #
     # ------------------- #
