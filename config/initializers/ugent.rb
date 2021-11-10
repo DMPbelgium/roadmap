@@ -1196,15 +1196,6 @@ class PlanPolicy
 
 end
 
-# to remove when merging 3.0.3
-require "application_service"
-class ApplicationService
-  def self.application_name
-    default = Rails.application.class.name.split("::").first
-    Rails.configuration.x.application.fetch(:name, default)
-  end
-end
-
 # not used at the moment. Remove?
 DMPRoadmap::Application.class_eval do
   config.custom = config_for(:custom) if File.exist?(Rails.root.join("config", "custom.yml"))
