@@ -96,7 +96,7 @@ class Contributor
   end
 
   def self.roles
-    @roles ||= %i[investigation data_curation project_administration].freeze
+    @roles ||= %i[investigation data_curation project_administration other].freeze
   end
 
   # get User record for Contributor, based on email address
