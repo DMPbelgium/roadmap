@@ -8,13 +8,6 @@
 
   `20161122152339_new_plan_template_structure.rb`
 
-- config.ru
-
-  application can be run within a prefix
-
-  see https://github.com/DMPRoadmap/roadmap/issues/2897
-  see https://github.com/DMPRoadmap/roadmap/pull/2900
-
 - app/assets/images/favicon.ico
 
   overrides upstream version
