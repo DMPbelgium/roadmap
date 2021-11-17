@@ -51,8 +51,8 @@
     </p><br>
   <% end %>
 
-  <% if @plan.grant_number.present? %>
-     <p><b><%= _("Grant number / URL: ") %></b><%= @plan.grant_number %></p> <br>
+  <% if @plan.grant.present? %>
+     <p><b><%= _("Grant number / URL: ") %></b><%= @plan.grant.value %></p> <br>
   <% end %>
   <% if @plan.id.present? %>
     <p><b><%= _("ID: ") %></b><%= @plan.id %></p> <br>
