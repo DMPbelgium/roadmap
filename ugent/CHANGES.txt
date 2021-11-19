@@ -83,7 +83,7 @@
 
   To be removed when issue is solved and branch merged
 
-  KEEP FOR NOW
+  KEEP FOR NOW BECAUSE STILL NOT CORRECT
 
 - app/views/branded/org_admin/shared/_theme_selector.html.erb
 
