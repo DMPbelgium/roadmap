@@ -180,6 +180,13 @@ module DMPRoadmap
     # regardless of the plans visibility and whether or not the plan has been shared
     config.x.plans.super_admins_read_all = true
 
+    # --------------------------------------------------- #
+    # Machine Actionable / Networked DMP Features (maDMP) #
+    # --------------------------------------------------- #
+    config.x.madmp.enable_ethical_issues = true
+    # no web interface to create ResearchDomain?
+    config.x.madmp.enable_research_domain = false
+
     # ---------------------------------------------------- #
     # CACHING - all values are in seconds (86400 == 1 Day) #
     # ---------------------------------------------------- #
