@@ -15,7 +15,6 @@
       </tr>
     </thead>
     <tbody>
-      <% tmp_new_plan = Plan.new %>
       <% signed_in = user_signed_in? %>
       <% scope.each do |template| %>
         <tr id="<%= dom_id(template) %>">

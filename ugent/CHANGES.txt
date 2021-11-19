@@ -109,15 +109,6 @@
 
   * themes with title "https://w3id.org/GDPRtEXT#*" are ugent specific
 
-- app/views/branded/plans/_project_details.html.erb
-
-  overrides app/views/plans/_project_details.html.erb
-
-  changes:
-
-  * use shared/org_selectors/local_only instead of shared/org_selectors/combined
-    so only local (funder) organisations are choosen
-
 - app/views/branded/devise/registrations/edit.html.erb
 
   removed tab (and tab content) for password
