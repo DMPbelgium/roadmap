@@ -322,7 +322,7 @@ end
 def projects_ld(org)
 
   # org.plans is not an active relation, so eager loading is not possible here
-  org.plans
+  org.org_admin_plans
      .includes(
        { answers: :notes },
        { roles: {
