@@ -3,7 +3,7 @@ Description=roadmap
 After=network.target
 
 [Service]
-Type=forking
+Type=simple
 # default configuration file (required)
 EnvironmentFile=/opt/roadmap/ugent/etc/systemd/roadmap.conf
 # optional configuration file (overrides previous settings)
@@ -11,7 +11,7 @@ EnvironmentFile=-/etc/sysconfig/roadmap.conf
 User=roadmap
 Group=roadmap
 # other puma options are controlled by config/puma.rb and env.sh
-ExecStart=/opt/roadmap/bin/start --daemon --pidfile /opt/roadmap/tmp/app.pid --redirect-append --redirect-stdout $SERVER_ACCESS_LOG --redirect-stderr $SERVER_ERROR_LOG
+ExecStart=/opt/roadmap/bin/start --pidfile /opt/roadmap/tmp/app.pid --redirect-append --redirect-stdout $SERVER_ACCESS_LOG --redirect-stderr $SERVER_ERROR_LOG
 # remark: "/bin/kill -USR1 $MAINPID" actually kills main process
 #ExecReload=/opt/roadmap/bin/pumactl restart
 PIDFile=/opt/roadmap/tmp/app.pid
