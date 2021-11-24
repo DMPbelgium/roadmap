@@ -428,11 +428,6 @@
 
   adds extra sentence: "Collaborators with permissions "co-owner" and "editor" will be mentioned as "principal investigator" and "project administrator" respectively on the plan"
 
-  sets html flag "required=true" for fields email and access. Without this,
-    the method roles_controller.rb#create crashes
-
-    see PR https://github.com/DMPRoadmap/roadmap/pull/2874 where those html flags are also added
-
 - app/views/branded/plans/_navigation.html.erb
 
   hide link to tab "contributors"
@@ -440,9 +435,6 @@
 - app/views/branded/layouts/_navigation.html.erb
 
   disable link to page /public_plans
-  disable link to /public_templates when PlanPolicy does not allow it
-    reason for this is that users of org "guests" are not allowed
-    to create plans (see override of PlanPolicy in config/initializers/ugent.rb)
 
   see previous
 
@@ -454,7 +446,10 @@
     see previous
 
   after a while we decided to hide the link to "create plan".
-  reason: selection procedure is different from the plan creation wizard.
+  reason: only the raw funder template is selected, while
+          in the plan creation wizard one may receive
+          the customized version of that funder template
+          based on your chosen organisation
 
 - app/views/branded/contributors/_form.html.erb
 
@@ -481,6 +476,8 @@
 
   Default EnvironmentFile, to be used in /etc/systemd/system/roadmap.service.
   Overrides must be put in /etc/sysconfig/roadmap.conf at the server.
+
+  Note that `env.sh` in the root folder is also used.
 
 - ugent/public/packs and ugent/public/assets
 
