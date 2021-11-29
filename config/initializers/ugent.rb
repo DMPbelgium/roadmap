@@ -247,7 +247,7 @@ class Plan
       title: title,
       description: description,
       identifier: identifier,
-      grant_number: grant_number,
+      grant_number: grant&.value,
       collaborators: roles.map { |role|
         # collaborators -> plan.roles -> old project groups
         u = role.user
