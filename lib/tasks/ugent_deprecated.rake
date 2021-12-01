@@ -371,7 +371,7 @@ namespace :ugent do
 
         else
 
-          Org.find_each do |org|
+          Org.where(managed: true).find_each do |org|
 
             export_org_projects(org)
 
