@@ -151,7 +151,7 @@ Changes to the core dmproadmap
   not be.
 
   For example: we added a model `Ugent::OrgDomain`
-    that list domain names per organisation.
+    that lists domain names per organisation.
     This way we can match an email's domain
     to an organisation during user creation.
 
