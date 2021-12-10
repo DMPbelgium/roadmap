@@ -217,7 +217,7 @@ See also `ugent/CHANGES.txt` for detailed information
 
   this directory is added to `.gitignore` by the base repo
   we add additional `.gitignore` files in these directories directly
-  to override this.
+  to override this, and so reinclude these.
 
   See also https://github.com/DMPRoadmap/roadmap/wiki/Branding
 
@@ -245,6 +245,12 @@ See also `ugent/CHANGES.txt` for detailed information
   Adds additional gems
   Loaded from `Gemfile`
 
+* `Gemfile`
+
+  File from base repository.
+  We add an extra line to include `Gemfile.local`
+  Make sure this remains true when merging the upstream branch
+
 * `config/initializers/rails_admin.rb`
 
   Adds [RailsAdmin](https://github.com/sferik/rails_admin)
@@ -261,6 +267,16 @@ See also `ugent/CHANGES.txt` for detailed information
   Bash environment file
 
   Automatically included by `bin/start`
+
+  This is usefull to set the environment correctly before starting
+  the application or use any of its command line tools.
+
+  e.g.
+
+  ```
+  . env.sh
+  bin/rails console
+  ```
 
 * `ugent/public`
 
