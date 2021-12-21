@@ -354,6 +354,18 @@
 
   if removed, also remove load statement from config/initializers/ugent.rb
 
+- app/views/branded/orgs/_profile_form.html.erb
+
+  overrides app/views/orgs/_profile_form.html.erb
+
+  disables partial app/views/orgs/_external_identifiers.html.erb
+
+  with one could edit the org identifiers, which only allowed for
+  one identifier per scheme. If you had multiple per scheme,
+  it would only save one. e.g. Org "UGent" has two shibboleth identifiers
+
+  Id management should be done in /admin/identifier
+
 - app/views/branded/shared/_sign_in_form.html.erb
   app/views/branded/shared/_dev_sign_in_form.html.erb
   app/views/branded/shared/_access_controls.html.erb
