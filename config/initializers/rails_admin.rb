@@ -30,7 +30,7 @@ RailsAdmin.config do |config|
     dashboard                     # mandatory
     index                         # mandatory
     new do
-      only %w(Ugent::OrgDomain Ugent::RestUser)
+      only %w(Ugent::OrgDomain Ugent::RestUser Identifier)
     end
     export
     bulk_delete do
@@ -38,10 +38,10 @@ RailsAdmin.config do |config|
     end
     show
     edit do
-      only %w(Question QuestionOption Ugent::OrgDomain Ugent::RestUser)
+      only %w(Question QuestionOption Ugent::OrgDomain Ugent::RestUser Identifier)
     end
     delete do
-      only %w(Ugent::OrgDomain Ugent::RestUser)
+      only %w(Ugent::OrgDomain Ugent::RestUser Identifier)
     end
     show_in_app
   end
@@ -57,8 +57,56 @@ RailsAdmin.config do |config|
     :Question,
     :Theme,
     :QuestionOption,
-    :Guidance
+    :Guidance,
+    :Identifier,
+    :User
   ]
+
+  config.model "User" do
+
+    navigation_label "Organisation management"
+    label "User"
+    label_plural "Users"
+
+  end
+
+  config.model "Identifier" do
+
+    navigation_label "Organisation management"
+    label "Identifier"
+    label_plural "Identifiers"
+
+    weight 0
+    object_label_method :value
+
+    list do
+      field :id
+      field :identifier_scheme
+      field :identifiable
+      field :identifiable_type do
+        filterable true
+      end
+      field :value
+      field :created_at
+      field :updated_at
+    end
+
+    show do
+      field :id
+      field :identifier_scheme
+      field :value
+      field :created_at
+      field :updated_at
+    end
+
+    edit do
+      field :identifier_scheme
+      field :value
+      field :identifiable
+      field :attrs
+    end
+
+  end
 
   config.model "Org" do
 
@@ -73,6 +121,7 @@ RailsAdmin.config do |config|
       field :id
       field :name
       field :abbreviation
+      field :managed
       field :created_at
       field :updated_at
     end

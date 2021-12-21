@@ -117,6 +117,26 @@ Changes to the core dmproadmap
   P.S. the old contributor tab is still available for inspection
        replace the last part "/share" by "/contributors"
 
+* Disabled form on org admin edit form to edit identifiers
+
+  Roadmap only allows for one identifier per scheme per associated
+  record.
+
+  e.g. an "Org" can only have one identifier of identifier_scheme "shibboleth"
+
+  We have one party that is part of Ghent University,
+  but still has its own shibboleth identity provider: uzgent.
+  They also share the same templates as such.
+
+  For this we had to disable the uniqueness check on identifiers.
+  (see config/initializers/ugent.rb)
+
+  The org admin edit form allows admins to edit the shibboleth idp
+  but provides only one input per schema. If you have multiple in store
+  and you hit save, you lose the second one.
+
+  Id management should be done in /admin/identifier
+
 * Changed pdf/word export of a plan
 
   The default dmproadmap lists the names of the
