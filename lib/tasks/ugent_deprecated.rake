@@ -357,6 +357,34 @@ def projects_ld(org)
 
 end
 
+def cleanup_org_projects(org, max = 14)
+
+  org_dir = org.internal_export_dir
+
+  begin
+
+    files = Dir.glob(File.join(org_dir,"*","*","projects_*.json"))
+               .sort
+               .reverse
+
+    if files.size > max
+
+      files_to_delete = files.slice!(0, files.size - max)
+
+      files_to_delete.each do |f|
+        $stderr.puts "deleting #{f}"
+      end
+
+    end
+
+    files.each do |f|
+      $stderr.puts "found #{f}"
+    end
+
+  end
+
+end
+
 namespace :ugent do
 
   namespace :export do
@@ -374,6 +402,30 @@ namespace :ugent do
           Org.where(managed: true).find_each do |org|
 
             export_org_projects(org)
+
+          end
+
+        end
+
+      end
+
+  end
+
+  namespace :cleanup do
+
+    desc "cleanup projects for organisations"
+      task :projects, [:id] => :environment do |t,args|
+
+        if args[:id].present?
+
+          org = Org.find(args[:id])
+          cleanup_org_projects(org, 0)
+
+        else
+
+          Org.where(managed: true).find_each do |org|
+
+            cleanup_org_projects(org, 0)
 
           end
 
