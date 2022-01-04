@@ -319,14 +319,6 @@ class Plan
         name: funder.name
       }
 
-    elsif funder_name.present?
-
-      pr[:funder] = {
-        type: nil,
-        id: nil,
-        name: funder_name
-      }
-
     else
 
       pr[:funder] = nil
