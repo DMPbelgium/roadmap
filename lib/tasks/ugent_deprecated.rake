@@ -357,28 +357,79 @@ def projects_ld(org)
 
 end
 
-def cleanup_org_projects(org, max = 14)
+def cleanup_org_projects(org, max = 30)
+
+  if max < 2
+    throw "max should be at least 2"
+  end
 
   org_dir = org.internal_export_dir
 
+  # cleanup <year>/<month>/projects_*.json
   begin
 
     files = Dir.glob(File.join(org_dir,"*","*","projects_*.json"))
                .sort
-               .reverse
 
     if files.size > max
 
       files_to_delete = files.slice!(0, files.size - max)
 
       files_to_delete.each do |f|
-        $stderr.puts "deleting #{f}"
+        File.delete(f)
+        $stderr.puts "deleted #{f}"
+      end
+
+      files.each do |f|
+        $stderr.puts "left: #{f}"
       end
 
     end
 
-    files.each do |f|
-      $stderr.puts "found #{f}"
+  end
+
+  # cleanup <year>/<month>/updated_projects_*.json
+  begin
+
+    files = Dir.glob(File.join(org_dir,"*","*","updated_projects_*.json"))
+               .sort
+
+    if files.size > max
+
+      files_to_delete = files.slice!(0, files.size - max)
+
+      files_to_delete.each do |f|
+        File.delete(f)
+        $stderr.puts "deleted #{f}"
+      end
+
+      files.each do |f|
+        $stderr.puts "left: #{f}"
+      end
+
+    end
+
+  end
+
+  # cleanup <year>/<month>/deleted_projects_*.json
+  begin
+
+    files = Dir.glob(File.join(org_dir,"*","*","deleted_projects_*.json"))
+               .sort
+
+    if files.size > max
+
+      files_to_delete = files.slice!(0, files.size - max)
+
+      files_to_delete.each do |f|
+        File.delete(f)
+        $stderr.puts "deleted #{f}"
+      end
+
+      files.each do |f|
+        $stderr.puts "left: #{f}"
+      end
+
     end
 
   end
@@ -419,13 +470,13 @@ namespace :ugent do
         if args[:id].present?
 
           org = Org.find(args[:id])
-          cleanup_org_projects(org, 0)
+          cleanup_org_projects(org)
 
         else
 
           Org.where(managed: true).find_each do |org|
 
-            cleanup_org_projects(org, 0)
+            cleanup_org_projects(org)
 
           end
 
