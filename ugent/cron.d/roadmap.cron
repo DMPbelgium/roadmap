@@ -8,3 +8,4 @@ PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin:/usr/local/sbin
 
 0 0 * * * roadmap cd /opt/roadmap && bin/rails stat:build
 0 20 * * * roadmap /opt/roadmap/ugent/bin/daily_export_projects
+0 0 * * * roadmap /opt/roadmap/ugent/bin/daily_cleanup_projects
