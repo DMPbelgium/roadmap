@@ -535,3 +535,29 @@
 - ugent/cron.d/roadmap.cron
 
   cronjob that is moved to /etc/cron.d/roadmap in the rpm
+
+  internally used cronjobs are:
+
+  * ugent/bin/daily_export_projects:
+
+    * for every managed Org creates "<year>/<month>/projects_<timestamp>.json" in /opt/dmponline_internal/<org.abbrevation>
+
+      this lists every "project" at that moment for that organisation
+
+    * for every managed Org creates "<year>/<month>/updated_projects_<timestamp>.json" in /opt/dmponline_internal/<org.abbrevation>
+
+      this lists every new "project" since the latest full dump (see above)
+
+    * for every managed Org creates "<year>/<month>/projects_<timestamp>.json" in /opt/dmponline_internal/<org.abbrevation>
+
+      this lists all deleted projects. Only id's are given.
+
+  * ugent/bin/daily_cleanup_projects
+
+    this makes that only a maximum of json export files per organisation are kept
+
+    this maximum is 30 by default.
+
+    this means that by default 30 full exports are kept
+
+  only used for Sharepoint integration of UGent
