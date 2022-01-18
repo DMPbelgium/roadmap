@@ -183,7 +183,7 @@ module DMPRoadmap
     # --------------------------------------------------- #
     # Machine Actionable / Networked DMP Features (maDMP) #
     # --------------------------------------------------- #
-    config.x.madmp.enable_ethical_issues = true
+    config.x.madmp.enable_ethical_issues = false
     # no web interface to create ResearchDomain?
     config.x.madmp.enable_research_domain = false
 
