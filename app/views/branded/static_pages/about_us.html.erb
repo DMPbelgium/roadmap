@@ -1,3 +1,8 @@
+<%
+  # Override the default Rails route helper for the contact_us page IF an alternate contact_us url was defined
+  # in the dmproadmap.rb initializer
+  contact_us = Rails.configuration.x.organisation.contact_us_url || contact_us_path
+%>
 <% title _('About %{application_name}') % { application_name: ApplicationService.application_name } %>
 <div class="row">
   <div class="col-md-12">
@@ -10,7 +15,7 @@
     <div>
         <p>Properly managing research data starts with good planning, for example by preparing a data management plan (DMP). This is a document that specifies how you will handle your data during and after a research project. International and local funding bodies increasingly require their researchers to produce DMPs, but preparing a plan is good practice for any research project generating data.</p>
 
-        <h2 class="fontsize-h3"><%= _('DMP Background') %></h2>
+        <h2 class="fontsize-h3">Background</h2>
 
         <p><%= _("The Digital Curation Centre and UC3 team at the California Digital Library have developed and delivered tools for data management planning since the advent of open data policies in 2011. ")%>
           <%= link_to "DMPonline", "https://DMPonline.dcc.ac.uk/" %><%=_(" (DCC-UK) and ") %><%= link_to "DMPTool", "https://dmptool.org/" %>
@@ -27,7 +32,7 @@
           In September 2021, the DMPbelgium instance was updated to the DMPRoadmap codebase, with local customisations. All data is hosted on Belnet servers, and we share the source code for any extensions on Github.
         </p>
 
-        <p>DMPonline.be offers common DMP templates (e.g. for external research funders relevant to the Belgian context) alongside institutional templates and guidance. Through a collaborative approach, a duplication of efforts can be avoided, costs can be saved and expertise can be shared for the maintenance and further development of the tool (e.g. processing of new releases, development of new features). If you are interested in becoming a member of DMPonline.be, please contact us.</p>
+        <p>DMPonline.be offers common DMP templates (e.g. for external research funders relevant to the Belgian context) alongside institutional templates and guidance. Through a collaborative approach, a duplication of efforts can be avoided, costs can be saved and expertise can be shared for the maintenance and further development of the tool (e.g. processing of new releases, development of new features). If you are interested in becoming a member of DMPonline.be, please <a href="<%= contact_us %>">contact us</a>.</p>
 
         <h2 class="fontsize-h3"><%= _('Getting Started') %></h2>
 
@@ -35,7 +40,7 @@
 
         <p>If your institution is not a member of DMPbelgium, you can sign in with ORCID and view plans that have been shared with you, but you will not be able to create new plans yourself.</p>
 
-        <p>If you have any questions or comments about DMPonline.be, or if your institution would like to become a member of DMPbelgium, please contact us.</p>
+        <p>If you have any questions or comments about DMPonline.be, or if your institution would like to become a member of DMPbelgium, please <a href="<%= contact_us %>">contact us</a>.</p>
 
     </div>
   </div>
