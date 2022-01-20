@@ -14,6 +14,10 @@
 
   make sure to keep this one while merging with upstream repo
 
+- app/views/branded/static_pages/about_us.html.erb
+
+  overrides app/views/static_pages/about_us.html.erb
+
 - app/views/branded/static_pages/help.html.erb
 
   overrides app/views/static_pages/help.html.erb
