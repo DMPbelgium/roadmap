@@ -13,6 +13,15 @@ require "template"
 require "contributor"
 require "role"
 require "plan_policy"
+require "plan_exports_controller"
+
+class PlanExportsController
+
+  def file_name
+    "plan_#{@plan.id}_phase_#{@selected_phase.id}"
+  end
+
+end
 
 class PlanPolicy
 
