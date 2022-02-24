@@ -194,6 +194,10 @@ end
 
 class Plan
 
+  # add missing length validation
+  # underlying table attribute only allows for 255 characters
+  validates :name, length: { maximum: 255 }
+
   def gdpr?
 
     # get gdpr question

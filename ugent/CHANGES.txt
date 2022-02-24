@@ -139,6 +139,17 @@
 
 - config/initializers/ugent.rb
 
+  * add missing length validation to Plan#title
+
+    cf. https://github.com/DMPbelgium/roadmap/issues/29
+    cf. https://github.com/DMPRoadmap/roadmap/issues/3068
+
+    without this one cannot save the plan with a title
+    longer than 255 characters as the underlying table
+    only allows for 255 characters
+
+    remove when needed as soon as fixed upstream
+
   * add method Contributor#to_user that fetches
     user record, based on shared email attribute
 
