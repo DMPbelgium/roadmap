@@ -79,16 +79,6 @@
 
   sets path of wkhtmltopdf (like in DMPonline_v4)
 
-- app/views/branded/user_mailer/permissions_change_notification.html.erb
-
-  overrides app/views/user_mailer/permissions_change_notification.html.erb
-
-  Fixes issue locally https://github.com/DMPRoadmap/roadmap/issues/2955
-
-  To be removed when issue is solved and branch merged
-
-  KEEP FOR NOW BECAUSE STILL NOT CORRECT
-
 - app/views/branded/org_admin/shared/_theme_selector.html.erb
 
   overrides app/views/org_admin/shared/_theme_selector.html.erb
