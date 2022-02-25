@@ -117,9 +117,6 @@
 
   removed tab (and tab content) for password
 
-  prematurely fix issue #629 by applying fix from https://github.com/DMPRoadmap/roadmap/pull/3047
-    (branch development, not yet in master branch)
-
 - app/views/branded/devise/registrations/_personal_details.html.erb
 
   email: readonly (+class form-control-plaintext)
