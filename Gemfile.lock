@@ -1,10 +1,3 @@
-GIT
-  remote: https://github.com/mileszs/wicked_pdf
-  revision: 2b1d47a84fce3600e7cbe2f50843af1a7b84d4a6
-  specs:
-    wicked_pdf (2.1.0)
-      activesupport
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -173,9 +166,9 @@ GEM
     faraday-net_http_persistent (1.2.0)
     faraday-patron (1.0.0)
     faraday-rack (1.0.0)
-    file_utils (1.1.2)
     faraday-retry (1.0.3)
     ffi (1.15.5)
+    file_utils (1.1.2)
     flag_shih_tzu (0.3.23)
     fog-aws (3.13.0)
       fog-core (~> 2.1)
@@ -403,8 +396,8 @@ GEM
       ffi (~> 1.0)
     recaptcha (5.8.1)
       json
-    remotipart (1.4.4)
     regexp_parser (2.2.1)
+    remotipart (1.4.4)
     responders (3.0.1)
       actionpack (>= 5.0)
       railties (>= 5.0)
@@ -540,6 +533,8 @@ GEM
     websocket-driver (0.7.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
+    wicked_pdf (2.1.0)
+      activesupport
     wkhtmltopdf-binary (0.12.6.5)
     xpath (3.2.0)
       nokogiri (~> 1.8)
@@ -634,7 +629,7 @@ DEPENDENCIES
   webdrivers
   webmock
   webpacker
-  wicked_pdf!
+  wicked_pdf
   wkhtmltopdf-binary
   yard
   yard-tomdoc
