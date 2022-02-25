@@ -112,6 +112,10 @@ module DMPRoadmap
 
     config.x.application.restrict_orgs = true
 
+    # Setting require contributor requirement of contributor name and email
+    config.x.application.require_contributor_name = true
+    config.x.application.require_contributor_email = true
+
     # ------------------- #
     # SHIBBOLETH SETTINGS #
     # ------------------- #
