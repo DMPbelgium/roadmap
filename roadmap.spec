@@ -88,7 +88,7 @@ export RAILS_ENV=production
 gem install bundler:2.1.4
 
 # fix ruby version from 2.6.3 (not in scl) to 2.6.2
-sed -i 's/ruby ">= 2.6.3"/ruby ">= 2.6.2"/' Gemfile
+sed -i "s/ruby '>= 2.6.3'/ruby '>= 2.6.2'/" Gemfile
 
 # fix issue https://github.com/DMPRoadmap/roadmap/issues/3004
 sed -i 's/config.log_level = :debug/config.log_level = :warn/' config/environments/production.rb
