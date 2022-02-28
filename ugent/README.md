@@ -251,6 +251,12 @@ See also `ugent/CHANGES.txt` for detailed information
   We add an extra line to include `Gemfile.local`
   Make sure this remains true when merging the upstream branch
 
+  IMPORTANT: look at ugent/CHANGES.txt for notes about changes
+             to Gemfile. If you have merged upstream changes
+             it is possible that, for example, gem "wicked_pdf"
+             is loaded from the main gem repository, which is
+             a problem (see notes in that file about wicked_pdf)
+
 * `config/initializers/rails_admin.rb`
 
   Adds [RailsAdmin](https://github.com/sferik/rails_admin)
