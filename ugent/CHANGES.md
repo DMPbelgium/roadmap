@@ -199,3 +199,5 @@ Changes to the core dmproadmap
           in the plan creation wizard one may receive
           the customized version of that funder template
           based on your chosen organisation
+
+* add list of templates for your organisation on page /public_templates
