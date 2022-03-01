@@ -14,6 +14,14 @@
 
   make sure to keep this one while merging with upstream repo
 
+- app/views/branded/public_pages/template_index.html.erb
+
+  overrides app/views/public_pages/template_index.html.erb
+
+  changes title and description above table of funder templates
+
+  adds, if logged in, an extra table with templates for your organisation
+
 - app/views/branded/static_pages/about_us.html.erb
 
   overrides app/views/static_pages/about_us.html.erb
