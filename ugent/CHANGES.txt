@@ -14,6 +14,14 @@
 
   make sure to keep this one while merging with upstream repo
 
+- app/views/branded/plans/_project_details.html.erb
+
+  overrides app/views/plans/_project_details.html.erb
+
+  changes:
+
+  - variable content "id_tooltip"
+
 - app/views/branded/public_pages/template_index.html.erb
 
   overrides app/views/public_pages/template_index.html.erb
