@@ -14,6 +14,22 @@
 
   make sure to keep this one while merging with upstream repo
 
+- app/views/branded/plans/_project_details.html.erb
+
+  overrides app/views/plans/_project_details.html.erb
+
+  changes:
+
+  - variable content "id_tooltip"
+
+- app/views/branded/public_pages/template_index.html.erb
+
+  overrides app/views/public_pages/template_index.html.erb
+
+  changes title and description above table of funder templates
+
+  adds, if logged in, an extra table with templates for your organisation
+
 - app/views/branded/static_pages/about_us.html.erb
 
   overrides app/views/static_pages/about_us.html.erb
@@ -79,16 +95,6 @@
 
   sets path of wkhtmltopdf (like in DMPonline_v4)
 
-- app/views/branded/user_mailer/permissions_change_notification.html.erb
-
-  overrides app/views/user_mailer/permissions_change_notification.html.erb
-
-  Fixes issue locally https://github.com/DMPRoadmap/roadmap/issues/2955
-
-  To be removed when issue is solved and branch merged
-
-  KEEP FOR NOW BECAUSE STILL NOT CORRECT
-
 - app/views/branded/org_admin/shared/_theme_selector.html.erb
 
   overrides app/views/org_admin/shared/_theme_selector.html.erb
@@ -116,9 +122,6 @@
 - app/views/branded/devise/registrations/edit.html.erb
 
   removed tab (and tab content) for password
-
-  prematurely fix issue #629 by applying fix from https://github.com/DMPRoadmap/roadmap/pull/3047
-    (branch development, not yet in master branch)
 
 - app/views/branded/devise/registrations/_personal_details.html.erb
 
@@ -490,6 +493,14 @@
   replaces shared/org_selector/combined by shared/org_selector/local_only
   because we only allow for local organisations
 
+- app/views/branded/user_mailer/plan_visibility.html.erb
+
+  overrides app/views/user_mailer/plan_visibility.html.erb
+
+  removes list option for public plans (because we do not support)
+
+  removes footer documentation about "My Dashboard"
+
 - app/views/branded/user_mailer/_email_signature.html.erb
 
   overrides app/views/user_mailer/_email_signature.html.erb
@@ -533,10 +544,16 @@
   * changed gem "wicked_pdf" to higher version than 2.1.0 by pointing directly
     to the (unreleased) master branch
 
+    gem 'wicked_pdf', git: "https://github.com/mileszs/wicked_pdf"
+
     Reason: when you try to access any page, the page load takes forever,
     and finally stops with an SystemStackError.
 
     See also: https://github.com/DMPRoadmap/roadmap/issues/2793
+
+    a ruby crash report with something like "vm_call_cfunc - cfp consistency error"
+
+    also to do with this.
 
   * config/initializes/rails_admin.rb
 

@@ -2,11 +2,12 @@
   # Override the default Rails route helper for the contact_us page IF an alternate contact_us url was defined
   # in the dmproadmap.rb initializer
   contact_us = Rails.configuration.x.organisation.contact_us_url || contact_us_path
+  root_link  = link_to(ApplicationService.application_name, root_url).html_safe
 %>
 <% title _('About %{application_name}') % { application_name: ApplicationService.application_name } %>
 <div class="row">
   <div class="col-md-12">
-    <h1><%= _('About %{application_name}') % { application_name: ApplicationService.application_name } %></h1>
+    <h1>About us</h1>
   </div>
 </div>
 
@@ -17,30 +18,41 @@
 
         <h2 class="fontsize-h3">Background</h2>
 
-        <p><%= _("The Digital Curation Centre and UC3 team at the California Digital Library have developed and delivered tools for data management planning since the advent of open data policies in 2011. ")%>
-          <%= link_to "DMPonline", "https://DMPonline.dcc.ac.uk/" %><%=_(" (DCC-UK) and ") %><%= link_to "DMPTool", "https://dmptool.org/" %>
-            are established as key resources for researchers seeking guidance in creating DMPs. These institutions have worked together from the outset to share experiences, but with the explosion of interest in both of the tools across the globe they formalized their partnership to co-develop and maintain a single open-source platform for DMPs: DMPRoadmap. The source code has been made available under a MIT License to permit others to reuse the code freely.
+        <p>
+          The Digital Curation Centre and UC3 team at the California Digital Library have developed and delivered tools for data management planning since the advent of open data policies in 2011. DMPonline (DCC-UK) and DMPTool (CDL-US) are established as key resources for researchers seeking guidance in creating DMPs. These institutions have worked together from the outset to share experiences, but with the explosion of interest in both of the tools across the globe they formalized their partnership to co-develop and maintain a single open-source platform for DMPs: DMPRoadmap. The source code has been made available under a MIT License to permit others to reuse the code freely. 
         </p>
 
         <h2 class="fontsize-h3">Belgian installation: dmponline.be</h2>
 
-        <p>In 2015, Ghent University Library installed a local instance of DMPonline (version 4.1 released by the Digital Curation Centre in May 2015) to customise the tool for its researchers. From its inception, DMPonline.be was also set up as a pilot for a fully localised, collective version of the tool for research and educational institutions in Belgium.</p>
+        <p>In 2015, Ghent University Library installed a local instance of DMPonline (version 4.1 released by the Digital Curation Centre in May 2015) to customise the tool for its researchers. From its inception, <%= root_link %> was also set up as a pilot for a fully localised, collective version of the tool for research and educational institutions in Belgium.</p>
 
-        <p>In January 2017, the DMPbelgium Consortium was founded by Universiteit Gent, Instituut voor Natuur- en Bosonderzoek, Universiteit Antwerpen, Universiteit Hasselt, Université Libre de Bruxelles, Vrije Universiteit Brussel en Wetenschappelijk Instituut Volksgezondheid - Institut Scientifique de Santé Publique (Sciensano) to develop DMPonline.be into a shared data management planning tool for users from participating institutions. In 2018, the consortium expanded to include Université Catholique de Louvain, Université de Liège, Université de Mons, Université de Namur and Vlaamse Instelling voor Technologisch Onderzoek. Since then the DMPbelgium Consortium was joined by Arteveldehogeschool, Instituut voor Landbouw- Visserij- en Voedingsonderzoek, Universitair Ziekenhuis Gent, Vlaams Instituut voor de Zee, Vlerick Business School and Hogeschool Gent.</p>
+        <p>In January 2017, the DMPbelgium Consortium was founded by Universiteit Gent, Instituut voor Natuur- en Bosonderzoek, Universiteit Antwerpen, Universiteit Hasselt, Université Libre de Bruxelles, Vrije Universiteit Brussel en Wetenschappelijk Instituut Volksgezondheid - Institut Scientifique de Santé Publique (Sciensano) to develop <%= root_link %> into a shared data management planning tool for users from participating institutions. In 2018, the consortium expanded to include Université Catholique de Louvain, Université de Liège, Université de Mons, Université de Namur and Vlaamse Instelling voor Technologisch Onderzoek. Since then the DMPbelgium Consortium was joined by Arteveldehogeschool, Instituut voor Landbouw- Visserij- en Voedingsonderzoek, Universitair Ziekenhuis Gent, Vlaams Instituut voor de Zee, Vlerick Business School and Hogeschool Gent.</p>
 
         <p>
-          In September 2021, the DMPbelgium instance was updated to the DMPRoadmap codebase, with local customisations. All data is hosted on Belnet servers, and we share the source code for any extensions on Github.
+          In September 2021, the DMPbelgium instance was updated to the DMPRoadmap codebase, with local customisations. All data is hosted on Belnet servers, and we share the source code for any extensions on <a href="https://github.com/DMPbelgium/roadmap">Github</a>.
         </p>
 
-        <p>DMPonline.be offers common DMP templates (e.g. for external research funders relevant to the Belgian context) alongside institutional templates and guidance. Through a collaborative approach, a duplication of efforts can be avoided, costs can be saved and expertise can be shared for the maintenance and further development of the tool (e.g. processing of new releases, development of new features). If you are interested in becoming a member of DMPonline.be, please <a href="<%= contact_us %>">contact us</a>.</p>
+        <p>
+          As of 2022, Belnet assumes full ownership of <%= root_link %>, and continues the successful road of the DMPbelgium Consortium, which ensure the ability to continue to extend the usage of the DMPonline.be Belgium consortium to more users, without the need to join the consortium. Consortium members have become Belnet customers of <%= root_link %>, and new customers are being added.
+        </p>
+
+        <p>
+          Belnet wants to ensure continuity of the platform, making sure the latest available releases are being deployed, and new functionality can be added upon need of the Belgian community of users.
+        </p>
+
+        <p>
+          <%= root_link %> offers common DMP templates (e.g. for external research funders relevant to the Belgian context) alongside institutional templates and guidance. Through a collaborative approach, a duplication of efforts can be avoided, costs can be saved and expertise can be shared for the maintenance and further development of the tool (e.g. processing of new releases, development of new features). If you are interested in becoming a user of <%= root_link %>, please contact <a href="<%= contact_us %>">servicedesk@belnet.be</a>.
+        </p>
 
         <h2 class="fontsize-h3"><%= _('Getting Started') %></h2>
 
-        <p>If you have a valid institutional email from a DMPbelgium member that is part of the Belnet Federation, you can sign in and start. If your institution is a member of the DMPbelgium but not part of the Belnet Federation, you can sign in via ORCID. When you sign in, you will be directed to your profile page. From there you can easily navigate to the 'My Dashboard' menu on top to edit, share, export or delete any of your plans. You will also see plans that have been shared with you by others. Please visit the 'Help' page for guidance.</p>
+        <p>
+          If you would like to use <%= root_link %>, you can take contact with Belnet so that Belnet can onboard your organization. If you are part of the Belnet R&E Federation, you can sign in and start. If your institution is not part of the Belnet R&E Federation, you can sign in via ORCID. When you sign in, you will be directed to your profile page. From there you can easily navigate to the <a href="<%= plans_path %>">My Dashboard</a> menu on top to edit, share, export or delete any of your plans. You will also see plans that have been shared with you by others. Please visit the <a href="<%= help_path %>">Help</a> page for guidance. You may also want to consult the <a href="https://belnet.be/en/services-identity-mobility-federation-dmponlinebe/dmponlinebe-admin-faq">Admin FAQ</a> or <a href="https://belnet.be/en/services-identity-mobility-federation-dmponlinebe/dmponlinebe-technical-faq">Technical FAQ</a> on the Belnet website.
+        </p>
 
-        <p>If your institution is not a member of DMPbelgium, you can sign in with ORCID and view plans that have been shared with you, but you will not be able to create new plans yourself.</p>
+        <p>If your institution is not a customer of <%= root_link %>, you can sign in with ORCID and view plans that have been shared with you, but you will not be able to create new plans yourself.</p>
 
-        <p>If you have any questions or comments about DMPonline.be, or if your institution would like to become a member of DMPbelgium, please <a href="<%= contact_us %>">contact us</a>.</p>
+        <p>If you have any questions or comments about <%= root_link %>, or if your institution would like to become a user of <%= root_link %>, please <a href="<%= contact_us %>">contact us</a>.</p>
 
     </div>
   </div>

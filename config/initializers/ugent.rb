@@ -1196,7 +1196,7 @@ end
 class PlanPolicy
 
   def update_role_with_contributor?
-    @plan.administerable_by?(@user.id)
+    @record.administerable_by?(@user.id)
   end
 
 end
