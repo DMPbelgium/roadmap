@@ -38,7 +38,8 @@ module DMPRoadmap
     # This email is used in email communications
     config.x.organisation.helpdesk_email = "servicedesk@belnet.be"
     # Your organisation's telephone number - used on the contact us page
-    config.x.organisation.telephone = "+32 2 790 33 33"
+    #config.x.organisation.telephone = "+32 2 790 33 33"
+    config.x.organisation.telephone = ""
     # Your organisation's address - used on the contact us page
     config.x.organisation.address = {
       line1: "WTC III",
