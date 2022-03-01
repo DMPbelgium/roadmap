@@ -29,7 +29,7 @@
 <%
   if user_signed_in?
 
-    organisation_templates = ::Template.latest_version_per_org(current_user.org_id)
+    organisation_templates = ::Template.families([current_user.org_id])
                                        .published
 %>
 
