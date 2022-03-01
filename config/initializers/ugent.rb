@@ -14,11 +14,21 @@ require "contributor"
 require "role"
 require "plan_policy"
 require "plan_exports_controller"
+require 'plans_helper'
+
+module PlansHelper
+
+  def download_plan_page_title(plan, phase, hash)
+    # If there is more than one phase show the plan title and phase title
+    hash[:phases].many? ? "#{plan.title} <p>#{phase[:title]}</p>".html_safe : plan.title
+  end
+
+end
 
 class PlanExportsController
 
   def file_name
-    "plan_#{@plan.id}_phase_#{@selected_phase.id}"
+    "plan_#{@plan.id}_phase_#{@selected_phase.id}_#{@plan.updated_at.utc.strftime("%Y%m%dT%H%M%SZ")}"
   end
 
 end
