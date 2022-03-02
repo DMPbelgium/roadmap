@@ -179,9 +179,23 @@ Role.after_destroy do |role|
 
 end
 
-# if role is deactivated, do NOT REMOVE associated contributor
-# reason: role is still visible in the tab "share" to other that
-# still have access to that plan
+# if role is deactivated, also remove associated contributor
+Role.after_save do |role|
+
+  next if role.active?
+
+  plan = role.plan
+  user = role.user
+  contributor = plan.contributors
+                    .select { |contributor| contributor.email == user.email }
+                    .first
+
+  next if contributor.nil?
+
+  Rails.logger.info("Role #{role} is deactivated, so removing associated contributor #{contributor}")
+  contributor.destroy
+
+end
 
 class Template
 
