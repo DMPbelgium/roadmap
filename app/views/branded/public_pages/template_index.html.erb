@@ -21,7 +21,7 @@
         action: 'publicly_visible',
         remote: false,
         scope: @templates,
-        query_params: @templates_query_params) %>
+        query_params: { page: "ALL" }) %>
     <% end %>
   </div>
 </div>
@@ -52,7 +52,7 @@
           action: 'publicly_visible',
           remote: false,
           scope: organisation_templates,
-          query_params: @templates_query_params) %>
+          query_params: { page: "ALL" }) %>
       <% end %>
     </div>
   </div>
