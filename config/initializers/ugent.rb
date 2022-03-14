@@ -227,6 +227,13 @@ end
 
 class Plan
 
+  # until https://github.com/DMPRoadmap/roadmap/pull/3127 is merged
+  def shared?
+    roles.select(&:active).reject(&:creator).any?
+  end
+  # redefine alias, as "shared" still has a pointer to the old method "shared?"
+  alias shared shared?
+
   # add missing length validation
   # underlying table attribute only allows for 255 characters
   validates :name, length: { maximum: 255 }
