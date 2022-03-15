@@ -262,7 +262,7 @@ class Plan
 
     pgs = []
 
-    roles.each do |role|
+    roles.select(&:active).each do |role|
 
       # project group directly from role
       # only one flag can be choosen from the gui
@@ -277,7 +277,6 @@ class Plan
         pg[:access_level] = "owner"
       elsif role.administrator
         pg[:access_level] = "co_owner"
-        return :co_owner
       elsif role.editor
         pg[:access_level] = "editor"
       else
@@ -417,9 +416,7 @@ class Plan
 
     pr[:plans] = []
 
-    plan_answers = answers.all
-
-    question_formats = QuestionFormat.all
+    @@question_formats ||= QuestionFormat.all
 
     template.phases.each do |phase|
 
@@ -449,7 +446,7 @@ class Plan
                .sort { |a,b| a.number <=> b.number }
                .each do |question|
 
-          question_format = question_formats.select { |qf| qf.id == question.question_format_id }.first
+          question_format = @@question_formats.select { |qf| qf.id == question.question_format_id }.first
 
           q = {
             id: question.id,
@@ -494,7 +491,7 @@ class Plan
           }
 
           # select answer from plan related answers we have precollected
-          answer = plan_answers.select { |a| a.question_id == question.id }.first
+          answer = answers.select { |a| a.question_id == question.id }.first
 
           if question_format.option_based?
 
@@ -843,6 +840,12 @@ end
 class Org
 
   has_many :domains, class_name: "Ugent::OrgDomain"
+
+  def org_admin_plan_ids
+
+    (native_plan_ids + affiliated_plan_ids).flatten.uniq
+
+  end
 
   # users whose email address does not belong to any organisation domains
   # become part of the guest org
