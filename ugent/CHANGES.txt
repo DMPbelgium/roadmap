@@ -212,7 +212,7 @@
       - app/controllers/ugent/internal/exports_controller.rb
       - app/models/ugent/rest_user.rb
 
-  * adds method Role.code_access_level
+  * adds method Plan#old_project_groups
 
     only used in Plan.ld (see above)
 
