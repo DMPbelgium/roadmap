@@ -43,28 +43,6 @@ class PlanPolicy
 
 end
 
-# To remove when Ugent::Internal::ExportsController is removed
-class Role
-
-  # Purpose: access level to be shown in internal_exports_controller per Role
-  #   taken from old ProjectGroup
-  def code_access_level
-    if creator
-      return :owner
-    elsif administrator
-      return :co_owner
-    elsif editor
-      return :editor
-    elsif commenter
-      return :commenter
-    elsif reviewer
-      return :reviewer
-    end
-    :read_only
-  end
-
-end
-
 class Contributor
 
   # update contributor based on user data
@@ -277,6 +255,100 @@ class Plan
 
   end
 
+  # in old dmponline_v4 there was a ProjectGroup per user per access level
+  # while in roadmap only one user per contributor, and one user per role
+  # need to split this out
+  def old_project_groups
+
+    pgs = []
+
+    roles.each do |role|
+
+      # project group directly from role
+      # only one flag can be choosen from the gui
+      pg = {
+        type: "ProjectGroup",
+        access_level: "owner",
+        created_at: role.created_at.utc.strftime("%FT%TZ"),
+        updated_at: role.updated_at.utc.strftime("%FT%TZ")
+      }
+
+      if role.creator
+        pg[:access_level] = "owner"
+      elsif role.administrator
+        pg[:access_level] = "co_owner"
+        return :co_owner
+      elsif role.editor
+        pg[:access_level] = "editor"
+      else
+        pg[:access_level] = "read_only"
+      end
+
+      user_hash = {}
+      u = role.user
+
+      unless u.nil?
+
+        orcid = u.identifier_orcid
+
+        user_hash = {
+          id: u.id,
+          type: "User",
+          created_at: u.created_at.utc.strftime("%FT%TZ"),
+          updated_at: u.updated_at.utc.strftime("%FT%TZ"),
+          email: u.email,
+          # dmponline_v4 did not store the prefix
+          orcid: orcid.present? ? orcid.value.sub("https://orcid.org/","") : nil
+        }
+
+      end
+
+      pg[:user] = user_hash
+
+      pgs << pg
+
+      # project groups from associated contributors
+      # per contributor, multiple flags can be choosen
+      if u.present?
+
+        contributors.select { |c| c.email == u.email }
+                    .each do |contributor|
+
+          pg_base = {
+            type: "ProjectGroup",
+            user: user_hash,
+            access_level: nil,
+            created_at: contributor.created_at.utc.strftime("%FT%TZ"),
+            updated_at: contributor.updated_at.utc.strftime("%FT%TZ")
+          }
+
+          if contributor.investigation?
+
+            pg = pg_base.dup
+            pg[:access_level] = "principal_investigator"
+            pgs << pg
+
+          end
+
+          if contributor.data_curation?
+
+            pg = pg_base.dup
+            pg[:access_level] = "data_contact"
+            pgs << pg
+
+          end
+
+        end
+
+
+      end
+
+    end
+
+    return pgs
+
+  end
+
   # To remove when Ugent::Internal::ExportsController is removed
   def ld
 
@@ -292,33 +364,7 @@ class Plan
       description: description,
       identifier: identifier,
       grant_number: grant&.value,
-      collaborators: roles.map { |role|
-        # collaborators -> plan.roles -> old project groups
-        u = role.user
-        pg_r = {
-          type: "ProjectGroup",
-          user: nil,
-          access_level: role.code_access_level,
-          created_at: role.created_at.utc.strftime("%FT%TZ"),
-          updated_at: role.updated_at.utc.strftime("%FT%TZ")
-        }
-        unless u.nil?
-
-          orcid = u.identifier_orcid
-
-          pg_r[:user] = {
-            id: u.id,
-            type: "User",
-            created_at: u.created_at.utc.strftime("%FT%TZ"),
-            updated_at: u.updated_at.utc.strftime("%FT%TZ"),
-            email: u.email,
-            # dmponline_v4 did not store the prefix
-            orcid: orcid.present? ? orcid.value.sub("https://orcid.org/","") : nil
-          }
-
-        end
-        pg_r
-      },
+      collaborators: old_project_groups,
       organisation: nil,
       plans: []
     }
