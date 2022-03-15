@@ -321,31 +321,40 @@ end
 
 def projects_ld(org)
 
-  # org.plans is not an active relation, so eager loading is not possible here
-  org.org_admin_plans
-     .includes(
-       { answers: :notes },
-       { roles: {
-           user: [:identifiers, :perms]
-         }
-       },
-       { template: [
-           :org,
-           {
-             phases: {
-               sections: {
-                 questions: [
-                   :annotations,
-                   { question_options: :themes },
-                   :themes
-                 ]
-               }
-             }
-           }
-         ]
-       }
-     )
-     .find_each(batch_size: 100) do |plan|
+  org_admin_plan_ids = org.org_admin_plan_ids # keep this method in line with Org#org_admin_plans (see ugent.rb)
+
+  while org_admin_plan_ids.size > 0
+
+    plan_ids = org_admin_plan_ids.shift(100)
+
+    includes = [
+      { answers: [
+          :notes,
+          :user,
+          :question_options
+        ]
+      },
+      { roles: { user: [:identifiers, :perms] } },
+      { template: [
+          :org,
+          {
+            phases: {
+              sections: {
+                questions: [
+                  :annotations,
+                  { question_options: :themes },
+                  :themes
+                ]
+              }
+            }
+          }
+        ]
+      }
+    ]
+
+    Plan.includes(*includes)
+        .where(id: plan_ids)
+        .each do |plan|
 
        next if plan.is_test?
 
@@ -354,6 +363,8 @@ def projects_ld(org)
        end
 
      end
+
+  end
 
 end
 
