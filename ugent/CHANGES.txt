@@ -492,15 +492,6 @@
 
   see previous
 
-- app/views/branded/paginable/plans/_privately_visible.html.erb
-
-  overrides app/views/branded/plans/_privately_visible.html.erb
-
-  prematurely fixes https://github.com/DMPRoadmap/roadmap/issues/3121
-
-  to be removed when https://github.com/DMPRoadmap/roadmap/pull/3122 is merged
-  in upstream branch development, and merged back here
-
 - app/views/branded/paginable/templates/_publicly_visible.html.erb
 
   overrides app/views/paginable/templates/_publicly_visible.html.erb
