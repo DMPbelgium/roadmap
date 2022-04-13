@@ -142,12 +142,6 @@
 
 - config/initializers/ugent.rb
 
-  * override method Plan#shared?
-
-    until PR https://github.com/DMPRoadmap/roadmap/pull/3127 is merged
-
-    then also remove "alias shared shared?" just below it
-
   * add missing length validation to Plan#title
 
     cf. https://github.com/DMPbelgium/roadmap/issues/29
