@@ -221,6 +221,12 @@ See also `ugent/CHANGES.txt` for detailed information
 
   See also https://github.com/DMPRoadmap/roadmap/wiki/Branding
 
+  Note that any extra templates that are not in the base repository
+  are ALSO added here. The mere existence of a template so does
+  not always imply an accompanying source template
+
+  e.g. app/views/branded/shared/_dev_sign_in_form.html.erb
+
 * `config/initializers/ugent.rb`
 
   Reopens existing ruby models/controllers and changes/add methods
