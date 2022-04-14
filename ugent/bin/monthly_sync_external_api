@@ -1,0 +1,15 @@
+#!/bin/bash
+
+cd `dirname $0`/../..
+
+[ -f env.sh ] && . env.sh
+
+export RAILS_ENV=production
+
+. ugent/bin/utils.sh
+
+lock_file
+
+bin/rails external_api:load_rdamsc_standards
+bin/rails external_api:load_re3data_repos
+bin/rails external_api:load_spdx_licenses
