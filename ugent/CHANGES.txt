@@ -142,6 +142,12 @@
 
 - config/initializers/ugent.rb
 
+  * change firstname and surname to "N.N" during user invitation
+
+    reason: roles_controller.rb sets firstname to "Firstname",
+    and surname to "Surname", which is different from our approach,
+    and would create two approaches to handling empty user fields.
+
   * add missing length validation to Plan#title
 
     cf. https://github.com/DMPbelgium/roadmap/issues/29
