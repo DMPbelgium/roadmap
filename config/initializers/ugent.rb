@@ -826,6 +826,11 @@ end
 # skip invitation email
 User.before_invitation_created do |user|
 
+  # fix auto generated names (during invitation in roles controller)
+  # fix this in User.before_validation does not work (not validated?)
+  user.firstname = User.nemo if user.firstname == "First Name"
+  user.surname   = User.nemo if user.surname == "Surname"
+
   user.skip_invitation = true
 
 end
