@@ -8,10 +8,10 @@ ContactUs.setup do |config|
   # If emails must be sent from a verified email address you may set it here.
   # Example:
   # config.mailer_from = "contact@please-change-me.com"
-  config.mailer_from = "info@dmponline.be"
+  config.mailer_from = "servicedesk@belnet.be"
 
   # Configure the e-mail address which should receive the contact form email notifications.
-  config.mailer_to = "info@dmponline.be"
+  config.mailer_to = "servicedesk@belnet.be"
 
   # ==> Form Configuration
 
