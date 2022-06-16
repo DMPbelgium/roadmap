@@ -22,6 +22,14 @@
 
   to be removed when PR is merged
 
+- app/views/branded/phases/_edit_plan_answers.html.erb
+
+  overrides app/views/phases/_edit_plan_answers.html.erb
+
+  preliminary fix for PR https://github.com/DMPRoadmap/roadmap/pull/3184
+
+  to be removed when PR is merged
+
 - app/views/branded/research_outputs/metadata_standards/_search_result.html.erb
 
   overrides app/views/research_outputs/metadata_standards/_search_result.html.erb
