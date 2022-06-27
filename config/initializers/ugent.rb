@@ -1108,11 +1108,19 @@ module Users
       end
 
       # User is not logged in
+      email = auth["info"]["email"]
 
       # Match orcid with one of more users
       selectable_users = Identifier.where(identifiable_type: "User", identifier_scheme_id: scheme.id, value: full_uid)
                                    .map(&:identifiable)
                                    .reject(&:nil?)
+
+      # Also match on primary email address
+      # as the user may be registered before with another email
+      # address, and he/she is stuck
+      selectable_users += User.where(email: email).all
+
+      selectable_users.uniq!
 
       # TODO: create controller
       if selectable_users.size > 1
@@ -1124,8 +1132,6 @@ module Users
       end
 
       Rails.logger.info("selectable_users: #{selectable_users.map(&:attributes)}")
-
-      email = auth["info"]["email"]
 
       user = selectable_users.first
 
