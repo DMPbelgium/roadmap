@@ -23,6 +23,13 @@ module PlansHelper
     hash[:phases].many? ? "#{plan.title} <p>#{phase[:title]}</p>".html_safe : plan.title
   end
 
+  def display_user(user)
+    if user.id == current_user.id
+      return _("You")
+    end
+    user.email
+  end
+
 end
 
 class PlanExportsController
