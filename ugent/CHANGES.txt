@@ -14,6 +14,12 @@
 
   make sure to keep this one while merging with upstream repo
 
+- app/views/branded/paginable/plans/_privately_visible.html.erb
+
+  overrides app/views/paginable/plans/_privately_visible.html.erb
+
+  adds column "owner", makes use of new method PlansHelper#display_user
+
 - app/views/branded/org_admin/questions/_show.html.erb
 
   overrides app/views/org_admin/questions/_show.html.erb
