@@ -35,7 +35,83 @@ end
 class PlanExportsController
 
   def file_name
-    "plan_#{@plan.id}_phase_#{@selected_phase.id}_#{@plan.updated_at.utc.strftime("%Y%m%dT%H%M%SZ")}"
+    p = "plan_#{@plan.id}"
+    if @selected_phases.length == 1
+      p += "_phase_#{@selected_phases.first.id}"
+    end
+    p += "_#{@plan.updated_at.utc.strftime("%Y%m%dT%H%M%SZ")}"
+    p
+  end
+
+  def show
+
+    # COPY FROM ORIGINAL PlanExportsController#show
+    @plan = Plan.includes(:answers, { template: { phases: { sections: :questions } } })
+                .find(params[:plan_id])
+
+    if privately_authorized? && export_params[:form].present?
+      skip_authorization
+
+      @show_coversheet         = export_params[:project_details].present?
+      @show_sections_questions = export_params[:question_headings].present?
+      @show_unanswered         = export_params[:unanswered_questions].present?
+      @show_custom_sections    = export_params[:custom_sections].present?
+      @show_research_outputs   = export_params[:research_outputs].present?
+      @public_plan             = false
+
+    elsif publicly_authorized?
+      skip_authorization
+
+      @show_coversheet         = true
+      @show_sections_questions = true
+      @show_unanswered         = true
+      @show_custom_sections    = true
+      @show_research_outputs   = @plan.research_outputs&.any? || false
+      @public_plan             = true
+
+    else
+
+      raise Pundit::NotAuthorizedError
+
+    end
+
+    @formatting      = export_params[:formatting] || @plan.settings(:export).formatting
+    @selected_phases = if params.key?(:phase_id)
+                          @plan.phases.where(id: params[:phase_id]).all
+                       else
+                          @plan.phases.sort { |a,b| b.date_updated <=> a.date_updated }
+                                     .select { |p| p.visibility_allowed?(@plan) }
+                       end
+
+    respond_to do |format|
+      format.html {
+        @hash = @plan.as_pdf(current_user, @show_coversheet)
+        show_html
+      }
+      format.csv  { show_csv }
+      format.text {
+        @hash = @plan.as_pdf(current_user, @show_coversheet)
+        show_text
+      }
+      format.docx {
+        @hash = @plan.as_pdf(current_user, @show_coversheet)
+        show_docx
+      }
+      format.pdf  {
+        @hash = @plan.as_pdf(current_user, @show_coversheet)
+        show_pdf
+      }
+      format.json { show_json }
+    end
+  end
+
+  def show_csv
+    send_data @plan.as_csv(current_user, @show_sections_questions,
+                           @show_unanswered,
+                           @selected_phases,
+                           @show_custom_sections,
+                           @show_coversheet),
+              filename: "#{file_name}.csv"
   end
 
 end
@@ -211,6 +287,48 @@ class Template
 end
 
 class Plan
+
+  def as_pdf(user, coversheet = false)
+    prepare(user, coversheet)
+  end
+
+  def as_csv(user,
+             headings = true,
+             unanswered = true,
+             selected_phases = nil,
+             show_custom_sections = true,
+             show_coversheet = false)
+
+    hash = prepare(user, show_coversheet)
+    CSV.generate do |csv|
+      prepare_coversheet_for_csv(csv, headings, hash) if show_coversheet
+
+      hdrs = (hash[:phases].many? ? [_('Phase')] : [])
+      hdrs << if headings
+                [_('Section'), _('Question'), _('Answer')]
+              else
+                [_('Answer')]
+              end
+
+      customization = hash[:customization]
+
+      csv << hdrs.flatten
+      selected_phase_titles = selected_phases.map(&:title)
+      hash[:phases].each do |phase|
+        next unless selected_phase_titles.include?(phase[:title])
+
+        phase[:sections].each do |section|
+          show_section = !customization
+          show_section ||= customization && !section[:modifiable]
+          show_section ||= customization && section[:modifiable] && show_custom_sections
+
+          if show_section && num_section_questions(self, section, phase).positive?
+            show_section_for_csv(csv, phase, section, headings, unanswered, hash)
+          end
+        end
+      end
+    end
+  end
 
   # add missing length validation
   # underlying table attribute only allows for 255 characters

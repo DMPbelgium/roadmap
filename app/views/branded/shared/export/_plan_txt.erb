@@ -34,9 +34,10 @@ Project Administrator: <%= admins.map { |c| c.to_user.name(false) }.join(", ").h
 <%= "----------------------------------------------------------\n" %>
 <% end %>
 
+<% selected_phase_titles = @selected_phases.map(&:title) %>
 <% @hash[:phases].each do |phase| %>
 <%# Only render selected phase %>
-<% if phase[:title] == @selected_phase.title %>
+<% if selected_phase_titles.include?(phase[:title]) %>
 <%= (@hash[:phases].many? ? "#{phase[:title]}" : "") %>
   <% phase[:sections].each do |section| %>
     <% if display_section?(@hash[:customization], section, @show_custom_sections) && num_section_questions(@plan, section, phase) > 0 %>
