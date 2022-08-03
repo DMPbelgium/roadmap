@@ -14,6 +14,15 @@
 
   make sure to keep this one while merging with upstream repo
 
+- app/views/branded/shared/export/_plan.erb
+
+  overrides app/views/shared/export/_plan.erb
+
+  uses @selected_phases instead of @selected_phase
+  as determined by overridden controller PlanExportsController.
+
+  See config/initializer/ugent.rb
+
 - app/views/branded/plans/_download_form.html.erb
 
   overrides app/views/plans/_download_form.html.erb
@@ -95,6 +104,8 @@
   * show all contributor roles
   * remove unclear line "ID's" (orcid ids) that does not show
     who these id's belong to
+  * uses @selected_phases instead of @selected_phase as determined by overridden controller PlanExportsController.
+    See config/initializer/ugent.rb
 
 - app/views/branded/home/_welcome.html.erb
 
@@ -279,6 +290,12 @@
     and sets the rest of the attributes from role.user
 
   * adds PlanPolicy#update_role_with_contributor? for new controller method Ugent::RolesController#update_role_with_contributor
+
+  * change download file name from sanitized title to "plan_<id>.pdf"
+    see `PlanExportsController#file_name`
+
+  * override `PlanExportsController#show` to make selection of multiple phases possible
+    see also `Plan#as_csv`
 
 - app/controllers/ugent/legacy/projects_controller.rb
 
