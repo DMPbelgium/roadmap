@@ -136,3 +136,29 @@
       class: "btn btn-primary has-new-window-popup-info",
       type: "submit") %>
 <% end %>
+
+<script type="text/javascript">
+  (function($){
+
+      $(document).ready(function() {
+
+          let selector_phases = "input[name=phase_id\\[\\]]";
+
+          $(selector_phases).on("change", function(evt) {
+
+              let selected_phases = $(selector_phases).filter(":checked");
+              let submit = $("button[name=button]");
+
+              if(selected_phases.length > 0){
+                submit.removeAttr("disabled");
+              }
+              else {
+                submit.attr("disabled", "disabled");
+              }
+
+          })
+
+      });
+
+  })(jQuery);
+</script>
