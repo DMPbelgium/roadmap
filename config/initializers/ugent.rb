@@ -79,8 +79,7 @@ class PlanExportsController
     @selected_phases = if params.key?(:phase_id)
                           @plan.phases.where(id: params[:phase_id]).all
                        else
-                          @plan.phases.sort { |a,b| b.date_updated <=> a.date_updated }
-                                     .select { |p| p.visibility_allowed?(@plan) }
+                          @plan.phases.sort { |a,b| b.updated_at <=> a.updated_at }
                        end
 
     respond_to do |format|
