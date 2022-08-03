@@ -287,10 +287,6 @@ end
 
 class Plan
 
-  def as_pdf(user, coversheet = false)
-    prepare(user, coversheet)
-  end
-
   def as_csv(user,
              headings = true,
              unanswered = true,
