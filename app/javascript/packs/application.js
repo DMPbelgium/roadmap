@@ -56,7 +56,7 @@ import '../src/orgs/shibbolethDs';
 import '../src/plans/download';
 import '../src/plans/editDetails';
 import '../src/plans/index.js.erb';
-import '../src/plans/new';
+import '../src/ugent/plans/new'; // ugent override
 import '../src/plans/share';
 import '../src/publicTemplates/show';
 import '../src/researchOutputs/form';
