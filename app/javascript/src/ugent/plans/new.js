@@ -64,11 +64,15 @@ $(() => {
     const data = {
       plan: {},
     };
-    if (orgId.length > 0) {
-      data.plan.research_org_id = orgId;
+    if (isString(orgId) && orgId.length > 0 && orgId !== '{}') {
+      data.plan.research_org_id = JSON.parse(orgId);
+    } else {
+      data.plan.research_org_id = 'none';
     }
-    if (funderId.length > 0) {
-      data.plan.funder_id = funderId;
+    if (isString(funderId) && funderId.length > 0 && funderId !== '{}') {
+      data.plan.funder_id = JSON.parse(funderId);
+    } else {
+      data.plan.funder_id = 'none';
     }
 
     // Fetch the available templates based on the funder and research org selected

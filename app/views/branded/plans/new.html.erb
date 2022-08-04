@@ -53,7 +53,7 @@
            <select name="plan[org][id]" id="plan_org_id" class="form-control">
              <option value="">--Select primary research organisation--</option>
            <% @orgs.each do |org| %>
-             <option value="<%= org.id %>" <% if default_org.present? && default_org.id == org.id %>selected<% end %>>
+             <option value="<%= org.to_json %>" <% if default_org.present? && default_org.id == org.id %>selected<% end %>>
                <%= org.name %>
              </option>
            <% end %>
@@ -79,7 +79,7 @@
           <select name="plan[funder][id]" id="plan_funder_id" class="form-control">
             <option value="">--Select funder--</option>
           <% @funders.each do |funder| %>
-            <option value="<%= funder.id %>">
+            <option value="<%= funder.to_json %>">
             <%= funder.name %>
             </option>
           <% end %>
