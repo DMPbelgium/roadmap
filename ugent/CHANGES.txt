@@ -14,6 +14,43 @@
 
   make sure to keep this one while merging with upstream repo
 
+- app/javascript/packs/application.js
+
+  replaced import of plans/new.js by ugent/plans/new.js (see further):
+
+    -import '../src/plans/new';
+    +import '../src/ugent/plans/new'; // ugent override
+
+  make sure this replacement stays on upstream merge
+
+- app/javascript/src/ugent/plans/new.js
+
+  replacement for app/javascript/src/plans/new.js
+
+  inserted into app/javascript/packs/application.js (see above)
+
+  expected by override template app/views/branded/plans/new.html.erb (see below):
+    expects #plan_org_id and #plan_funder_id to be select boxes,
+    instead of autocomplete inputs!
+
+- app/views/branded/plans/new.html.erb
+
+  overrides app/views/plans/new.html.erb
+
+  makes sure that research org id and funder id taken
+  from a preselected list, and are presented in a select box
+
+  IMPORTANT: both TemplateOptionsController#index and
+             PlansController#create use an org selector
+             that expects a hash with "id", "name" ..
+             instead of just an id. Providing just "id"
+             returns an empty match, because it does not
+             match on "name" also (weird);
+
+             that is why the values of select boxes
+             plan[org][id] and plan[funder][id] contain
+             JSON values!
+
 - app/views/branded/shared/export/_plan.erb
 
   overrides app/views/shared/export/_plan.erb
