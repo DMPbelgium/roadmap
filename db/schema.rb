@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_15_104737) do
+ActiveRecord::Schema.define(version: 2022_08_12_124800) do
 
   create_table "annotations", id: :integer, force: :cascade do |t|
     t.integer "question_id"
@@ -143,6 +143,7 @@ ActiveRecord::Schema.define(version: 2022_03_15_104737) do
     t.string "identifiable_type"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string "label"
     t.index ["identifiable_type", "identifiable_id"], name: "index_identifiers_on_identifiable_type_and_identifiable_id"
     t.index ["identifier_scheme_id", "identifiable_id", "identifiable_type"], name: "index_identifiers_on_scheme_and_type_and_id"
     t.index ["identifier_scheme_id", "value"], name: "index_identifiers_on_identifier_scheme_id_and_value"
@@ -625,8 +626,6 @@ ActiveRecord::Schema.define(version: 2022_03_15_104737) do
     t.index ["user_id"], name: "index_users_perms_on_user_id"
   end
 
-  add_foreign_key "annotations", "orgs"
-  add_foreign_key "annotations", "questions"
   add_foreign_key "answers", "plans"
   add_foreign_key "answers", "questions"
   add_foreign_key "answers", "users"

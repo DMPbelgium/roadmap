@@ -86,6 +86,7 @@ RailsAdmin.config do |config|
       field :identifiable_type do
         filterable true
       end
+      field :label
       field :value
       field :created_at
       field :updated_at
@@ -94,6 +95,7 @@ RailsAdmin.config do |config|
     show do
       field :id
       field :identifier_scheme
+      field :label
       field :value
       field :created_at
       field :updated_at
@@ -101,6 +103,7 @@ RailsAdmin.config do |config|
 
     edit do
       field :identifier_scheme
+      field :label
       field :value
       field :identifiable
       field :attrs
