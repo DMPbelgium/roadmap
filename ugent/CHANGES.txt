@@ -14,6 +14,22 @@
 
   make sure to keep this one while merging with upstream repo
 
+- db/migrate/20220812124800_ugent_identifier_label.rb
+
+  Identifier#label
+
+  adds attribute/column "label" to tabel "identifiers"
+
+  this way we can add a label to identifiers
+
+  use case: wayfless entities are stored in identifiers
+    with identifiable_type "Org" and identifier_scheme.name == "shibboleth".
+    but if you want to create a list of login routes,
+    there is no way to refer to them other than to use
+    the associated org name. Because we associate for "UGent"
+    more than one login route (i.e. identifier), we
+    need to add a label to the identifier itself.
+
 - app/javascript/packs/application.js
 
   replaced import of plans/new.js by ugent/plans/new.js (see further):

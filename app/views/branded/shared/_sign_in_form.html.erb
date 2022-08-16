@@ -14,16 +14,11 @@
         <% identifiers = org.identifiers.select { |id| id.identifier_scheme_id == scheme.id } %>
         <% next if identifiers.empty? %>
 
-        <% org_has_multiple_ids = identifiers.size > 1 %>
-
         <% identifiers.each do |id| %>
-
-          <% label = org.name %>
-          <% label += " (#{URI(id.value).host})" if org_has_multiple_ids %>
 
           <% p = { target: user_shibboleth_omniauth_callback_url, entityID: id.value } %>
           <% l = (Rails.configuration.x.shibboleth.login_url + "?#{p.to_query.html_safe}") %>
-          <li><%= link_to(label, l, method: :post) %></li>
+          <li><%= link_to(id.label, l, method: :post) %></li>
 
         <% end %>
 

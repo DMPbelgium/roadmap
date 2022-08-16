@@ -223,6 +223,14 @@ Identifier.after_save do |id|
 
 end
 
+# automatically take label from org when no label is provided
+Identifier.before_save do |id|
+  next unless id.identifiable_type == "Org"
+  next unless id.identifier_scheme.name == "shibboleth"
+  next if id.label.present?
+  id.label = id.identifiable.name
+end
+
 # if role is removed, automatically remove associated contributor
 Role.after_destroy do |role|
 
