@@ -298,6 +298,7 @@ ActiveRecord::Schema.define(version: 2022_08_12_124800) do
     t.text "ethical_issues_description"
     t.string "ethical_issues_report"
     t.integer "funding_status"
+    t.integer "api_client_id"
     t.index ["funder_id"], name: "index_plans_on_funder_id"
     t.index ["grant_id"], name: "index_plans_on_grant_id"
     t.index ["org_id"], name: "index_plans_on_org_id"
