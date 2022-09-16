@@ -21,11 +21,11 @@
 
     <p><b><%= _("Template: ") %></b><%= @hash[:template] + @hash[:customizer] %></p><br>
 
-  <% principal_investigators = @plan.contributors.investigation.all %>
+  <% principal_investigators = @plan.principal_investigators %>
   <% if principal_investigators.size > 0 %>
     <p>
       <b>Principal Investigator:</b>
-      <%= principal_investigators.map { |c| c.to_user.name_with_orcid }
+      <%= principal_investigators.map { |user| user.name_with_orcid }
                                  .join(", ")
                                  .html_safe %>
     </p><br>

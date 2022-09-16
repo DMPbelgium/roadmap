@@ -180,6 +180,7 @@ class Contributor
 
   # get User record for Contributor, based on email address
   def to_user
+    return nil if self.email.blank?
     User.where(email: self.email)
         .first
   end
@@ -747,6 +748,34 @@ class Plan
     end
 
     pr
+
+  end
+
+  def principal_investigators
+
+    all_investigators = contributors.all
+                                    .select { |c| c.investigation? }
+                                    .reject { |c| c.email.blank? }
+
+    emails = all_investigators.map(&:email).uniq
+
+    return [] if emails.empty?
+
+    user_records = User.where(email: emails).all
+
+    # make sure that the users are returned in same order
+    # as the corresponding contributors
+    users = []
+
+    all_investigators.each do |cc|
+      user_records.each do |u|
+        if u.email == cc.email
+          users << u
+        end
+      end
+    end
+
+    users
 
   end
 
