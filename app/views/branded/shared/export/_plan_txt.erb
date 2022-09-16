@@ -9,9 +9,9 @@
   <% else %>
 <%= _("Template: ") + @hash[:template] + @hash[:customizer] %>
   <% end %>
-<% principal_investigators = @plan.contributors.investigation.all %>
+<% principal_investigators = @plan.principal_investigators %>
 <% if principal_investigators.size > 0 %>
-Principal Investigator: <%= principal_investigators.map { |c| c.to_user.name(false) }.join(", ") %>
+Principal Investigator: <%= principal_investigators.map { |user| user.name(false) }.join(", ") %>
 <% end %>
 <% data_curators = @plan.contributors.data_curation.all %>
 <% if data_curators.size > 0 %>
