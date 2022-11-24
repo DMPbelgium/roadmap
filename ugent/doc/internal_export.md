@@ -215,3 +215,71 @@ Properties:
                         * `orcid`
                     * `archived_at`
                     * `archived`: `true|false`
+
+Usage
+-----
+
+In practice, these internal exports are only used by the Sharepoint Team
+
+of Ghent University, and we do not plan on supporting it for other
+
+organizations, given the fact that roadmap now has its own RDM API.
+
+We hope that the Sharepoint Team will eventually be able to adopt
+
+the newer RDM API once the standard includes the questions, answers and themes
+
+for every plan, which is not the case today.
+
+Software (files) and storage involved
+-------------------------------------
+
+- `config/application.rb`: includes an extra section at the end, enclosed with `# ugent: start` and `# ugent: end`, where extra routes are included. These extra routes are expected in `config/routes/*.rb` (see next). When merging upstream, keep in mind to preserve this section.
+
+- `config/routes/ugent.rb`: adds several internal routes. For this purpose we document the following:
+
+  - adds route `/internal/exports/v01/organisations/:abbreviation/:name.json` which links to method `show_link` in `app/controllers/ugent/internal/exports_controller.rb`. e.g. https://dmponline.be/internal/exports/v01/organisations/UGent/updated_projects.json. The method is called `show_link` because it provides a symbolic link to the latest export file with that name (see next).
+
+  - adds route `/internal/exports/v01/organisations/:abbreviation/:year/:month/:name.json` which links to method `show_file` in `app/controllers/ugent/internal/exports_controller.rb`. e.g. https://dmponline.be/internal/exports/v01/organisations/UGent/2021/11/projects_2021-11-20T19:00:17Z.json. This is the file that `show_link` links to.
+
+- `app/controllers/ugent/internal/exports_controller.rb`: ugent specific controller that implements above described routes. It reads JSON files from disk, and is protected by HTTP Basic Authentication. Credentials are stored in table `ugent_rest_users`, and is managed by model `UGent::RestUser`. The RailsAdmin route [/admin/ugent~rest_user](https://dmponline.be/admin/ugent~rest_user) provides a GUI to manage this
+
+- `app/models/ugent/rest_user.rb`: Rails model that manages table `ugent_rest_users`.
+
+- MySQL table `ugent_rest_users`. Note that this table is not created by any Rails migration. Table definition is stored in comment in the model file `app/models/ugent/rest_user.rb`
+
+- MySQL table `question_option_themes`. This table links question options to themes. This table is a local addition, and can only by managed via [/admin/question_option](https://dmponline.be/admin/question_option), and of course via calls like `my_question_option.themes << Theme.new`
+
+- `lib/tasks/ugent_deprecated.rake`: provides ruby rake tasks `ugent:export:projects` and `ugent:cleanup:projects`. That first task is the piece that generates the JSON files. The second one removes files and symbolic links older than a month
+
+- `ugent/bin/daily_export_projects`: bash script that acts as a wrapper to rake task `ugent:export:projects`. Its sets the environment, adds locking, and makes sure that the script is online run on the production web server.
+
+- `ugent/bin/daily_cleanup_projects`: bash script that acts as a wrapper to rake task `ugent:cleanup:projects`. Its sets the environment, adds locking, and makes sure that the script is online run on the production web server.
+
+- `ugent/cron.d/roadmap.cron`: cronjob configuration. Bash scripts `daily_export_projects` and `daily_cleanup_projects` are added here. MAILTO configures where the stdout and stderr is sent to. This file is copied by the RPM to `/etc/cron.d/roadmap` on the server itself, and therefore is not managed by Puppet.
+
+- directory (mount) `/opt/dmponline_internal`: directory where JSON export files and symbolic links are stored.
+
+- `config/initializers/ugent.rb`. Here the necessary methods are added to the models:
+
+  - `Theme.GDPR`: returns Theme with title `UGENT:DATA`. A question with this theme determines whether a plan can be gdpr related. Make sure that this theme stays in the table `themes`
+
+  - `Template#gdpr_question`: returns the first question from the template that has the gdpr theme. A question with this theme is expected to be of boolean nature, and therefore should be a question with options "Yes" and "No".
+
+  - `Template#gdpr_question?`: does the template have a question with gdpr? This question determines whether the plan is gdpr related or not.
+
+  - `Plan#gdpr?`: does the plan have a template with a gdpr question AND did the user answer "Yes" to that question? If "No", then the plan itself is NOT gdpr related.
+
+  - `Plan#old_project_groups`: mimics old model ProjectGroup from DMPonline_v4
+
+  - `Plan#ld_uri`
+
+  - `Plan#ld`: converts Plan record to a hash as needed by the export. Note that plans are called "projects" as was the case in the old DMPonline_v4
+
+  - `QuestionOption#deep_copy`: overrides method of the same, in order to copy the themes linked to that option. The base software does not provide this linkage. MySQL table `question_option_themes` stores these links
+
+  - `Org#internal_export_dir`: returns base directory where the JSON files for that organisation are stored (which is almost always `/opt/mponline_internal/<org_abbreviation>`)
+
+  - `Org#internal_export_url`: returns base url for that organisations exports. e.g. https://dmponline.be/internal/exports/v01/organisations/UGent
+
+  - `Org#internal_export_files`
