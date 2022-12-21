@@ -59,8 +59,17 @@ RailsAdmin.config do |config|
     :QuestionOption,
     :Guidance,
     :Identifier,
-    :User
+    :User,
+    :Plan
   ]
+
+  config.model "Plan" do
+
+    navigation_label "Plan management"
+    label "Plan"
+    label_plural "Plans"
+
+  end
 
   config.model "User" do
 
