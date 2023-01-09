@@ -201,3 +201,11 @@ Changes to the core dmproadmap
           based on your chosen organisation
 
 * add list of templates for your organisation on page /public_templates
+
+* Disabled research outputs
+
+  This is not really an adaption of the code,
+  but rather use of existing configuration.
+
+  This can be reenabled in `config/initializers/_dmproadmap_ugent.rb` by
+  settting `config.x.madmp.enable_research_outputs = true`
