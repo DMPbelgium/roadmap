@@ -209,3 +209,7 @@ Changes to the core dmproadmap
 
   This can be reenabled in `config/initializers/_dmproadmap_ugent.rb` by
   settting `config.x.madmp.enable_research_outputs = true`
+
+* always show phase title in the tab of the plan detail page.
+
+  the original show "Write plan" in the tab title when there is only one phase

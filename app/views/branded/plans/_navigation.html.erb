@@ -9,7 +9,7 @@
   <% phases.each do |phase| %>
     <li role="presentation" class="<%= (active_page?(edit_plan_path(plan.id, phase_id: phase.id)) ? 'active' : '') %>">
       <a href="<%= edit_plan_path(plan.id, phase_id: phase.id) %>" role="tab" aria-controls="content">
-        <%= (phases.size > 1 ? phase.title : _('Write Plan')) %>
+        <%= phase.title %>
       </a>
     </li>
   <% end %>

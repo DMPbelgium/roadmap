@@ -604,6 +604,11 @@
 
   hide link to tab "contributors"
 
+  always show phase title (original shows "Write plan" when there is only one phase).
+
+    cf. https://github.com/DMPbelgium/roadmap/issues/63
+    cf. https://github.com/DMPbelgium/roadmap/issues/20
+
 - app/views/branded/layouts/_navigation.html.erb
 
   disable link to page /public_plans
