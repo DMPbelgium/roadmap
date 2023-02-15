@@ -52,7 +52,7 @@
            <% default_org = @orgs.include?(current_user.org) ? current_user.org : nil %>
            <select name="plan[org][id]" id="plan_org_id" class="form-control">
              <option value="">--Select primary research organisation--</option>
-           <% @orgs.each do |org| %>
+             <% @orgs.select(&:managed?).each do |org| %>
              <option value="<%= org.to_json %>" <% if default_org.present? && default_org.id == org.id %>selected<% end %>>
                <%= org.name %>
              </option>
