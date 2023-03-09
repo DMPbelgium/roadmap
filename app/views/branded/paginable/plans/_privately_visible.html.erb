@@ -26,7 +26,11 @@
           <td><%= plan.template.title %></td>
           <td><%= l(plan.updated_at.to_date, formats: :short) %></td>
           <td><%= display_role(my_plan_roles.first) %></td>
-          <td><%= display_user(plan.owner) %></td>
+          <td>
+          <% if plan.owner.present? %>
+            <%= display_user(plan.owner) %>
+          <% end %>
+          </td>
           <td class="text-center">
             <% if plan.administerable_by?(current_user.id) then %>
               <%= check_box_tag :is_test, "1", (plan.visibility === "is_test"),
