@@ -35,12 +35,11 @@ $(() => {
         // otherwise show the dropdown list and the 'Multiple templates found message'
         if (data.templates.length === 1) {
           $('#plan_template_id option').attr('selected', 'true');
-          $('#multiple-templates').hide();
-          $('#available-templates').fadeOut();
+          $('#multiple-templates').hide()
         } else {
-          $('#multiple-templates').show();
-          $('#available-templates').fadeIn();
+          $('#multiple-templates').show()
         }
+        $('#available-templates').fadeIn();
         toggleSubmit();
       } else {
         error();

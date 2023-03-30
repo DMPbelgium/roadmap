@@ -59,6 +59,10 @@
     expects #plan_org_id and #plan_funder_id to be select boxes,
     instead of autocomplete inputs!
 
+  ensures that that template select box is always shown,
+
+  even when there is only one option to select
+
 - app/policies/api/v1/plans_policy.rb
 
   preliminary fix as done by https://github.com/DMPRoadmap/roadmap/pull/3209
