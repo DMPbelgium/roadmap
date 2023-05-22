@@ -1,3 +1,10 @@
+GIT
+  remote: https://github.com/mileszs/wicked_pdf
+  revision: 4abf255f47f7b3e10eaf5adedb5ada4b5b49ca2e
+  specs:
+    wicked_pdf (2.6.3)
+      activesupport
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -44,6 +51,10 @@ GEM
       globalid (>= 0.3.6)
     activemodel (6.1.7.3)
       activesupport (= 6.1.7.3)
+    activemodel-serializers-xml (1.0.2)
+      activemodel (> 5.x)
+      activesupport (> 5.x)
+      builder (~> 3.1)
     activerecord (6.1.7.3)
       activemodel (= 6.1.7.3)
       activesupport (= 6.1.7.3)
@@ -181,6 +192,7 @@ GEM
       faraday (>= 0.8)
     faraday-net_http (3.0.2)
     ffi (1.15.5)
+    file_utils (1.1.2)
     flag_shih_tzu (0.3.23)
     fog-aws (3.18.0)
       fog-core (~> 2.1)
@@ -293,6 +305,7 @@ GEM
     mysql2 (0.5.5)
     nap (1.1.0)
     nenv (0.3.0)
+    nested_form (0.3.2)
     nio4r (2.5.9)
     no_proxy_fix (0.1.2)
     nokogiri (1.14.3-arm64-darwin)
@@ -384,6 +397,12 @@ GEM
       nokogiri (>= 1.6)
     rails-html-sanitizer (1.5.0)
       loofah (~> 2.19, >= 2.19.1)
+    rails_admin (3.1.2)
+      activemodel-serializers-xml (>= 1.0)
+      kaminari (>= 0.14, < 2.0)
+      nested_form (~> 0.3)
+      rails (>= 6.0, < 8)
+      turbo-rails (~> 1.0)
     railties (6.1.7.3)
       actionpack (= 6.1.7.3)
       activesupport (= 6.1.7.3)
@@ -491,6 +510,9 @@ GEM
     unicode-display_width (2.4.2)
     uniform_notifier (1.16.0)
     uri_template (0.7.0)
+    validates_hostname (1.0.13)
+      activerecord (>= 3.0)
+      activesupport (>= 3.0)
     version_gem (1.1.2)
     warden (1.2.9)
       rack (>= 2.0.9)
@@ -511,8 +533,6 @@ GEM
     websocket-driver (0.7.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
-    wicked_pdf (2.6.3)
-      activesupport
     wkhtmltopdf-binary (0.12.6.6)
     xpath (3.2.0)
       nokogiri (~> 1.8)
@@ -524,6 +544,7 @@ GEM
 
 PLATFORMS
   arm64-darwin-21
+  arm64-darwin-22
   x86_64-linux
 
 DEPENDENCIES
@@ -551,6 +572,7 @@ DEPENDENCIES
   dragonfly-s3_data_store
   factory_bot_rails
   faker
+  file_utils
   flag_shih_tzu
   fuubar
   guard
@@ -580,6 +602,7 @@ DEPENDENCIES
   rack-mini-profiler
   rails (~> 6.1)
   rails-controller-testing
+  rails_admin
   recaptcha
   rollbar
   rspec-collection_matchers
@@ -594,10 +617,11 @@ DEPENDENCIES
   text
   translation
   turbo-rails
+  validates_hostname
   web-console
   webdrivers
   webmock
-  wicked_pdf
+  wicked_pdf!
   wkhtmltopdf-binary
   yard
   yard-tomdoc
