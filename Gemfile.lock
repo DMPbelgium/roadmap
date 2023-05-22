@@ -1,10 +1,3 @@
-GIT
-  remote: https://github.com/mileszs/wicked_pdf
-  revision: 769f9df487f3c1e31dc91431666baa78d2aa24fb
-  specs:
-    wicked_pdf (2.1.0)
-      activesupport
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -188,7 +181,6 @@ GEM
       faraday (>= 0.8)
     faraday-net_http (3.0.2)
     ffi (1.15.5)
-    file_utils (1.1.2)
     flag_shih_tzu (0.3.23)
     fog-aws (3.18.0)
       fog-core (~> 2.1)

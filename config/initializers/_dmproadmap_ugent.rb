@@ -75,7 +75,10 @@ module DMPRoadmap
     # The largest page size allowed in requests to the API (all versions)
     config.x.application.api_max_page_size = 100
     # The link to the API documentation - used in emails about the API
-    config.x.application.api_documentation_url = "https://github.com/DMPRoadmap/roadmap/wiki/API-Documentation"
+    config.x.application.api_documentation_url = {
+      v0: 'https://github.com/DMPRoadmap/roadmap/wiki/API-V0-Documentation',
+      v1: 'https://github.com/DMPRoadmap/roadmap/wiki/API-Documentation-V1'
+    }
     # The links that appear on the home page. Add any number of links
     config.x.application.welcome_links = [
       {
@@ -116,6 +119,10 @@ module DMPRoadmap
     # Setting require contributor requirement of contributor name and email
     config.x.application.require_contributor_name = true
     config.x.application.require_contributor_email = true
+
+    # Defines if Guidances/Comments in toggleable & if it's opened by default
+    config.x.application.guidance_comments_toggleable = false
+    config.x.application.guidance_comments_opened_by_default = false
 
     # ------------------- #
     # SHIBBOLETH SETTINGS #
@@ -191,6 +198,39 @@ module DMPRoadmap
     config.x.madmp.enable_ethical_issues = false
     # no web interface to create ResearchDomain?
     config.x.madmp.enable_research_domain = false
+
+    # This flag will enable/disable the entire Research Outputs tab. The others below will
+    # just enable/disable specific functionality on the Research Outputs tab
+    config.x.madmp.enable_research_outputs = true
+    config.x.madmp.enable_license_selection = true
+    config.x.madmp.enable_metadata_standard_selection = true
+    config.x.madmp.enable_repository_selection = true
+
+    # The following flags will allow the system to include the question and answer in the JSON output
+    #   - questions with a theme equal to 'Preservation'
+    config.x.madmp.extract_preservation_statements_from_themed_questions = false
+    #   - questions with a theme equal to 'Data Collection'
+    config.x.madmp.extract_data_quality_statements_from_themed_questions = false
+    #   - questions with a theme equal to 'Ethics & privacy' or 'Storage & security'
+    config.x.madmp.extract_security_privacy_statements_from_themed_questions = false
+
+    # Specify a list of the preferred licenses types. These licenses will appear in a select
+    # box on the 'Research Outputs' tab when editing a plan along with the option to select
+    # 'other'. When 'other' is selected, the user is presented with the full list of licenses.
+    #
+    # The licenses will appear in the order you specify here.
+    #
+    # Note that the values you enter must match the :identifier field of the licenses table.
+    # You can use the `%{latest}` markup in place of version numbers if desired.
+    config.x.madmp.preferred_licenses = [
+      'CC-BY-%{latest}',
+      'CC-BY-SA-%{latest}',
+      'CC-BY-NC-%{latest}',
+      'CC-BY-NC-SA-%{latest}',
+      'CC-BY-ND-%{latest}',
+      'CC-BY-NC-ND-%{latest}',
+      'CC0-%{latest}'
+    ]
 
     # ---------------------------------------------------- #
     # CACHING - all values are in seconds (86400 == 1 Day) #
