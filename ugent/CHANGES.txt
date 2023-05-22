@@ -28,7 +28,15 @@
 
   * overrides methods of Users::OmniauthCallbacksController
 
-  * reuse old (custom!) table options_themes, now under the name question_options_themes
+  * adds relation question_options_themes to QuestionOption
+
+    this reuses an old (custom!) generated table options_themes,
+    that was not part of DMPOnline_v4, but which we added ourselves.
+
+    this way we can attach themes to question options
+
+    These associations can only be read/updated in the RailsAdmin controller
+    http://localhost:3000/admin/question_option
 
   * adds methods to model User:
 
@@ -46,6 +54,37 @@
 
     a template contains privacy related data
     if one of the questions contains the theme "UGENT:DATA"
+
+  * adds methods Plan.ld_uri and Plan.ld
+
+    See also:
+      - app/controllers/ugent/internal/exports_controller.rb
+      - app/models/ugent/rest_user.rb
+
+  * adds method Role.code_access_level
+
+    only used in Plan.ld (see above)
+
+  * adds methods Org.internal_export_dir and Org.internal_export_url
+
+    internal_export_dir: returns the directory for that organisation where its JSON exports are stored
+    internal_export_url: return the base_url for that organisation's JSON exports
+
+    only used in Plan.ld and Ugent::Internal::ExportsController
+
+  * adds hook after_save to model Contributor
+
+    when a contributor is added/updated,
+    a user with that email is given access
+    to that plan
+
+  * overrides Plan.visibility_allowed?
+
+    disables feature that makes it possible to change the visibility
+
+    We do not allow public plans
+
+    See also app/views/branded/plans/_share_form.html.erb
 
 - app/controllers/ugent/selectable_user_controller.rb
 
@@ -71,6 +110,69 @@
     * only the OTHER users accounts are shown in the select box
     * happens when already logged in
 
+- app/controllers/ugent/internal/exports_controller.rb
+
+  ugent specific controller (deprecated)
+
+  provides access to JSON exports of plans per organisation in /opt/dmponline_internal
+
+  authenticates with basic auth
+
+  username and password is drawn from attributes "code" and "token" of model Ugent::RestUser respectively
+
+  When removed, remove also:
+    - methods Plan.ld_uri and Plan.ld_uri in config/initializers/ugent.rb
+    - file lib/tasks/ugent_deprecated.rake
+    - routes starting with /internal from config/routes/ugent.rb
+    - model Ugent::RestUser
+
+  See also:
+
+    - app/models/ugent/rest_user.rb
+    - config/routes/ugent.rb
+    - config/initializers/ugent.rb
+    - lib/tasks/ugent_deprecated.rake
+
+- app/models/ugent/rest_user.rb
+
+  ugent specific model
+
+  Stores authentication information for REST users that want to access Ugent::Internal::ExportsController
+
+  Attributes:
+
+    org_id
+    code
+    token
+
+  See also:
+
+    - app/controllers/ugent/internal/exports_controller.rb
+    - config/routes/ugent.rb
+    - config/initializers/ugent.rb
+    - lib/tasks/ugent_deprecated.rake
+
+- lib/tasks/ugent.rake
+
+  ugent specific rake tasks
+
+  deprecated
+
+  to remove?
+
+- lib/tasks/ugent_deprecated.rake
+
+  ugent specific rake tasks
+
+  generates JSON export of plans per organisation, and stores them in /opt/dmponline_internal
+
+  See also:
+    - app/controllers/ugent/internal/exports_controller.rb
+    - config/routes/ugent.rb
+    - app/models/ugent/rest_user.rb
+    - config/initializers/ugent.rb
+    - lib/tasks/ugent_deprecated.rake
+
 - app/models/ugent/log.rb
 
   reuse old table "logs", now under the name "ugent_logs"
@@ -86,6 +188,11 @@
 
   reuse old table "organisation_domains",
   now under the name ugent_org_domains
+
+  Can be edited in RailsAdmin by users with admin rights: http://localhost:3000/admin/ugent~org_domain
+
+  See also:
+    - rails_admin
 
 - config/custom.yml
 

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # Purpose: token based authentication for organisation plan exports
+# To remove when Ugent::Internal::ExportsController is removed
 
 =begin create table in mysql
 
@@ -25,12 +26,13 @@ module Ugent
     belongs_to :org
 
     validates :org, presence: true
-    validates :name, length: { minimum: 1 }, uniqueness: true
     validates :code,
+      presence: true,
       length: { minimum: 1 },
       uniqueness: true,
       format: { with: /\A[a-zA-Z0-9]+\z/ }
     validates :token,
+      presence: true,
       length: { minimum: 10 }
 
     before_validation do |record|

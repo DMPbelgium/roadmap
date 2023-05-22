@@ -10,17 +10,16 @@ Rails.application.routes.draw do
 
   mount RailsAdmin::Engine => "/admin", as: "rails_admin"
 
-=begin TODO
-  get "/internal/exports/v01/organisations/:organisation/:name.json",
-    :to => "internal/exports#show_link",
-    :organisation => /[a-zA-Z0-9_\-]+/,
-    :name => /[a-zA-Z0-9_\-\.:]+/
+  get "/internal/exports/v01/organisations/:abbreviation/:name.json",
+    to: "ugent/internal/exports#show_link",
+    abbreviation: /[a-zA-Z0-9_\-]+/,
+    name: /[a-zA-Z0-9_\-\.:]+/
 
-  get "/internal/exports/v01/organisations/:organisation/:year/:month/:name.json",
-    :to => "internal/exports#show_file",
-    :organisation => /[a-zA-Z0-9_\-]+/,
-    :year => /\d{4}/,
-    :month => /\d{2}/,
-    :name => /[a-zA-Z0-9_\-\.:]+/
-=end
+  get "/internal/exports/v01/organisations/:abbreviation/:year/:month/:name.json",
+    to: "ugent/internal/exports#show_file",
+    abbreviation: /[a-zA-Z0-9_\-]+/,
+    year: /\d{4}/,
+    month: /\d{2}/,
+    name: /[a-zA-Z0-9_\-\.:]+/
+
 end

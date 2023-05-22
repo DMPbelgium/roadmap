@@ -250,3 +250,17 @@ See also `ugent/CHANGES.txt` for detailed information
   `ugent/bin/build_assets` precompiles all assets
   and copies them here, so no precompilation should
   be done on the build server
+
+Old tables added when we used DMPOnline_v4:
+
+* `ugent_org_domains`
+
+* `ugent_logs`
+
+* `wayfless_entities`
+
+  TODO: add renaming to migration
+
+* `rest_users`
+
+  TODO: add renaming to migration
