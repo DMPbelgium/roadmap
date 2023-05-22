@@ -117,3 +117,7 @@ yarn-debug.log*
 
 # Ignore briley AWS cloud9 script to start the application
 cloud9-start.sh
+
+#ugent - start
+vendor/bundle
+#ugent - end
