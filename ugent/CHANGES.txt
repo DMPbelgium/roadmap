@@ -242,3 +242,27 @@
   precompile all javascript and css assets
   in production mode, and copy them
   to ugent/public
+
+- add gem rails_admin to Gemfile.local
+
+  In order to make it work I changed these things
+
+  * changed gem "wicked_pdf" to higher version than 2.1.0 by pointing directly
+    to the (unreleased) master branch
+
+    Reason: when you try to access any page, the page load takes forever,
+    and finally stops with an SystemStackError.
+
+    See also: https://github.com/DMPRoadmap/roadmap/issues/2793
+
+  * config/initializes/rails_admin.rb
+
+    this file does not exist in the external repo
+
+    rails_admin tries to load all ruby files as models, for some reason (even the controllers)
+    so make sure to explicitly include all allowed models via config.included_models
+
+  * add assets rails_admin/rails_admin.js and rails_admin/rails_admin.css to the assets compilation pipeline
+
+    see config/initializers/assets.rb
+    that file already existed, so may conflict in the future.
