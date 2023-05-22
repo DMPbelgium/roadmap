@@ -317,14 +317,3 @@
 
     see config/initializers/assets.rb
     that file already existed, so may conflict in the future.
-
-- app/helpers/version_helper.rb
-
-  Removed at rpm build time.
-  This file causes problems when rails is started outside of a git environment
-
-  This file is already removed in the base repository,
-  so this statement may be removed in the future
-
-  See PR https://github.com/DMPRoadmap/roadmap/pull/2792
-  See ticket https://github.com/DMPRoadmap/roadmap/issues/2782
