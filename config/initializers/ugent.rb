@@ -1118,6 +1118,9 @@ module Users
     def handle_shibboleth(scheme)
       auth = request.env["omniauth.auth"]
 
+      # uid is email address, and that is always consequently formatted
+      auth.uid.downcase!
+
       # find user by existing identifier
       user = User.from_omniauth(auth)
 
