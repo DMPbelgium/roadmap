@@ -268,6 +268,10 @@ See also `ugent/CHANGES.txt` for detailed information
   and copies them here, so no precompilation should
   be done on the build server
 
+  Make sure however to set environment variable `EXECJS_RUNTIME`
+  to `Disabled`, or rails will complain about missing
+  javascript runtime, even in production mode
+
 Old tables added when we used DMPOnline_v4:
 
 * `ugent_org_domains`
