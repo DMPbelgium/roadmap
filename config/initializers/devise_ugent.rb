@@ -4,7 +4,7 @@ ENV["BASE_URL"] ||= "http://localhost:3000"
 
 # rubocop:disable Metrics/BlockLength
 Devise.setup do |config|
-  config.mailer_sender = "info@dmponline.be"
+  config.mailer_sender = "servicedesk@belnet.be"
   OmniAuth.config.full_host = ENV["BASE_URL"]
   config.omniauth(
     :orcid,
