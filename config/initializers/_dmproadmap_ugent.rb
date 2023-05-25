@@ -263,6 +263,7 @@ module DMPRoadmap
     config.action_mailer.default_url_options[:host] = ENV["DMP_HOST"]
     config.action_mailer.default_url_options[:protocol] = ENV["DMP_PROTOCOL"]
 
+    config.action_mailer.smtp_settings ||= {}
     config.action_mailer.smtp_settings[:address] = ENV.fetch("DMP_SMTP_ADDRESS", "localhost")
     config.action_mailer.smtp_settings[:port] = ENV.fetch("DMP_SMTP_PORT", 25)
 
