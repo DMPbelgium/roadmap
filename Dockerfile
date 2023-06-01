@@ -14,6 +14,8 @@ RUN apt-get update && \
     bundle config with pgsql mysql puma && \
     bundle config without test development ci aws && \
     bundle install && \
+    rm -rf app/assets/videos && \
+    rm -rf app/assets/builds && \
     rm -rf public/assets/ && \
     rm -rf node_modules/ && \
     rm -rf .git/ && \
@@ -23,10 +25,7 @@ RUN apt-get update && \
     rm -rf /usr/local/bundle/cache/ && \
     (bin/wkhtmltopdf || true) &&\
     rm -f vendor/bundle/ruby/3.0.0/gems/wkhtmltopdf-binary-0.12.6.6/bin/*.gz && \
-    (apt list --installed -a '*-dev' | grep "^[^\ ]*/" -o | sed 's/\///' | apt remove -y $(paste -s -d ' ')) && \
-    apt remove -y make git cpp && \
-    mv ./ugent/public/* ./public && \
-    rm -rf /var/lib/apt/lists/*
+    mv ./ugent/public/* ./public
 
 FROM --platform=$BUILDPLATFORM ruby:3.0.5
 
