@@ -109,7 +109,8 @@ class PlanExportsController
                            @show_unanswered,
                            @selected_phases,
                            @show_custom_sections,
-                           @show_coversheet),
+                           @show_coversheet,
+                           @show_research_outputs),
               filename: "#{file_name}.csv"
   end
 
@@ -331,6 +332,8 @@ class Plan
           end
         end
       end
+
+      # Note: this code override ignores research outputs
     end
   end
 
@@ -996,6 +999,8 @@ class Org
 
   has_many :domains, class_name: "Ugent::OrgDomain"
 
+  # addition
+  # only used by lib/tasks/ugent_deprecated.rake
   def org_admin_plan_ids
 
     (native_plan_ids + affiliated_plan_ids).flatten.uniq

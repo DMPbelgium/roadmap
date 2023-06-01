@@ -44,10 +44,13 @@
 
   replaced import of plans/new.js by ugent/plans/new.js (see further):
 
-    -import '../src/plans/new';
-    +import '../src/ugent/plans/new'; // ugent override
+    -import './src/plans/new';
+    +import './src/ugent/plans/new'; // ugent override
+    +import './src/ugent/plans/share_contributor'; // ugent override
 
   make sure this replacement stays on upstream merge
+
+  TODO: file is replaced upstream by app/javascript/application.js
 
 - app/javascript/src/ugent/plans/new.js
 
@@ -69,6 +72,8 @@
 
   so should merge pulling down upstream branch
 
+  MERGED: remove this block
+
 - app/views/branded/plans/new.html.erb
 
   overrides app/views/plans/new.html.erb
@@ -86,6 +91,10 @@
              that is why the values of select boxes
              plan[org][id] and plan[funder][id] contain
              JSON values!
+
+  TODO: why does upstream version not mark default option in 
+  "select_tag(:plan_template_id" as html_safe? Does it work without?
+  Where did we get this from?
 
 - app/views/branded/shared/export/_plan.erb
 
@@ -106,19 +115,18 @@
   expects array @selected_phases instead of original @selected_phase
   to be present
 
+  TODO: apparently export of multiple phases has also been implemented
+        merge functionality?
+
+        see 04fce0cddecd6a303f46f35c2aa673815eb2a575
+
+        but they either offer 1 phase or ALL phases
+
 - app/views/branded/paginable/plans/_privately_visible.html.erb
 
   overrides app/views/paginable/plans/_privately_visible.html.erb
 
   adds column "owner", makes use of new method PlansHelper#display_user
-
-- app/views/branded/org_admin/questions/_show.html.erb
-
-  overrides app/views/org_admin/questions/_show.html.erb
-
-  preliminary fix for PR https://github.com/DMPRoadmap/roadmap/pull/3173
-
-  to be removed when PR is merged
 
 - app/views/branded/phases/_edit_plan_answers.html.erb
 
@@ -377,6 +385,8 @@
   /projects to /plans
   /projects/:id to /plans/:id
 
+  TODO: do these extra routes still work?
+
 - app/controllers/ugent/selectable_user_controller.rb
 
   ugent specific controller
@@ -565,11 +575,6 @@
   adds fix for omniauth-shibboleth when attributes are passed by headers
     and they contain utf-8 characters
 
-- config/initializers/contact_us.rb
-
-  not included in .gitigore,
-  and expected by roadmap to set (contact_us.rb.example not used)
-
 - config/routes/*.rb
 
   add extra routes
@@ -636,7 +641,8 @@
 
   overrides app/views/contributors/_form.html.erb
 
-  removes field "phone"
+  removes field "phone" by configuring option config.x.application.display_contributor_phone_number = false
+  in config/initializers/_dmproadmap_ugent.rb
 
   replaces shared/org_selector/combined by shared/org_selector/local_only
   because we only allow for local organisations
@@ -661,12 +667,16 @@
 
   Copied to /etc/systemd/system at rpm build time
 
+  Deprecated, now it is deployed with docker
+
 - ugent/etc/systemd/roadmap.conf
 
   Default EnvironmentFile, to be used in /etc/systemd/system/roadmap.service.
   Overrides must be put in /etc/sysconfig/roadmap.conf at the server.
 
   Note that `env.sh` in the root folder is also used.
+
+  Deprecated, now it is deployed with docker
 
 - ugent/public/packs and ugent/public/assets
 
@@ -677,6 +687,8 @@
 
   see also ugent/bin/build_assets
 
+  TODO: build changed
+
 - ugent/bin/build_assets
 
   precompile all javascript and css assets
@@ -684,6 +696,8 @@
   to ugent/public
 
   run this from the application directory
+
+  TODO: build changed
 
 - add gem rails_admin to Gemfile.local
 
@@ -702,6 +716,8 @@
     a ruby crash report with something like "vm_call_cfunc - cfp consistency error"
 
     also to do with this.
+
+    TODO: check if current version 2.6.3 does work
 
   * config/initializes/rails_admin.rb
 
@@ -744,3 +760,14 @@
     this means that by default 30 full exports are kept
 
   only used for Sharepoint integration of UGent
+
+  Deprecated, now that app is deployed with docker.
+    cronjobs should be run differently
+
+- config/initalizers/contact_us_local.rb
+
+  local overrides for config/initializers/contact_us.rb
+
+  the name of this file must come alphabetically after "contact_us.rb"
+
+  as the initializers are loaded in that order.
