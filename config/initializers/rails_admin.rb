@@ -7,6 +7,8 @@
 # More configuration info can be found at https://github.com/sferik/rails_admin/wiki
 
 RailsAdmin.config do |config|
+  # because roadmap uses sprockets too
+  config.asset_source = :sprockets
 
   # use ApplicationController as its parent class
   config.parent_controller = "::ApplicationController"
