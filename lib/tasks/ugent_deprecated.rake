@@ -37,7 +37,7 @@ def export_org_projects(org)
   # temporary file that will contain all org plans, each one on each line
   tmp_fh_plans = Tempfile.new(["org_plans",".json"], encoding: "UTF-8")
 
-  $stderr.puts "created tmp file for plans of #{org.id}: #{tmp_fh_plans.path}"
+  $stdout.puts "created tmp file for plans of #{org.id}: #{tmp_fh_plans.path}"
 
   # export plans and write to tmpfile
   projects_ld(org) do |pr|
