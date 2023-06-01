@@ -20,4 +20,4 @@ $fa-font-path: '.';
 @import '@fortawesome/fontawesome-free/scss/regular';
 @import '@fortawesome/fontawesome-free/scss/solid';
 
-@import "ugent/*";
+@import "./ugent/_override.scss";

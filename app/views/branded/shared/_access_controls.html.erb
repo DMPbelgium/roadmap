@@ -3,10 +3,10 @@
     <div id="sign-in-form" role="tabpanel" class="tab-pane active">
       <div class="panel panel-default">
         <div class="panel-body">
-          <% if Rails.env.production? %>
-            <%= render(partial: "shared/sign_in_form") %>
-          <% else %>
+          <% if ENV["DMP_LOCAL_LOGIN"].to_s == "true" %>
             <%= render(partial: "shared/dev_sign_in_form") %>
+          <% else %>
+            <%= render(partial: "shared/sign_in_form") %>
           <% end %>
         </div>
       </div>
