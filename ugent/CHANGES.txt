@@ -771,3 +771,5 @@
   the name of this file must come alphabetically after "contact_us.rb"
 
   as the initializers are loaded in that order.
+
+- added .dockerignore for docker builds
