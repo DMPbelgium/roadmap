@@ -773,3 +773,13 @@
   as the initializers are loaded in that order.
 
 - added .dockerignore for docker builds
+
+- bin/rails_without_spring
+
+  rails command, but without loading spring
+
+  needed in production environment where development gem
+
+  will not be available
+
+  to be moved to bin/rails during build/installment
