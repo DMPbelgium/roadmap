@@ -1,5 +1,5 @@
 #syntax=docker/dockerfile:1
-FROM --platform=$BUILDPLATFORM ruby:3.0.5 AS build
+FROM ruby:3.0.5 AS build
 
 WORKDIR /opt/roadmap
 COPY . .
