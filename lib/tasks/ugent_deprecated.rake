@@ -370,7 +370,7 @@ def projects_ld(org)
 
 end
 
-def cleanup_org_projects(org, max = 30)
+def cleanup_org_projects(org, max = 14)
 
   if max < 2
     throw "max should be at least 2"
