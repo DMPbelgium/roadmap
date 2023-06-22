@@ -470,6 +470,13 @@ class Plan
   # To remove when Ugent::Internal::ExportsController is removed
   def ld
 
+    # Plan.grant does not use AR, and even executes query when
+    # grant_id is empty
+    grant_value = ""
+    if grant_id.present?
+      grant_value = grant&.value
+    end
+
     # old Project == new Plan
     # TODO: data contact and principal investigator not recognisable..
     pr = {
@@ -481,7 +488,7 @@ class Plan
       title: title,
       description: description,
       identifier: identifier,
-      grant_number: grant&.value,
+      grant_number: grant_value,
       collaborators: old_project_groups,
       organisation: nil,
       plans: []
