@@ -410,16 +410,12 @@ class Plan
 
       unless u.nil?
 
-        orcid = u.identifier_orcid
-
         user_hash = {
           id: u.id,
           type: "User",
           created_at: u.created_at.utc.strftime("%FT%TZ"),
           updated_at: u.updated_at.utc.strftime("%FT%TZ"),
           email: u.email,
-          # dmponline_v4 did not store the prefix
-          orcid: orcid.present? ? orcid.value.sub("https://orcid.org/","") : nil
         }
 
       end
@@ -469,6 +465,7 @@ class Plan
     return pgs
 
   end
+
 
   # To remove when Ugent::Internal::ExportsController is removed
   def ld
@@ -655,7 +652,6 @@ class Plan
           if answer.present?
 
             au = answer.user
-            identifier_orcid = au.identifier_orcid
             q[:answer] = {
               id: answer.id,
               type: "Answer",
@@ -670,8 +666,6 @@ class Plan
                 id: au.id,
                 type: "User",
                 email: au.email,
-                # dmponline_v4 did not store the prefix
-                orcid: identifier_orcid.present? ? identifier_orcid.value.sub("https://orcid.org/","") : nil
               }
 
             end
@@ -701,14 +695,10 @@ class Plan
 
               if created_by.present?
 
-                identifier_orcid = created_by.identifier_orcid
-
                 c[:created_by] = {
                   id: created_by.id,
                   type: "User",
                   email: created_by.email,
-                  # dmponline_v4 did not store the prefix
-                  orcid: identifier_orcid.present? ? identifier_orcid.value.sub("https://orcid.org/","") : nil
                 }
 
               end
@@ -717,14 +707,10 @@ class Plan
 
               if archived_by.present?
 
-                identifier_orcid = archived_by.identifier_orcid
-
                 c[:archived_by] = {
                   id: archived_by.id,
                   type: "User",
                   email: archived_by.email,
-                  # dmponline_v4 did not store the prefix
-                  orcid: identifier_orcid.present? ? identifier_orcid.value.sub("https://orcid.org/","") : nil
                 }
 
               end
