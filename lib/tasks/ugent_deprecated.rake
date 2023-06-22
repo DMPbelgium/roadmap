@@ -328,13 +328,15 @@ def projects_ld(org)
     plan_ids = org_admin_plan_ids.shift(100)
 
     includes = [
+      :funder,
+      :contributors,
       { answers: [
           :notes,
           :user,
           :question_options
         ]
       },
-      { roles: { user: [:identifiers, :perms] } },
+      { roles: { user: [:identifiers, :perms, :org] } },
       { template: [
           :org,
           {
