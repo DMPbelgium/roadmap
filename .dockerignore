@@ -1,0 +1,120 @@
+# all files to be ignored by docker build commands (like COPY or ADD)
+#
+# of course do not copy .git
+/.git
+
+# Ignore rbenv files
+.ruby-version
+
+# Ignore bundler config
+/.bundle
+
+# Ignore all logfiles, tempfiles, public assets,
+/log/*.log
+/tmp
+
+# Ignore public subdirectories
+public/apidocs/*
+public/assets/*
+public/fonts/*
+public/images/*
+public/javascripts/*
+public/stylesheets/*
+public/system/*
+public/videos/*
+
+# Ignore PO/POT backups
+*.po.bak
+*.pot.bak
+
+# Ignore branded content
+config/locales/static_pages/*.yml
+
+# Ignore db schema.rb
+# db/schema.rb
+
+# Ignore seed DBs
+db/data.yml
+
+# Ignore the test DB
+db/test.sqlite3
+db/test.sqlite3-journal
+
+# Ingore DB dump files
+*.sql
+*.psql
+*.sql.gz
+*.psql.gz
+
+# Ignore the SimpleCov output
+coverage
+
+# Ignore database configuration and token secrets
+config/database.yml
+config/secrets.yml
+config/branding.yml
+
+# Ignore some of the initializers
+config/initializers/wicked_pdf.rb
+config/initializers/fingerprint.rb
+
+# ignore IDE files
+.idea/*
+
+# Ignore MAC files
+.DS_Store
+
+# ignore yard doc files
+.yardoc/*
+
+# ignore yard generated documents
+/doc/*
+!/doc/README_FOR_APP
+
+# ignore auto-generated gettext files when running gettext:find
+config/locale/*/app.edit.po
+config/locale/*/app.po.time_stamp
+
+# Front-end related
+!.keep
+.byebug_history
+lib/data_cleanup/rules/org/fix_blank_abbreviation.yml
+.rspec
+
+yarn-error.log
+yarn-debug.log*
+
+.env
+package-lock.json
+node_modules
+/public/packs
+/public/packs-test
+
+spec/examples.txt
+.postcssrc.yml
+/public/packs
+/public/packs-test
+/node_modules
+yarn-debug.log*
+.yarn-integrity
+
+# Ignore master key for decrypting credentials and more.
+/config/master.key
+/config/credentials.yml.enc
+
+/public/packs
+/public/packs-test
+/node_modules
+/yarn-error.log
+yarn-debug.log*
+.yarn-integrity
+/app/assets/builds/*
+!/app/assets/builds/.keep
+
+# Ignore briley AWS cloud9 script to start the application
+cloud9-start.sh
+
+#ugent - start
+vendor/bundle
+/env.sh
+#ugent - end
