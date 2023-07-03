@@ -388,11 +388,11 @@ def cleanup_org_projects(org, max = 30)
 
       files_to_delete.each do |f|
         File.delete(f)
-        $stderr.puts "deleted #{f}"
+        $stdout.puts "deleted #{f}"
       end
 
       files.each do |f|
-        $stderr.puts "left: #{f}"
+        $stdout.puts "left: #{f}"
       end
 
     end
@@ -411,11 +411,11 @@ def cleanup_org_projects(org, max = 30)
 
       files_to_delete.each do |f|
         File.delete(f)
-        $stderr.puts "deleted #{f}"
+        $stdout.puts "deleted #{f}"
       end
 
       files.each do |f|
-        $stderr.puts "left: #{f}"
+        $stdout.puts "left: #{f}"
       end
 
     end
@@ -434,11 +434,11 @@ def cleanup_org_projects(org, max = 30)
 
       files_to_delete.each do |f|
         File.delete(f)
-        $stderr.puts "deleted #{f}"
+        $stdout.puts "deleted #{f}"
       end
 
       files.each do |f|
-        $stderr.puts "left: #{f}"
+        $stdout.puts "left: #{f}"
       end
 
     end
