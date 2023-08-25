@@ -783,3 +783,5 @@
   will not be available
 
   to be moved to bin/rails during build/installment
+
+  follow issue https://github.com/DMPRoadmap/roadmap/issues/3316 for changes
