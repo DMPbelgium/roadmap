@@ -444,6 +444,10 @@
 
   used in share tab of a plan in ugent branch
 
+- app/controllers/api/v0/plans_controller.rb
+
+  prematurely fix bug as fixed by https://github.com/DMPRoadmap/roadmap/pull/3325
+
 - app/models/ugent/rest_user.rb
 
   ugent specific model
