@@ -378,6 +378,8 @@
   * override `PlanExportsController#show` to make selection of multiple phases possible
     see also `Plan#as_csv`
 
+  * change default font-size in plan export
+
 - app/controllers/ugent/legacy/projects_controller.rb
 
   adds legacy routes to redirect

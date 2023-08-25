@@ -15,6 +15,7 @@ require "role"
 require "plan_policy"
 require "plan_exports_controller"
 require 'plans_helper'
+require "settings/template"
 
 module PlansHelper
 
@@ -1449,6 +1450,8 @@ class PlanPolicy
   end
 
 end
+
+Settings::Template::DEFAULT_SETTINGS[:formatting][:font_size] = 14
 
 # not used at the moment. Remove?
 DMPRoadmap::Application.class_eval do
