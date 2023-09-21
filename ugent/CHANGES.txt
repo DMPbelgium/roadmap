@@ -105,6 +105,9 @@
 
   See config/initializer/ugent.rb
 
+  preliminary fix for https://github.com/DMPRoadmap/roadmap/issues/3340
+  See comment https://github.com/DMPRoadmap/roadmap/issues/3340#issuecomment-1728148160
+
 - app/views/branded/plans/_download_form.html.erb
 
   overrides app/views/plans/_download_form.html.erb

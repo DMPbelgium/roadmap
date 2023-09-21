@@ -36,9 +36,9 @@
                 <% next %>
               <% end %>
               <div class="question">
+                <% answer = @plan.answer(question[:id], false) %>
+                <% blank = answer.present? ? answer.blank? : true %>
                 <% if @show_sections_questions%>
-                  <% answer = @plan.answer(question[:id], false) %>
-                  <% blank = answer.present? ? answer.blank? : true %>
                   <% options = answer.present? ? answer.question_options : [] %>
                   <% if @show_unanswered %>
                     <%# Hack: for DOCX export - otherwise, bold highlighting of question inconsistent. %>
