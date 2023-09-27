@@ -303,7 +303,8 @@ class Plan
              unanswered = true,
              selected_phases = nil,
              show_custom_sections = true,
-             show_coversheet = false)
+             show_coversheet = false,
+             show_research_outputs = false)
 
     hash = prepare(user, show_coversheet)
     CSV.generate do |csv|
