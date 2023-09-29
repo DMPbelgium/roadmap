@@ -50,15 +50,29 @@ class PlanExportsController
     @plan = Plan.includes(:answers, { template: { phases: { sections: :questions } } })
                 .find(params[:plan_id])
 
-    if privately_authorized? && export_params[:form].present?
+    # preliminary fix for https://github.com/DMPRoadmap/roadmap/issues/3345
+    if privately_authorized?
       skip_authorization
 
-      @show_coversheet         = export_params[:project_details].present?
-      @show_sections_questions = export_params[:question_headings].present?
-      @show_unanswered         = export_params[:unanswered_questions].present?
-      @show_custom_sections    = export_params[:custom_sections].present?
-      @show_research_outputs   = export_params[:research_outputs].present?
-      @public_plan             = false
+      if export_params[:form].present?
+
+        @show_coversheet         = export_params[:project_details].present?
+        @show_sections_questions = export_params[:question_headings].present?
+        @show_unanswered         = export_params[:unanswered_questions].present?
+        @show_custom_sections    = export_params[:custom_sections].present?
+        @show_research_outputs   = export_params[:research_outputs].present?
+        @public_plan             = false
+
+      else
+
+        @show_coversheet         = true
+        @show_sections_questions = true
+        @show_unanswered         = true
+        @show_custom_sections    = true
+        @show_research_outputs   = @plan.research_outputs&.any? || false
+        @public_plan             = false
+
+      end
 
     elsif publicly_authorized?
       skip_authorization
