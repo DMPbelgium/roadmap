@@ -381,6 +381,8 @@
   * override `PlanExportsController#show` to make selection of multiple phases possible
     see also `Plan#as_csv`
 
+  * override `PlanExportsController#show` to preliminary fix download problem as reported in https://github.com/DMPRoadmap/roadmap/issues/3345
+
   * change default font-size in plan export
 
 - app/controllers/ugent/legacy/projects_controller.rb
