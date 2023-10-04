@@ -12,7 +12,7 @@ fi
 
 # cleanup
 rm -rf tmp/cache
-rm -rf pulic/assets/
+rm -rf public/assets/
 
 ruby -i.back -p -e 'sub("config.cache_classes = true", "config.cache_classes = false")' config/environments/development.rb
 
