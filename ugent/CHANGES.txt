@@ -1,3 +1,36 @@
+- app/views/branded/devise/mailer/invitation_instructions.html.erb
+
+  overrides app/views/devise/mailer/invitation_instructions.html.erb
+
+  Note that overriding views for devise mailer
+
+  only works by explicity prepending app/views/branded
+
+  See override in config/initializers/ugent.rb, where
+
+  class Devise::Mailer is reopened, and view path is prepended (prepend_view_path)
+
+  The reason for this change is the following:
+
+    * in the base application, when a plan is shared with a new user, an invitation mail is sent,
+      containing a link to a devise invitation link. No information about
+      the plan is in this mail. It does however mention who created the
+      invitation
+
+    * in the base application, when a plan is shared with an existing user, a sharing notification
+      is sent, containing a reference to the inviter, and a reference
+      to the plan being shared.
+
+      -> See also RolesController#create
+
+    * in our override, we do not want to show invitation mails. When a user logs in via
+    either shibboleth or orcid, any invitation that was set, is automatically cleared.
+      So we only want to send the mail that informs about the plan, but unfortunately
+      the base application only send that mail to an existing user. Therefore we override
+      the view that renders the invitation mail, and make it look sort of the same as
+      the sharing notification mail. Unfortunately, that view does not have any reference
+      to the plan being shared, so we can only link to the page /plans.
+
 - app/views/branded/paginable/users/_index.html.erb
 
   overrides app/views/paginable/users/_index.html.erb
@@ -321,7 +354,7 @@
     * guest?
     * set_org_by_email
 
-  * skip invitation email, and clears invitation_token when you login
+  * clears invitation_token when you login
 
   * adds before_validation to model User:
 
