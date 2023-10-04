@@ -16,6 +16,7 @@ require "plan_policy"
 require "plan_exports_controller"
 require 'plans_helper'
 require "settings/template"
+require "devise/mailer"
 
 module PlansHelper
 
@@ -999,7 +1000,6 @@ User.before_validation do |user|
 
 end
 
-# skip invitation email
 User.before_invitation_created do |user|
 
   # fix auto generated names (during invitation in roles controller)
@@ -1007,8 +1007,15 @@ User.before_invitation_created do |user|
   user.firstname = User.nemo if user.firstname == "First Name"
   user.surname   = User.nemo if user.surname == "Surname"
 
-  user.skip_invitation = true
+end
 
+class Devise::Mailer
+  # devise mailer does not user app/views/branded as stated by rails
+  # purpose: when a user is added to a plan, an invitation mail is
+  # and for existing user a sharing notification mail. We made sure
+  # here that the invitation mail looks the same as the sharing notification
+  # mail
+  prepend_view_path(Rails.root.join("app", "views", "branded"))
 end
 
 class Org
