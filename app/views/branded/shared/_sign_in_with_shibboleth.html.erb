@@ -9,17 +9,17 @@
         <select class="form-control form-control-lg" name="entityID" required>
           <option value="">-- Select your institution --</option>
           <% scheme = IdentifierScheme.find_by_name!("shibboleth") %>
-          <% Org.includes(:identifiers)
+          <% shibboleth_identifiers = []
+             Org.includes(:identifiers)
                 .where(managed:true)
-                .order(name:"asc")
-                .each do |org| %>
-
-            <% identifiers = org.identifiers.select { |id| id.identifier_scheme_id == scheme.id } %>
-            <% next if identifiers.empty? %>
-
-            <% identifiers.each do |id| %>
-              <option value="<%= id.value %>"><%= id.label %></option>
-            <% end %>
+                .each do |org|
+                  ids = org.identifiers.select { |id| id.identifier_scheme_id == scheme.id }
+                  shibboleth_identifiers += ids
+                end
+             shibboleth_identifiers.sort! {|l, r| l.label.downcase <=> r.label.downcase }
+          %>
+          <% shibboleth_identifiers.each do |id| %>
+            <option value="<%= id.value %>"><%= id.label %></option>
           <% end %>
         </select>
       </div>
