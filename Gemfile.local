@@ -1,3 +1,6 @@
 gem "validates_hostname"
 gem "rails_admin"
 gem "file_utils"
+# rails_admin needs this because of change rails change to sprockets
+gem "sassc-rails", group: :development
+gem "net-smtp"

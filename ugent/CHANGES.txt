@@ -1,3 +1,36 @@
+- app/views/branded/devise/mailer/invitation_instructions.html.erb
+
+  overrides app/views/devise/mailer/invitation_instructions.html.erb
+
+  Note that overriding views for devise mailer
+
+  only works by explicity prepending app/views/branded
+
+  See override in config/initializers/ugent.rb, where
+
+  class Devise::Mailer is reopened, and view path is prepended (prepend_view_path)
+
+  The reason for this change is the following:
+
+    * in the base application, when a plan is shared with a new user, an invitation mail is sent,
+      containing a link to a devise invitation link. No information about
+      the plan is in this mail. It does however mention who created the
+      invitation
+
+    * in the base application, when a plan is shared with an existing user, a sharing notification
+      is sent, containing a reference to the inviter, and a reference
+      to the plan being shared.
+
+      -> See also RolesController#create
+
+    * in our override, we do not want to show invitation mails. When a user logs in via
+    either shibboleth or orcid, any invitation that was set, is automatically cleared.
+      So we only want to send the mail that informs about the plan, but unfortunately
+      the base application only send that mail to an existing user. Therefore we override
+      the view that renders the invitation mail, and make it look sort of the same as
+      the sharing notification mail. Unfortunately, that view does not have any reference
+      to the plan being shared, so we can only link to the page /plans.
+
 - app/views/branded/paginable/users/_index.html.erb
 
   overrides app/views/paginable/users/_index.html.erb
@@ -44,10 +77,13 @@
 
   replaced import of plans/new.js by ugent/plans/new.js (see further):
 
-    -import '../src/plans/new';
-    +import '../src/ugent/plans/new'; // ugent override
+    -import './src/plans/new';
+    +import './src/ugent/plans/new'; // ugent override
+    +import './src/ugent/plans/share_contributor'; // ugent override
 
   make sure this replacement stays on upstream merge
+
+  TODO: file is replaced upstream by app/javascript/application.js
 
 - app/javascript/src/ugent/plans/new.js
 
@@ -69,6 +105,8 @@
 
   so should merge pulling down upstream branch
 
+  MERGED: remove this block
+
 - app/views/branded/plans/new.html.erb
 
   overrides app/views/plans/new.html.erb
@@ -87,6 +125,10 @@
              plan[org][id] and plan[funder][id] contain
              JSON values!
 
+  TODO: why does upstream version not mark default option in 
+  "select_tag(:plan_template_id" as html_safe? Does it work without?
+  Where did we get this from?
+
 - app/views/branded/shared/export/_plan.erb
 
   overrides app/views/shared/export/_plan.erb
@@ -95,6 +137,9 @@
   as determined by overridden controller PlanExportsController.
 
   See config/initializer/ugent.rb
+
+  preliminary fix for https://github.com/DMPRoadmap/roadmap/issues/3340
+  See comment https://github.com/DMPRoadmap/roadmap/issues/3340#issuecomment-1728148160
 
 - app/views/branded/plans/_download_form.html.erb
 
@@ -106,19 +151,18 @@
   expects array @selected_phases instead of original @selected_phase
   to be present
 
+  TODO: apparently export of multiple phases has also been implemented
+        merge functionality?
+
+        see 04fce0cddecd6a303f46f35c2aa673815eb2a575
+
+        but they either offer 1 phase or ALL phases
+
 - app/views/branded/paginable/plans/_privately_visible.html.erb
 
   overrides app/views/paginable/plans/_privately_visible.html.erb
 
   adds column "owner", makes use of new method PlansHelper#display_user
-
-- app/views/branded/org_admin/questions/_show.html.erb
-
-  overrides app/views/org_admin/questions/_show.html.erb
-
-  preliminary fix for PR https://github.com/DMPRoadmap/roadmap/pull/3173
-
-  to be removed when PR is merged
 
 - app/views/branded/phases/_edit_plan_answers.html.erb
 
@@ -310,7 +354,7 @@
     * guest?
     * set_org_by_email
 
-  * skip invitation email, and clears invitation_token when you login
+  * clears invitation_token when you login
 
   * adds before_validation to model User:
 
@@ -370,12 +414,18 @@
   * override `PlanExportsController#show` to make selection of multiple phases possible
     see also `Plan#as_csv`
 
+  * override `PlanExportsController#show` to preliminary fix download problem as reported in https://github.com/DMPRoadmap/roadmap/issues/3345
+
+  * change default font-size in plan export
+
 - app/controllers/ugent/legacy/projects_controller.rb
 
   adds legacy routes to redirect
 
   /projects to /plans
   /projects/:id to /plans/:id
+
+  TODO: do these extra routes still work?
 
 - app/controllers/ugent/selectable_user_controller.rb
 
@@ -433,6 +483,10 @@
   extra route to update a plan role with an existing contributor together
 
   used in share tab of a plan in ugent branch
+
+- app/controllers/api/v0/plans_controller.rb
+
+  prematurely fix bug as fixed by https://github.com/DMPRoadmap/roadmap/pull/3325
 
 - app/models/ugent/rest_user.rb
 
@@ -565,11 +619,6 @@
   adds fix for omniauth-shibboleth when attributes are passed by headers
     and they contain utf-8 characters
 
-- config/initializers/contact_us.rb
-
-  not included in .gitigore,
-  and expected by roadmap to set (contact_us.rb.example not used)
-
 - config/routes/*.rb
 
   add extra routes
@@ -636,7 +685,8 @@
 
   overrides app/views/contributors/_form.html.erb
 
-  removes field "phone"
+  removes field "phone" by configuring option config.x.application.display_contributor_phone_number = false
+  in config/initializers/_dmproadmap_ugent.rb
 
   replaces shared/org_selector/combined by shared/org_selector/local_only
   because we only allow for local organisations
@@ -661,12 +711,16 @@
 
   Copied to /etc/systemd/system at rpm build time
 
+  Deprecated, now it is deployed with docker
+
 - ugent/etc/systemd/roadmap.conf
 
   Default EnvironmentFile, to be used in /etc/systemd/system/roadmap.service.
   Overrides must be put in /etc/sysconfig/roadmap.conf at the server.
 
   Note that `env.sh` in the root folder is also used.
+
+  Deprecated, now it is deployed with docker
 
 - ugent/public/packs and ugent/public/assets
 
@@ -677,6 +731,8 @@
 
   see also ugent/bin/build_assets
 
+  TODO: build changed
+
 - ugent/bin/build_assets
 
   precompile all javascript and css assets
@@ -684,6 +740,8 @@
   to ugent/public
 
   run this from the application directory
+
+  TODO: build changed
 
 - add gem rails_admin to Gemfile.local
 
@@ -702,6 +760,8 @@
     a ruby crash report with something like "vm_call_cfunc - cfp consistency error"
 
     also to do with this.
+
+    TODO: check if current version 2.6.3 does work
 
   * config/initializes/rails_admin.rb
 
@@ -744,3 +804,28 @@
     this means that by default 30 full exports are kept
 
   only used for Sharepoint integration of UGent
+
+  Deprecated, now that app is deployed with docker.
+    cronjobs should be run differently
+
+- config/initalizers/contact_us_local.rb
+
+  local overrides for config/initializers/contact_us.rb
+
+  the name of this file must come alphabetically after "contact_us.rb"
+
+  as the initializers are loaded in that order.
+
+- added .dockerignore for docker builds
+
+- bin/rails_without_spring
+
+  rails command, but without loading spring
+
+  needed in production environment where development gem
+
+  will not be available
+
+  to be moved to bin/rails during build/installment
+
+  follow issue https://github.com/DMPRoadmap/roadmap/issues/3316 for changes

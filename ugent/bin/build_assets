@@ -3,22 +3,25 @@ cd `dirname $0`/../..
 
 [ -f env.sh ] && . env.sh
 
-# force mode production
-export RAILS_ENV=production
-
+# force mode development
+export RAILS_ENV=development
+unset EXECJS_RUNTIME
 if [ ! -d "tmp" ];then
   mkdir tmp
 fi
 
 # cleanup
 rm -rf tmp/cache
-rm -rf public/packs/
-rm -rf pulic/assets/
+rm -rf public/assets/
 
-# compile assets into public/assets and public/packs
+ruby -i.back -p -e 'sub("config.cache_classes = true", "config.cache_classes = false")' config/environments/development.rb
+
+# compile assets into public/assets
 bin/rails assets:precompile &&
+
+mv config/environments/development.rb.back config/environments/development.rb
+
 # and store them in git (no way to run this on the production server)
 rm -rf ugent/public &&
 mkdir ugent/public &&
-cp -r public/assets ugent/public/ &&
-cp -r public/packs ugent/public
+cp -r public/assets ugent/public/

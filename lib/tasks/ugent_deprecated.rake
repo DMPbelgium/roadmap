@@ -328,15 +328,13 @@ def projects_ld(org)
     plan_ids = org_admin_plan_ids.shift(100)
 
     includes = [
-      :funder,
-      :contributors,
       { answers: [
           :notes,
           :user,
           :question_options
         ]
       },
-      { roles: { user: [:identifiers, :perms, :org] } },
+      { roles: { user: [:identifiers, :perms] } },
       { template: [
           :org,
           {
@@ -370,7 +368,7 @@ def projects_ld(org)
 
 end
 
-def cleanup_org_projects(org, max = 14)
+def cleanup_org_projects(org, max = 30)
 
   if max < 2
     throw "max should be at least 2"

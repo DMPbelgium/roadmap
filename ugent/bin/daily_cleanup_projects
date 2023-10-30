@@ -1,13 +1,46 @@
 #!/bin/bash
 
+# change directory to application directory
 cd `dirname $0`/../..
 
-[ -f env.sh ] && . env.sh
-
-export RAILS_ENV=production
-
+# get exclusive lock
 . ugent/bin/utils.sh
-
 lock_file
 
-bin/rails ugent:cleanup:projects
+# maximum number of files (per type) to keep
+readonly MAX=14
+readonly FILE_DIR=/opt/dmponline_internal
+
+# delete projects_*.json
+IFS=$'\n' list=( $(find $FILE_DIR -type f -name 'projects_*.json' | sort -r) )
+i=0
+for file in "${list[@]}";do
+    let i++
+    if [ "$i" -gt "$MAX" ];then
+        rm -f $file && echo "removed $file"
+    fi
+done
+
+# delete updated_projects_*.json
+IFS=$'\n' list=( $(find $FILE_DIR -type f -name 'updated_projects_*.json' | sort -r) )
+i=0
+for file in "${list[@]}";do
+    let i++
+    if [ "$i" -gt "$MAX" ];then
+        rm -f $file && echo "removed $file"
+    fi
+done
+
+# delete deleted_projects_*.json
+IFS=$'\n' list=( $(find $FILE_DIR -type f -name 'deleted_projects_*.json' | sort -r) )
+i=0
+for file in "${list[@]}";do
+    let i++
+    if [ "$i" -gt "$MAX" ];then
+        rm -f $file && echo "removed $file"
+    fi
+done
+
+# what should be left: at least MAX files of each type
+# symlink projects.json should point to newest file projects_*.json
+# (same for updated_projects.json and deleted_projects.json)

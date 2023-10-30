@@ -15,6 +15,8 @@ require "role"
 require "plan_policy"
 require "plan_exports_controller"
 require 'plans_helper'
+require "settings/template"
+require "devise/mailer"
 
 module PlansHelper
 
@@ -49,15 +51,29 @@ class PlanExportsController
     @plan = Plan.includes(:answers, { template: { phases: { sections: :questions } } })
                 .find(params[:plan_id])
 
-    if privately_authorized? && export_params[:form].present?
+    # preliminary fix for https://github.com/DMPRoadmap/roadmap/issues/3345
+    if privately_authorized?
       skip_authorization
 
-      @show_coversheet         = export_params[:project_details].present?
-      @show_sections_questions = export_params[:question_headings].present?
-      @show_unanswered         = export_params[:unanswered_questions].present?
-      @show_custom_sections    = export_params[:custom_sections].present?
-      @show_research_outputs   = export_params[:research_outputs].present?
-      @public_plan             = false
+      if export_params[:form].present?
+
+        @show_coversheet         = export_params[:project_details].present?
+        @show_sections_questions = export_params[:question_headings].present?
+        @show_unanswered         = export_params[:unanswered_questions].present?
+        @show_custom_sections    = export_params[:custom_sections].present?
+        @show_research_outputs   = export_params[:research_outputs].present?
+        @public_plan             = false
+
+      else
+
+        @show_coversheet         = true
+        @show_sections_questions = true
+        @show_unanswered         = true
+        @show_custom_sections    = true
+        @show_research_outputs   = @plan.research_outputs&.any? || false
+        @public_plan             = false
+
+      end
 
     elsif publicly_authorized?
       skip_authorization
@@ -109,7 +125,8 @@ class PlanExportsController
                            @show_unanswered,
                            @selected_phases,
                            @show_custom_sections,
-                           @show_coversheet),
+                           @show_coversheet,
+                           @show_research_outputs),
               filename: "#{file_name}.csv"
   end
 
@@ -301,7 +318,8 @@ class Plan
              unanswered = true,
              selected_phases = nil,
              show_custom_sections = true,
-             show_coversheet = false)
+             show_coversheet = false,
+             show_research_outputs = false)
 
     hash = prepare(user, show_coversheet)
     CSV.generate do |csv|
@@ -331,6 +349,8 @@ class Plan
           end
         end
       end
+
+      # Note: this code override ignores research outputs
     end
   end
 
@@ -410,12 +430,16 @@ class Plan
 
       unless u.nil?
 
+        orcid = u.identifier_orcid
+
         user_hash = {
           id: u.id,
           type: "User",
           created_at: u.created_at.utc.strftime("%FT%TZ"),
           updated_at: u.updated_at.utc.strftime("%FT%TZ"),
           email: u.email,
+          # dmponline_v4 did not store the prefix
+          orcid: orcid.present? ? orcid.value.sub("https://orcid.org/","") : nil
         }
 
       end
@@ -466,16 +490,8 @@ class Plan
 
   end
 
-
   # To remove when Ugent::Internal::ExportsController is removed
   def ld
-
-    # Plan.grant does not use AR, and even executes query when
-    # grant_id is empty
-    grant_value = ""
-    if grant_id.present?
-      grant_value = grant&.value
-    end
 
     # old Project == new Plan
     # TODO: data contact and principal investigator not recognisable..
@@ -488,7 +504,7 @@ class Plan
       title: title,
       description: description,
       identifier: identifier,
-      grant_number: grant_value,
+      grant_number: grant&.value,
       collaborators: old_project_groups,
       organisation: nil,
       plans: []
@@ -659,6 +675,7 @@ class Plan
           if answer.present?
 
             au = answer.user
+            identifier_orcid = au.identifier_orcid
             q[:answer] = {
               id: answer.id,
               type: "Answer",
@@ -673,6 +690,8 @@ class Plan
                 id: au.id,
                 type: "User",
                 email: au.email,
+                # dmponline_v4 did not store the prefix
+                orcid: identifier_orcid.present? ? identifier_orcid.value.sub("https://orcid.org/","") : nil
               }
 
             end
@@ -702,10 +721,14 @@ class Plan
 
               if created_by.present?
 
+                identifier_orcid = created_by.identifier_orcid
+
                 c[:created_by] = {
                   id: created_by.id,
                   type: "User",
                   email: created_by.email,
+                  # dmponline_v4 did not store the prefix
+                  orcid: identifier_orcid.present? ? identifier_orcid.value.sub("https://orcid.org/","") : nil
                 }
 
               end
@@ -714,10 +737,14 @@ class Plan
 
               if archived_by.present?
 
+                identifier_orcid = archived_by.identifier_orcid
+
                 c[:archived_by] = {
                   id: archived_by.id,
                   type: "User",
                   email: archived_by.email,
+                  # dmponline_v4 did not store the prefix
+                  orcid: identifier_orcid.present? ? identifier_orcid.value.sub("https://orcid.org/","") : nil
                 }
 
               end
@@ -973,7 +1000,6 @@ User.before_validation do |user|
 
 end
 
-# skip invitation email
 User.before_invitation_created do |user|
 
   # fix auto generated names (during invitation in roles controller)
@@ -981,14 +1007,23 @@ User.before_invitation_created do |user|
   user.firstname = User.nemo if user.firstname == "First Name"
   user.surname   = User.nemo if user.surname == "Surname"
 
-  user.skip_invitation = true
+end
 
+class Devise::Mailer
+  # devise mailer does not user app/views/branded as stated by rails
+  # purpose: when a user is added to a plan, an invitation mail is
+  # and for existing user a sharing notification mail. We made sure
+  # here that the invitation mail looks the same as the sharing notification
+  # mail
+  prepend_view_path(Rails.root.join("app", "views", "branded"))
 end
 
 class Org
 
   has_many :domains, class_name: "Ugent::OrgDomain"
 
+  # addition
+  # only used by lib/tasks/ugent_deprecated.rake
   def org_admin_plan_ids
 
     (native_plan_ids + affiliated_plan_ids).flatten.uniq
@@ -1437,6 +1472,8 @@ class PlanPolicy
   end
 
 end
+
+Settings::Template::DEFAULT_SETTINGS[:formatting][:font_size] = 14
 
 # not used at the moment. Remove?
 DMPRoadmap::Application.class_eval do

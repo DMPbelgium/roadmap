@@ -1,0 +1,21 @@
+version: "3.3"
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile-dev
+    working_dir: "/opt/roadmap"
+    container_name: roadmap-dev
+    entrypoint: "./entrypoint-dev.sh"
+    depends_on:
+      - mysql
+    ports:
+      - "80:3000"
+      - "9000:9000"
+      - "26162:26162"
+
+  mysql:
+    image: mysql
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root

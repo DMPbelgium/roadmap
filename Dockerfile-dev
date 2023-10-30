@@ -1,0 +1,36 @@
+# syntax=docker/dockerfile:1
+FROM ruby:3.1.4
+
+WORKDIR /opt/roadmap
+COPY . .
+
+RUN apt-get update && \
+    gem install bundler:2.4.8 && \
+    rm -rf vendor/ && \
+    rm -f .bundle/config && \
+    gem install bundler:2.4.8 && \
+    bundle update && \
+    bundle config build.nokogiri --use-system-libraries && \
+    bundle config path vendor/bundle && \
+    bundle config with pgsql mysql puma && \
+    bundle config with test development ci aws && \
+    bundle install && \
+    rm -rf .git/ && \
+    rm -rf tmp/ && \
+    rm -rf log/ && \
+    rm -rf vendor/bundle/ruby/3.0.0/cache/ && \
+    rm -rf /usr/local/bundle/cache/ && \
+    (bin/wkhtmltopdf || true) &&\
+    rm -f vendor/bundle/ruby/3.0.0/gems/wkhtmltopdf-binary-0.12.6.6/bin/*.gz && \
+    mv -f ./ugent/public/* ./public && \
+    mv bin/rails_without_spring bin/rails
+
+RUN apt-get -y install libpq5 libmariadb3 libyaml-0-2 libxml2 openssl bison libjpeg62-turbo libpng16-16 imagemagick libxrender1 libxext6
+
+# For debugging
+RUN mkdir app/assets/builds
+RUN apt-get -y install nodejs yarnpkg vim
+RUN yarnpkg install
+RUN ln -s /usr/bin/yarnpkg /usr/bin/yarn
+RUN gem install ruby-debug-ide
+RUN gem install debase -v 0.2.5beta2

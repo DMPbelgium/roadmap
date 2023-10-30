@@ -11,6 +11,7 @@
   <div id="download-settings">
     <h2><%= _("Download settings") %></h2>
     <%= hidden_field_tag 'export[form]', true %>
+    <% @phase_options = @plan.phases.all.sort_by(&:number).map {|p| [p.title, p.id] } %>
     <% if @phase_options.length > 1 %>
       <fieldset>
         <legend><%= _("Select phases to download") %></legend>

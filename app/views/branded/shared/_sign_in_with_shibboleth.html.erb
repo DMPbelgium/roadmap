@@ -1,0 +1,29 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3>Sign in with your institutional account</h3>
+  </div>
+  <div class="panel-body">
+    <form action="<%= Rails.configuration.x.shibboleth.login_url %>" method="post">
+      <div class="form-group">
+        <input type="hidden" name="target" value="<%= user_shibboleth_omniauth_callback_url %>">
+        <select class="form-control form-control-lg" name="entityID" required>
+          <option value="">-- Select your institution --</option>
+          <% scheme = IdentifierScheme.find_by_name!("shibboleth") %>
+          <% shibboleth_identifiers = []
+             Org.includes(:identifiers)
+                .where(managed:true)
+                .each do |org|
+                  ids = org.identifiers.select { |id| id.identifier_scheme_id == scheme.id }
+                  shibboleth_identifiers += ids
+                end
+             shibboleth_identifiers.sort! {|l, r| l.label.downcase <=> r.label.downcase }
+          %>
+          <% shibboleth_identifiers.each do |id| %>
+            <option value="<%= id.value %>"><%= id.label %></option>
+          <% end %>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary">Sign in with shibboleth</button>
+    </form>
+  </div>
+</div>

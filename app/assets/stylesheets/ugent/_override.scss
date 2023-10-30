@@ -54,3 +54,42 @@
     outline-color: #107896 !important;
   }
 }
+
+.sign-in {
+  margin-top: 30px;
+}
+
+#sign-in-form {
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+#sign-in-form > .panel {
+  flex: 1;
+  text-align: center;
+  min-width: 350px;
+}
+
+/*
+ fix button hover effect that enlarges button
+*/
+
+.btn-primary,
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary:visited,
+.btn-primary:active:hover,
+.btn-primary.active:hover {
+  margin: 5px 0px 0px 0px;
+}
+
+.btn-default,
+.btn-default:hover,
+.btn-default:focus,
+.btn-default:active,
+.btn-default:visited,
+.btn-default:active:hover,
+.btn-default.active:hover {
+  margin: 5px 0px 0px 0px;
+}

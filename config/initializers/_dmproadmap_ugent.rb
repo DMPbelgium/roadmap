@@ -115,6 +115,8 @@ module DMPRoadmap
     }
 
     config.x.application.restrict_orgs = true
+    # Setting to display phone number in contributor form
+    config.x.application.display_contributor_phone_number = false
 
     # Setting require contributor requirement of contributor name and email
     config.x.application.require_contributor_name = true
@@ -263,9 +265,11 @@ module DMPRoadmap
     config.action_mailer.default_url_options[:host] = ENV["DMP_HOST"]
     config.action_mailer.default_url_options[:protocol] = ENV["DMP_PROTOCOL"]
 
+    # default settings for mailing
     config.action_mailer.smtp_settings ||= {}
     config.action_mailer.smtp_settings[:address] = ENV.fetch("DMP_SMTP_ADDRESS", "localhost")
     config.action_mailer.smtp_settings[:port] = ENV.fetch("DMP_SMTP_PORT", 25)
+
 
     # default url options for route helpers (outside of request context)
     Rails.application.routes.default_url_options ||= {}

@@ -10,11 +10,4 @@ export RAILS_ENV=production
 
 lock_file
 
-orgid="$1"
-
-if [ -z "$orgid" ];then
-  echo "no orgid given" >&2
-  exit 1
-fi
-
-bin/rails ugent:export:projects[$orgid]
+bin/rails ugent:export:projects
