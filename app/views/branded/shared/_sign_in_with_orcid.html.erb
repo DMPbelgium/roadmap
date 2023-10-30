@@ -8,6 +8,15 @@
           Rails.application.routes.url_helpers.send("user_orcid_omniauth_authorize_path"),
           { method: :post, class: "btn btn-primary" }
         )
-    %>
+      %>
+    <p>
+      <%=
+        link_to(
+          "How to sign in via ORCID?",
+          "https://github.com/DMPbelgium/Guidance/wiki/ORCID-log-in#how-to-sign-in-via-orcid",
+          { class: "btn btn-link" }
+        )
+      %>
+    </p>
   </div>
 </div>
