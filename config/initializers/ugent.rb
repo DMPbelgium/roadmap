@@ -1296,7 +1296,7 @@ module Users
       end
 
       # User is not logged in
-      email = auth["info"]["email"]
+      email = auth["info"]["email"].downcase
 
       # Match orcid with one of more users
       selectable_users = Identifier.where(identifiable_type: "User", identifier_scheme_id: scheme.id, value: full_uid)
