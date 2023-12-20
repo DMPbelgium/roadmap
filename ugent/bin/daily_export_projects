@@ -2,6 +2,8 @@
 
 cd `dirname $0`/../..
 
+[ "X$1" != "X" ]  && ORG_ID=$1
+
 [ -f env.sh ] && . env.sh
 
 export RAILS_ENV=production
@@ -10,4 +12,4 @@ export RAILS_ENV=production
 
 lock_file
 
-bin/rails ugent:export:projects
+bin/rails ugent:export:projects[$ORG_ID]
