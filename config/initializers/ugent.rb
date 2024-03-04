@@ -1296,7 +1296,7 @@ module Users
       end
 
       # User is not logged in
-      email = auth["info"]["email"].downcase
+      email = auth["info"].try("email").downcase
 
       # Match orcid with one of more users
       selectable_users = Identifier.where(identifiable_type: "User", identifier_scheme_id: scheme.id, value: full_uid)
@@ -1327,8 +1327,8 @@ module Users
       if user
 
         # set firstname and surname when not present yet
-        user.firstname = auth["info"]["first_name"] if user.firstname.blank? || user.firstname == User.nemo
-        user.surname = auth["info"]["last_name"] if user.surname.blank? || user.surname == User.nemo
+        user.firstname = auth["info"].try("first_name") if user.firstname.blank? || user.firstname == User.nemo
+        user.surname = auth["info"].try("last_name") if user.surname.blank? || user.surname == User.nemo
 
       # Match on primary email: OK
       # this user's orcid must be empty or different
@@ -1366,8 +1366,8 @@ module Users
 
         user = User.new(
           email: email,
-          firstname: auth["info"]["first_name"],
-          surname: auth["info"]["last_name"]
+          firstname: auth["info"].try("first_name"),
+          surname: auth["info"].try("last_name")
         )
 
         unless user.save
