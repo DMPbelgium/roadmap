@@ -1,6 +1,6 @@
 @use '../variables/colours' as *;
-@use "../../../../node_modules/bootstrap-sass/assets/stylesheets/_bootstrap.scss" as *;
-
+@import "../../../../node_modules/bootstrap/scss/functions";
+@import "../../../../node_modules/bootstrap/scss/variables";
 // Override FontAwesome icons
 
 /* FONTAWESOME STYLING */
@@ -15,12 +15,12 @@
 }
 
 /* change color of search icon */
-.fa-search {
+.fa-magnifying-glass {
   color: $color-primary-text;
 }
 
 /* adjust the position of the 'remove - X' button for links */
-.link .fa-times-circle {
+.link .fa-circle-xmark {
   margin-top: $grid-gutter-width;
 }
 
