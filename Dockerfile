@@ -34,7 +34,7 @@ COPY --from=build /opt/roadmap /opt/roadmap
 COPY --from=build /usr/local/bundle /usr/local/bundle
 
 RUN apt-get update && \
-  apt-get -y install libpq5 libmariadb3 libyaml-0-2 libxml2 openssl bison libjpeg62-turbo libpng16-16 imagemagick libxrender1 libxext6
+  apt-get -y install vim libpq5 libmariadb3 libyaml-0-2 libxml2 openssl bison libjpeg62-turbo libpng16-16 imagemagick libxrender1 libxext6
 
 # for testing purpose
 #CMD exec /bin/bash -c "trap : TERM INT; sleep infinity & wait"

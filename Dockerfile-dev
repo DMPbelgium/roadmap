@@ -25,7 +25,7 @@ RUN apt-get update && \
     mv -f ./ugent/public/* ./public && \
     mv bin/rails_without_spring bin/rails
 
-RUN apt-get -y install libpq5 libmariadb3 libyaml-0-2 libxml2 openssl bison libjpeg62-turbo libpng16-16 imagemagick libxrender1 libxext6
+RUN apt-get -y vim install libpq5 libmariadb3 libyaml-0-2 libxml2 openssl bison libjpeg62-turbo libpng16-16 imagemagick libxrender1 libxext6
 
 # For debugging
 RUN mkdir app/assets/builds
