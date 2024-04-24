@@ -25,10 +25,10 @@ RUN apt-get update && \
     mv -f ./ugent/public/* ./public && \
     mv bin/rails_without_spring bin/rails
 
-RUN apt-get -y vim install libpq5 libmariadb3 libyaml-0-2 libxml2 openssl bison libjpeg62-turbo libpng16-16 imagemagick libxrender1 libxext6
+RUN apt-get -y install vim libpq5 libmariadb3 libyaml-0-2 libxml2 openssl bison libjpeg62-turbo libpng16-16 imagemagick libxrender1 libxext6
 
 # For debugging
-RUN mkdir app/assets/builds
+RUN [ -d app/assets/builds ] || mkdir app/assets/builds
 RUN apt-get -y install nodejs yarnpkg vim
 RUN yarnpkg install
 RUN ln -s /usr/bin/yarnpkg /usr/bin/yarn
