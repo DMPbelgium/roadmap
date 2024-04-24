@@ -39,3 +39,5 @@ $fa-font-path: '.';
 //Importing customised stylesheets after Bootstrap defaults
 @import "blocks";
 @import "utils";
+
+@import "./ugent/_override.scss";
