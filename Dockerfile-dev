@@ -15,6 +15,10 @@ RUN apt-get update && \
     bundle config with pgsql mysql puma && \
     bundle config with test development ci aws && \
     bundle install && \
+    rm -rf app/assets/videos && \
+    rm -rf app/assets/builds && \
+    rm -rf public/assets/ && \
+    rm -rf node_modules/ && \
     rm -rf .git/ && \
     rm -rf tmp/ && \
     rm -rf log/ && \
@@ -22,7 +26,6 @@ RUN apt-get update && \
     rm -rf /usr/local/bundle/cache/ && \
     (bin/wkhtmltopdf || true) &&\
     rm -f vendor/bundle/ruby/3.0.0/gems/wkhtmltopdf-binary-0.12.6.6/bin/*.gz && \
-    mv -f ./ugent/public/* ./public && \
     mv bin/rails_without_spring bin/rails
 
 RUN apt-get -y install vim libpq5 libmariadb3 libyaml-0-2 libxml2 openssl bison libjpeg62-turbo libpng16-16 imagemagick libxrender1 libxext6
