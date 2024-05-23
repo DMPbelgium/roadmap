@@ -15,7 +15,7 @@
     end
   }
 %>
-<div class="form-group">
+<div class="form-control mb-3">
   <% hidden_themes.each do |theme| %>
     <% next unless f.object.themes.include?(theme) %>
     <% namespace = f.object.class.name.downcase %>
@@ -38,6 +38,7 @@
                    locals: { message: popover_message, placement: 'right' }%>
       </legend>
 
+      <div class="row">
       <div class="col-md-<%= col_size %>">
         <% visible_themes.each do |theme| %>
           <% if cntr >= per_col %>
@@ -45,7 +46,7 @@
             <div class="col-md-<%= col_size %>">
             <% cntr = 0 %>
           <% end %>
-          <div class="checkbox">
+          <div class="form-check">
             <% namespace = f.object.class.name.downcase %>
             <% id = f.object.id.present? ? f.object.id : 'new' %>
             <input id="<%= id %>_<%= namespace %>_theme_ids_<%= theme.id %>"
@@ -57,6 +58,7 @@
           </div>
           <% cntr += 1 %>
         <% end %>
+      </div>
       </div>
     </fieldset>
   <% else %>

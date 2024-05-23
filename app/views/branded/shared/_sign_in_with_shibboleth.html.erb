@@ -6,7 +6,7 @@
     <form action="<%= Rails.configuration.x.shibboleth.login_url %>" method="post">
       <div class="form-group">
         <input type="hidden" name="target" value="<%= user_shibboleth_omniauth_callback_url %>">
-        <select class="form-control form-control-lg" name="entityID" required>
+        <select class="form-select form-select-lg" name="entityID" required>
           <option value="">-- Select your institution --</option>
           <% scheme = IdentifierScheme.find_by_name!("shibboleth") %>
           <% shibboleth_identifiers = []
