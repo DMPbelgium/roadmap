@@ -16,10 +16,9 @@
       <%= render partial: 'shared/export/plan_coversheet' %>
     <% end %>
 
-    <% selected_phase_titles = @selected_phases.map(&:title) %>
     <% @hash[:phases].each do |phase| %>
-      <%# Only render selected phases %>
-        <% if selected_phase_titles.include?(phase[:title]) %>
+      <%# Only render selected phase %>
+      <% if @hash[:all_phases] || (@selected_phase.present? && phase[:title] == @selected_phase.title) %>
         <%# Page break before each phase %>
         <div style="page-break-before:always;"></div>
         <h1><%= download_plan_page_title(@plan, phase, @hash) %></h1>
@@ -36,9 +35,9 @@
                 <% next %>
               <% end %>
               <div class="question">
-                <% answer = @plan.answer(question[:id], false) %>
-                <% blank = answer.present? ? answer.blank? : true %>
                 <% if @show_sections_questions%>
+                  <% answer = @plan.answer(question[:id], false) %>
+                  <% blank = answer.present? ? answer.blank? : true %>
                   <% options = answer.present? ? answer.question_options : [] %>
                   <% if @show_unanswered %>
                     <%# Hack: for DOCX export - otherwise, bold highlighting of question inconsistent. %>
