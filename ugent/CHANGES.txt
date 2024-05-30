@@ -73,7 +73,7 @@
     more than one login route (i.e. identifier), we
     need to add a label to the identifier itself.
 
-- app/javascript/packs/application.js
+- app/javascript/application.js
 
   replaced import of plans/new.js by ugent/plans/new.js (see further):
 
@@ -83,13 +83,11 @@
 
   make sure this replacement stays on upstream merge
 
-  TODO: file is replaced upstream by app/javascript/application.js
-
 - app/javascript/src/ugent/plans/new.js
 
   replacement for app/javascript/src/plans/new.js
 
-  inserted into app/javascript/packs/application.js (see above)
+  inserted into app/javascript/application.js (see above)
 
   expected by override template app/views/branded/plans/new.html.erb (see below):
     expects #plan_org_id and #plan_funder_id to be select boxes,
