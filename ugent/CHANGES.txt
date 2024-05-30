@@ -127,22 +127,24 @@
   "select_tag(:plan_template_id" as html_safe? Does it work without?
   Where did we get this from?
 
+- app/views/branded/shared/export/_plan.erb
+
+  overrides app/views/shared/export/_plan.erb
+
+  in contrast to the original, where you can either download one phase or all of them,
+  the user can select the phases themselves separately.
+
+  array @selected_phases is set by overridden PlanExportsController#show
+  in config/initializers/ugent.rb (see below)
+
 - app/views/branded/plans/_download_form.html.erb
 
   overrides app/views/plans/_download_form.html.erb
 
-  in contrast to original, lets us select from multiple phases,
-  disables download button when no phase is selected.
+  in contrast to the original, where you can either download one phase or all of them,
+  the user can select the phases themselves separately.
 
-  expects array @selected_phases instead of original @selected_phase
-  to be present
-
-  TODO: apparently export of multiple phases has also been implemented
-        merge functionality?
-
-        see 04fce0cddecd6a303f46f35c2aa673815eb2a575
-
-        but they either offer 1 phase or ALL phases
+  we disable the download button when no phase is selected
 
 - app/views/branded/paginable/plans/_privately_visible.html.erb
 
