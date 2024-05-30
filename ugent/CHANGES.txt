@@ -156,9 +156,7 @@
 
   overrides app/views/phases/_edit_plan_answers.html.erb
 
-  preliminary fix for PR https://github.com/DMPRoadmap/roadmap/pull/3184
-
-  to be removed when PR is merged
+  does not black left border when comments are shown by default
 
 - app/views/branded/plans/_project_details.html.erb
 
