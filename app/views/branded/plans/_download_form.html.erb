@@ -21,14 +21,14 @@
         <% @phase_options.each do |phase_option| %>
           <div class="form-check">
             <label class="form-check-label">
-              <input type="checkbox" name="phase_id" value="<%= phase_option[1] %>" checked>
+              <input type="checkbox" name="phase_id[]" value="<%= phase_option[1] %>" checked>
               <%= phase_option[0] %>
             </label>
           </div>
         <% end %>
       </fieldset>
     <% else %>
-      <%= hidden_field_tag(:phase_id, @phase_options[0][1]) %>
+      <%= hidden_field_tag("phase_id[]", @phase_options[0][1]) %>
     <% end %>
     <fieldset>
       <legend><%= _("Optional plan components") %></legend>
@@ -144,9 +144,9 @@
 
 <script type="text/javascript">
   (function(){
-    document.querySelectorAll("input[name=phase_id]").forEach((input) => {
+    document.querySelectorAll("input[name=phase_id\\[\\]]").forEach((input) => {
       input.addEventListener("change", () => {
-        const n_checked = document.querySelectorAll("input[name=phase_id]:checked").length;
+        const n_checked = document.querySelectorAll("input[name=phase_id\\[\\]]:checked").length;
         const submit = document.querySelector("button[name=button]");
         if (n_checked > 0) {
           submit.removeAttribute("disabled");
