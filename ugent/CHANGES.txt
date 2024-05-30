@@ -127,18 +127,6 @@
   "select_tag(:plan_template_id" as html_safe? Does it work without?
   Where did we get this from?
 
-- app/views/branded/shared/export/_plan.erb
-
-  overrides app/views/shared/export/_plan.erb
-
-  uses @selected_phases instead of @selected_phase
-  as determined by overridden controller PlanExportsController.
-
-  See config/initializer/ugent.rb
-
-  preliminary fix for https://github.com/DMPRoadmap/roadmap/issues/3340
-  See comment https://github.com/DMPRoadmap/roadmap/issues/3340#issuecomment-1728148160
-
 - app/views/branded/plans/_download_form.html.erb
 
   overrides app/views/plans/_download_form.html.erb
