@@ -26710,18 +26710,15 @@ th.download-column {
 }
 
 #sign-in-form {
-  display: -ms-flexbox;
-  display: flex;
   gap: 30px;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
 }
 
-#sign-in-form > .panel {
+#sign-in-form > .card {
   -ms-flex: 1;
       flex: 1;
   text-align: center;
   min-width: 350px;
+  border: 1px solid black;
 }
 
 /*

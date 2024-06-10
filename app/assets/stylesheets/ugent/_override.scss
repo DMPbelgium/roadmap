@@ -60,14 +60,14 @@
 }
 
 #sign-in-form {
-  display: flex;
   gap: 30px;
-  flex-wrap: wrap;
 }
-#sign-in-form > .panel {
+
+#sign-in-form > .card {
   flex: 1;
   text-align: center;
   min-width: 350px;
+  border: 1px solid black;
 }
 
 /*
