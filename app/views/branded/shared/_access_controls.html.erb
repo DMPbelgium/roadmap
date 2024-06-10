@@ -1,6 +1,6 @@
 <div class="sign-in">
   <div class="tab-content">
-    <div id="sign-in-form" role="tabpanel" class="tab-pane show active">
+    <div id="sign-in-form" class="card-group">
       <% if ENV["DMP_LOCAL_LOGIN"].to_s == "true" %>
         <%= render(partial: "shared/dev_sign_in_form") %>
       <% else %>

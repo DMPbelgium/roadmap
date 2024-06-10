@@ -1,33 +1,34 @@
 <!-- Sign in / out -->
 <% if user_signed_in? %>
-  <li class="dropdown" id="signin-signout">
-    <a href="#" class="dropdown-toggle" role="button" id="user-menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+  <li class="dropdown nav-item" id="signin-signout">
+    <a href="#" class="dropdown-toggle nav-link" role="button" id="user-menu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
       <i class="fas fa-user" aria-hidden="true">&nbsp;</i>
       <%= current_user.name(false) %>
       <span class="caret"></span>
     </a>
-    <ul class="dropdown-menu inverse-dropdown" aria-labelledby="user-menu">
+    <ul class="dropdown-menu dropdown-menu-end"
+        data-bs-popper="static" aria-labelledby="user-menu">
       <li>
-        <%= link_to '<i class="fas fa-pen-square" aria-hidden="true">&nbsp;</i>&nbsp;'.html_safe + _('Edit profile'), edit_user_registration_path %>
+        <%= link_to '<i class="fas fa-square-pen" aria-hidden="true">&nbsp;</i>&nbsp;'.html_safe + _('Edit profile'), edit_user_registration_path, class: 'dropdown-item' %>
       </li>
       <% if current_user.alternative_accounts.any? %>
       <li>
-        <a href="<%= edit_switch_user_path %>">
+        <a href="<%= edit_switch_user_path %>" class="dropdown-item">
           <i class="fas fa-sign-in" aria-hidden="true">&nbsp;</i>
           Switch user
         </a>
       </li>
       <% end %>
       <li>
-        <%= link_to '<i class="fas fa-sign-in-alt" aria-hidden="true">&nbsp;</i>&nbsp;'.html_safe + _('Logout'), destroy_user_session_path, method: :delete %>
+        <%= link_to '<i class="fas fa-right-to-bracket" aria-hidden="true">&nbsp;</i>&nbsp;'.html_safe + _('Logout'), destroy_user_session_path, method: :delete, class: 'dropdown-item' %>
       </li>
     </ul>
   </li>
 <% else %>
   <% if !active_page?(root_path, true) %>
     <li>
-      <a href="<%= root_path %>">
-        <i class="fas fa-sign-in-alt" aria-hidden="true">&nbsp;</i>
+      <a href="<%= root_path %>" class="nav-link">
+        <i class="fas fa-right-to-bracket" aria-hidden="true">&nbsp;</i>
         <%= _('Sign in') %>
       </a>
     </li>

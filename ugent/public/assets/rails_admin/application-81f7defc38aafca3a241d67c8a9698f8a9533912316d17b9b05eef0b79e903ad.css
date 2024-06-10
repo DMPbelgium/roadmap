@@ -2626,10 +2626,6 @@ progress {
 }
 
 /* line 56, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/bootstrap/forms/_form-control.scss */
-.form-control::-webkit-input-placeholder {
-  color: #6c757d;
-  opacity: 1;
-}
 .form-control::-moz-placeholder {
   color: #6c757d;
   opacity: 1;
@@ -2653,8 +2649,7 @@ progress {
 .form-control::-webkit-file-upload-button {
   padding: 0.375rem 0.75rem;
   margin: -0.375rem -0.75rem;
-  -webkit-margin-end: 0.75rem;
-          margin-inline-end: 0.75rem;
+  margin-inline-end: 0.75rem;
   color: #212529;
   background-color: #e9ecef;
   pointer-events: none;
@@ -2669,8 +2664,7 @@ progress {
 .form-control::file-selector-button {
   padding: 0.375rem 0.75rem;
   margin: -0.375rem -0.75rem;
-  -webkit-margin-end: 0.75rem;
-          margin-inline-end: 0.75rem;
+  margin-inline-end: 0.75rem;
   color: #212529;
   background-color: #e9ecef;
   pointer-events: none;
@@ -2705,8 +2699,7 @@ progress {
 .form-control::-webkit-file-upload-button {
   padding: 0.375rem 0.75rem;
   margin: -0.375rem -0.75rem;
-  -webkit-margin-end: 0.75rem;
-          margin-inline-end: 0.75rem;
+  margin-inline-end: 0.75rem;
   color: #212529;
   background-color: #e9ecef;
   pointer-events: none;
@@ -2763,22 +2756,19 @@ progress {
 .form-control-sm::-webkit-file-upload-button {
   padding: 0.25rem 0.5rem;
   margin: -0.25rem -0.5rem;
-  -webkit-margin-end: 0.5rem;
-          margin-inline-end: 0.5rem;
+  margin-inline-end: 0.5rem;
 }
 .form-control-sm::file-selector-button {
   padding: 0.25rem 0.5rem;
   margin: -0.25rem -0.5rem;
-  -webkit-margin-end: 0.5rem;
-          margin-inline-end: 0.5rem;
+  margin-inline-end: 0.5rem;
 }
 
 /* line 157, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/bootstrap/forms/_form-control.scss */
 .form-control-sm::-webkit-file-upload-button {
   padding: 0.25rem 0.5rem;
   margin: -0.25rem -0.5rem;
-  -webkit-margin-end: 0.5rem;
-          margin-inline-end: 0.5rem;
+  margin-inline-end: 0.5rem;
 }
 
 /* line 164, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/bootstrap/forms/_form-control.scss */
@@ -2793,22 +2783,19 @@ progress {
 .form-control-lg::-webkit-file-upload-button {
   padding: 0.5rem 1rem;
   margin: -0.5rem -1rem;
-  -webkit-margin-end: 1rem;
-          margin-inline-end: 1rem;
+  margin-inline-end: 1rem;
 }
 .form-control-lg::file-selector-button {
   padding: 0.5rem 1rem;
   margin: -0.5rem -1rem;
-  -webkit-margin-end: 1rem;
-          margin-inline-end: 1rem;
+  margin-inline-end: 1rem;
 }
 
 /* line 176, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/bootstrap/forms/_form-control.scss */
 .form-control-lg::-webkit-file-upload-button {
   padding: 0.5rem 1rem;
   margin: -0.5rem -1rem;
-  -webkit-margin-end: 1rem;
-          margin-inline-end: 1rem;
+  margin-inline-end: 1rem;
 }
 
 /* line 187, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/bootstrap/forms/_form-control.scss */
@@ -2966,8 +2953,7 @@ textarea.form-control-lg {
 
 /* line 40, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/bootstrap/forms/_form-check.scss */
 .form-check-input:active {
-  -webkit-filter: brightness(90%);
-          filter: brightness(90%);
+  filter: brightness(90%);
 }
 
 /* line 44, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/bootstrap/forms/_form-check.scss */
@@ -3003,8 +2989,7 @@ textarea.form-control-lg {
 /* line 82, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/bootstrap/forms/_form-check.scss */
 .form-check-input:disabled {
   pointer-events: none;
-  -webkit-filter: none;
-          filter: none;
+  filter: none;
   opacity: 0.5;
 }
 
@@ -3062,8 +3047,7 @@ textarea.form-control-lg {
 /* line 146, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/bootstrap/forms/_form-check.scss */
 .btn-check[disabled] + .btn, .btn-check:disabled + .btn {
   pointer-events: none;
-  -webkit-filter: none;
-          filter: none;
+  filter: none;
   opacity: 0.65;
 }
 
@@ -3209,11 +3193,8 @@ textarea.form-control-lg {
   padding: 1rem 0.75rem;
   pointer-events: none;
   border: 1px solid transparent;
-  -webkit-transform-origin: 0 0;
-          transform-origin: 0 0;
-  transition: opacity 0.1s ease-in-out, -webkit-transform 0.1s ease-in-out;
+  transform-origin: 0 0;
   transition: opacity 0.1s ease-in-out, transform 0.1s ease-in-out;
-  transition: opacity 0.1s ease-in-out, transform 0.1s ease-in-out, -webkit-transform 0.1s ease-in-out;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -3229,9 +3210,6 @@ textarea.form-control-lg {
 }
 
 /* line 26, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/bootstrap/forms/_floating-labels.scss */
-.form-floating > .form-control::-webkit-input-placeholder {
-  color: transparent;
-}
 .form-floating > .form-control::-moz-placeholder {
   color: transparent;
 }
@@ -3281,15 +3259,13 @@ textarea.form-control-lg {
 .form-floating > .form-control:not(:placeholder-shown) ~ label,
 .form-floating > .form-select ~ label {
   opacity: 0.65;
-  -webkit-transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
-          transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
+  transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
 }
 
 /* line 57, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/bootstrap/forms/_floating-labels.scss */
 .form-floating > .form-control:-webkit-autofill ~ label {
   opacity: 0.65;
-  -webkit-transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
-          transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
+  transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
 }
 
 /* line 5, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/bootstrap/forms/_input-group.scss */
@@ -5192,8 +5168,7 @@ textarea.form-control-lg {
     border-right: 0;
     border-left: 0;
     transition: none;
-    -webkit-transform: none;
-            transform: none;
+    transform: none;
   }
   /* line 213, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/bootstrap/_navbar.scss */
   .navbar-expand-sm .offcanvas-top,
@@ -5266,8 +5241,7 @@ textarea.form-control-lg {
     border-right: 0;
     border-left: 0;
     transition: none;
-    -webkit-transform: none;
-            transform: none;
+    transform: none;
   }
   /* line 213, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/bootstrap/_navbar.scss */
   .navbar-expand-md .offcanvas-top,
@@ -5340,8 +5314,7 @@ textarea.form-control-lg {
     border-right: 0;
     border-left: 0;
     transition: none;
-    -webkit-transform: none;
-            transform: none;
+    transform: none;
   }
   /* line 213, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/bootstrap/_navbar.scss */
   .navbar-expand-lg .offcanvas-top,
@@ -5414,8 +5387,7 @@ textarea.form-control-lg {
     border-right: 0;
     border-left: 0;
     transition: none;
-    -webkit-transform: none;
-            transform: none;
+    transform: none;
   }
   /* line 213, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/bootstrap/_navbar.scss */
   .navbar-expand-xl .offcanvas-top,
@@ -5488,8 +5460,7 @@ textarea.form-control-lg {
     border-right: 0;
     border-left: 0;
     transition: none;
-    -webkit-transform: none;
-            transform: none;
+    transform: none;
   }
   /* line 213, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/bootstrap/_navbar.scss */
   .navbar-expand-xxl .offcanvas-top,
@@ -5569,8 +5540,7 @@ textarea.form-control-lg {
   border-right: 0;
   border-left: 0;
   transition: none;
-  -webkit-transform: none;
-          transform: none;
+  transform: none;
 }
 
 /* line 213, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/bootstrap/_navbar.scss */
@@ -5937,8 +5907,7 @@ textarea.form-control-lg {
 /* line 25, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/bootstrap/_accordion.scss */
 .accordion-button:not(.collapsed)::after {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%230c63e4'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
-  -webkit-transform: rotate(-180deg);
-          transform: rotate(-180deg);
+  transform: rotate(-180deg);
 }
 
 /* line 32, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/bootstrap/_accordion.scss */
@@ -5952,9 +5921,7 @@ textarea.form-control-lg {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23212529'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
   background-repeat: no-repeat;
   background-size: 1.25rem;
-  transition: -webkit-transform 0.2s ease-in-out;
   transition: transform 0.2s ease-in-out;
-  transition: transform 0.2s ease-in-out, -webkit-transform 0.2s ease-in-out;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -6355,12 +6322,6 @@ textarea.form-control-lg {
   color: #101214;
 }
 
-@-webkit-keyframes progress-bar-stripes {
-  0% {
-    background-position-x: 1rem;
-  }
-}
-
 @keyframes progress-bar-stripes {
   0% {
     background-position-x: 1rem;
@@ -6409,15 +6370,13 @@ textarea.form-control-lg {
 
 /* line 39, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/bootstrap/_progress.scss */
 .progress-bar-animated {
-  -webkit-animation: 1s linear infinite progress-bar-stripes;
-          animation: 1s linear infinite progress-bar-stripes;
+  animation: 1s linear infinite progress-bar-stripes;
 }
 
 @media (prefers-reduced-motion: reduce) {
   /* line 39, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/bootstrap/_progress.scss */
   .progress-bar-animated {
-    -webkit-animation: none;
-            animation: none;
+    animation: none;
   }
 }
 
@@ -6915,8 +6874,7 @@ textarea.form-control-lg {
 
 /* line 38, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/bootstrap/_close.scss */
 .btn-close-white {
-  -webkit-filter: invert(1) grayscale(100%) brightness(200%);
-          filter: invert(1) grayscale(100%) brightness(200%);
+  filter: invert(1) grayscale(100%) brightness(200%);
 }
 
 /* line 1, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/bootstrap/_toasts.scss */
@@ -6944,7 +6902,6 @@ textarea.form-control-lg {
 
 /* line 22, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/bootstrap/_toasts.scss */
 .toast-container {
-  width: -webkit-max-content;
   width: -moz-max-content;
   width: max-content;
   max-width: 100%;
@@ -7007,11 +6964,8 @@ textarea.form-control-lg {
 
 /* line 35, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/bootstrap/_modal.scss */
 .modal.fade .modal-dialog {
-  transition: -webkit-transform 0.3s ease-out;
   transition: transform 0.3s ease-out;
-  transition: transform 0.3s ease-out, -webkit-transform 0.3s ease-out;
-  -webkit-transform: translate(0, -50px);
-          transform: translate(0, -50px);
+  transform: translate(0, -50px);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -7023,14 +6977,12 @@ textarea.form-control-lg {
 
 /* line 39, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/bootstrap/_modal.scss */
 .modal.show .modal-dialog {
-  -webkit-transform: none;
-          transform: none;
+  transform: none;
 }
 
 /* line 44, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/bootstrap/_modal.scss */
 .modal.modal-static .modal-dialog {
-  -webkit-transform: scale(1.02);
-          transform: scale(1.02);
+  transform: scale(1.02);
 }
 
 /* line 49, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/bootstrap/_modal.scss */
@@ -7680,11 +7632,8 @@ textarea.form-control-lg {
   float: left;
   width: 100%;
   margin-right: -100%;
-  -webkit-backface-visibility: hidden;
-          backface-visibility: hidden;
-  transition: -webkit-transform 0.6s ease-in-out;
+  backface-visibility: hidden;
   transition: transform 0.6s ease-in-out;
-  transition: transform 0.6s ease-in-out, -webkit-transform 0.6s ease-in-out;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -7705,15 +7654,13 @@ textarea.form-control-lg {
 /* line 46, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/bootstrap/_carousel.scss */
 .carousel-item-next:not(.carousel-item-start),
 .active.carousel-item-end {
-  -webkit-transform: translateX(100%);
-          transform: translateX(100%);
+  transform: translateX(100%);
 }
 
 /* line 51, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/bootstrap/_carousel.scss */
 .carousel-item-prev:not(.carousel-item-end),
 .active.carousel-item-start {
-  -webkit-transform: translateX(-100%);
-          transform: translateX(-100%);
+  transform: translateX(-100%);
 }
 
 /* rtl:end:ignore */
@@ -7721,8 +7668,7 @@ textarea.form-control-lg {
 .carousel-fade .carousel-item {
   opacity: 0;
   transition-property: opacity;
-  -webkit-transform: none;
-          transform: none;
+  transform: none;
 }
 
 /* line 70, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/bootstrap/_carousel.scss */
@@ -7895,8 +7841,7 @@ textarea.form-control-lg {
 /* line 217, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/bootstrap/_carousel.scss */
 .carousel-dark .carousel-control-prev-icon,
 .carousel-dark .carousel-control-next-icon {
-  -webkit-filter: invert(1) grayscale(100);
-          filter: invert(1) grayscale(100);
+  filter: invert(1) grayscale(100);
 }
 
 /* line 222, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/bootstrap/_carousel.scss */
@@ -7909,17 +7854,9 @@ textarea.form-control-lg {
   color: #000;
 }
 
-@-webkit-keyframes spinner-border {
-  to {
-    -webkit-transform: rotate(360deg) /* rtl:ignore */;
-            transform: rotate(360deg) /* rtl:ignore */;
-  }
-}
-
 @keyframes spinner-border {
   to {
-    -webkit-transform: rotate(360deg) /* rtl:ignore */;
-            transform: rotate(360deg) /* rtl:ignore */;
+    transform: rotate(360deg) /* rtl:ignore */;
   }
 }
 
@@ -7932,8 +7869,7 @@ textarea.form-control-lg {
   border: 0.25em solid currentColor;
   border-right-color: transparent;
   border-radius: 50%;
-  -webkit-animation: 0.75s linear infinite spinner-border;
-          animation: 0.75s linear infinite spinner-border;
+  animation: 0.75s linear infinite spinner-border;
 }
 
 /* line 23, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/bootstrap/_spinners.scss */
@@ -7943,27 +7879,13 @@ textarea.form-control-lg {
   border-width: 0.2em;
 }
 
-@-webkit-keyframes spinner-grow {
-  0% {
-    -webkit-transform: scale(0);
-            transform: scale(0);
-  }
-  50% {
-    opacity: 1;
-    -webkit-transform: none;
-            transform: none;
-  }
-}
-
 @keyframes spinner-grow {
   0% {
-    -webkit-transform: scale(0);
-            transform: scale(0);
+    transform: scale(0);
   }
   50% {
     opacity: 1;
-    -webkit-transform: none;
-            transform: none;
+    transform: none;
   }
 }
 
@@ -7976,8 +7898,7 @@ textarea.form-control-lg {
   background-color: currentColor;
   border-radius: 50%;
   opacity: 0;
-  -webkit-animation: 0.75s linear infinite spinner-grow;
-          animation: 0.75s linear infinite spinner-grow;
+  animation: 0.75s linear infinite spinner-grow;
 }
 
 /* line 57, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/bootstrap/_spinners.scss */
@@ -7990,8 +7911,7 @@ textarea.form-control-lg {
   /* line 64, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/bootstrap/_spinners.scss */
   .spinner-border,
 .spinner-grow {
-    -webkit-animation-duration: 1.5s;
-            animation-duration: 1.5s;
+    animation-duration: 1.5s;
   }
 }
 
@@ -8009,9 +7929,7 @@ textarea.form-control-lg {
   background-color: #fff;
   background-clip: padding-box;
   outline: 0;
-  transition: -webkit-transform 0.3s ease-in-out;
   transition: transform 0.3s ease-in-out;
-  transition: transform 0.3s ease-in-out, -webkit-transform 0.3s ease-in-out;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -8081,8 +7999,7 @@ textarea.form-control-lg {
   left: 0;
   width: 400px;
   border-right: 1px solid rgba(0, 0, 0, 0.2);
-  -webkit-transform: translateX(-100%);
-          transform: translateX(-100%);
+  transform: translateX(-100%);
 }
 
 /* line 54, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/bootstrap/_offcanvas.scss */
@@ -8091,8 +8008,7 @@ textarea.form-control-lg {
   right: 0;
   width: 400px;
   border-left: 1px solid rgba(0, 0, 0, 0.2);
-  -webkit-transform: translateX(100%);
-          transform: translateX(100%);
+  transform: translateX(100%);
 }
 
 /* line 62, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/bootstrap/_offcanvas.scss */
@@ -8103,8 +8019,7 @@ textarea.form-control-lg {
   height: 30vh;
   max-height: 100%;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-  -webkit-transform: translateY(-100%);
-          transform: translateY(-100%);
+  transform: translateY(-100%);
 }
 
 /* line 72, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/bootstrap/_offcanvas.scss */
@@ -8114,14 +8029,12 @@ textarea.form-control-lg {
   height: 30vh;
   max-height: 100%;
   border-top: 1px solid rgba(0, 0, 0, 0.2);
-  -webkit-transform: translateY(100%);
-          transform: translateY(100%);
+  transform: translateY(100%);
 }
 
 /* line 81, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/bootstrap/_offcanvas.scss */
 .offcanvas.show {
-  -webkit-transform: none;
-          transform: none;
+  transform: none;
 }
 
 /* line 1, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/bootstrap/_placeholders.scss */
@@ -8157,14 +8070,7 @@ textarea.form-control-lg {
 
 /* line 30, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/bootstrap/_placeholders.scss */
 .placeholder-glow .placeholder {
-  -webkit-animation: placeholder-glow 2s ease-in-out infinite;
-          animation: placeholder-glow 2s ease-in-out infinite;
-}
-
-@-webkit-keyframes placeholder-glow {
-  50% {
-    opacity: 0.2;
-  }
+  animation: placeholder-glow 2s ease-in-out infinite;
 }
 
 @keyframes placeholder-glow {
@@ -8179,15 +8085,7 @@ textarea.form-control-lg {
           mask-image: linear-gradient(130deg, #000 55%, rgba(0, 0, 0, 0.8) 75%, #000 95%);
   -webkit-mask-size: 200% 100%;
           mask-size: 200% 100%;
-  -webkit-animation: placeholder-wave 2s linear infinite;
-          animation: placeholder-wave 2s linear infinite;
-}
-
-@-webkit-keyframes placeholder-wave {
-  100% {
-    -webkit-mask-position: -200% 0%;
-            mask-position: -200% 0%;
-  }
+  animation: placeholder-wave 2s linear infinite;
 }
 
 @keyframes placeholder-wave {
@@ -8346,7 +8244,6 @@ textarea.form-control-lg {
 
 /* line 24, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/bootstrap/helpers/_position.scss */
 .sticky-top {
-  position: -webkit-sticky;
   position: sticky;
   top: 0;
   z-index: 1020;
@@ -8355,7 +8252,6 @@ textarea.form-control-lg {
 @media (min-width: 576px) {
   /* line 24, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/bootstrap/helpers/_position.scss */
   .sticky-sm-top {
-    position: -webkit-sticky;
     position: sticky;
     top: 0;
     z-index: 1020;
@@ -8365,7 +8261,6 @@ textarea.form-control-lg {
 @media (min-width: 768px) {
   /* line 24, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/bootstrap/helpers/_position.scss */
   .sticky-md-top {
-    position: -webkit-sticky;
     position: sticky;
     top: 0;
     z-index: 1020;
@@ -8375,7 +8270,6 @@ textarea.form-control-lg {
 @media (min-width: 992px) {
   /* line 24, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/bootstrap/helpers/_position.scss */
   .sticky-lg-top {
-    position: -webkit-sticky;
     position: sticky;
     top: 0;
     z-index: 1020;
@@ -8385,7 +8279,6 @@ textarea.form-control-lg {
 @media (min-width: 1200px) {
   /* line 24, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/bootstrap/helpers/_position.scss */
   .sticky-xl-top {
-    position: -webkit-sticky;
     position: sticky;
     top: 0;
     z-index: 1020;
@@ -8395,7 +8288,6 @@ textarea.form-control-lg {
 @media (min-width: 1400px) {
   /* line 24, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/bootstrap/helpers/_position.scss */
   .sticky-xxl-top {
-    position: -webkit-sticky;
     position: sticky;
     top: 0;
     z-index: 1020;
@@ -8653,7 +8545,6 @@ textarea.form-control-lg {
 
 /* line 64, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/bootstrap/mixins/_utilities.scss */
 .position-sticky {
-  position: -webkit-sticky !important;
   position: sticky !important;
 }
 
@@ -8719,20 +8610,17 @@ textarea.form-control-lg {
 
 /* line 64, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/bootstrap/mixins/_utilities.scss */
 .translate-middle {
-  -webkit-transform: translate(-50%, -50%) !important;
-          transform: translate(-50%, -50%) !important;
+  transform: translate(-50%, -50%) !important;
 }
 
 /* line 64, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/bootstrap/mixins/_utilities.scss */
 .translate-middle-x {
-  -webkit-transform: translateX(-50%) !important;
-          transform: translateX(-50%) !important;
+  transform: translateX(-50%) !important;
 }
 
 /* line 64, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/bootstrap/mixins/_utilities.scss */
 .translate-middle-y {
-  -webkit-transform: translateY(-50%) !important;
-          transform: translateY(-50%) !important;
+  transform: translateY(-50%) !important;
 }
 
 /* line 64, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/bootstrap/mixins/_utilities.scss */
@@ -13734,7 +13622,6 @@ textarea.form-control-lg {
   text-align: center;
   visibility: hidden;
   padding: 0;
-  -webkit-animation: none;
   animation: none;
   direction: ltr;
   border: 0;
@@ -13766,7 +13653,6 @@ textarea.form-control-lg {
 
 /* line 35, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/flatpickr.css */
 .flatpickr-calendar.animate.open {
-  -webkit-animation: fpFadeInDown 300ms cubic-bezier(0.23, 1, 0.32, 1);
   animation: fpFadeInDown 300ms cubic-bezier(0.23, 1, 0.32, 1);
 }
 
@@ -14141,7 +14027,6 @@ textarea.form-control-lg {
   height: 34px;
   display: inline-block;
   text-align: center;
-  -webkit-transform: translate3d(0px, 0px, 0px);
   transform: translate3d(0px, 0px, 0px);
 }
 
@@ -14330,7 +14215,6 @@ span.flatpickr-weekday {
   -ms-flex-wrap: wrap;
   -ms-flex-pack: justify;
   justify-content: space-around;
-  -webkit-transform: translate3d(0px, 0px, 0px);
   transform: translate3d(0px, 0px, 0px);
   opacity: 1;
 }
@@ -14663,28 +14547,13 @@ span.flatpickr-weekday {
   cursor: pointer;
 }
 
-@-webkit-keyframes fpFadeInDown {
-  from {
-    opacity: 0;
-    -webkit-transform: translate3d(0, -20px, 0);
-    transform: translate3d(0, -20px, 0);
-  }
-  to {
-    opacity: 1;
-    -webkit-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
-  }
-}
-
 @keyframes fpFadeInDown {
   from {
     opacity: 0;
-    -webkit-transform: translate3d(0, -20px, 0);
     transform: translate3d(0, -20px, 0);
   }
   to {
     opacity: 1;
-    -webkit-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0);
   }
 }
@@ -15069,113 +14938,71 @@ iframe.wysihtml5-sandbox,
 
 /* line 137, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/font-awesome.scss */
 .fa-beat {
-  -webkit-animation-name: fa-beat;
   animation-name: fa-beat;
-  -webkit-animation-delay: var(--fa-animation-delay, 0);
   animation-delay: var(--fa-animation-delay, 0);
-  -webkit-animation-direction: var(--fa-animation-direction, normal);
   animation-direction: var(--fa-animation-direction, normal);
-  -webkit-animation-duration: var(--fa-animation-duration, 1s);
   animation-duration: var(--fa-animation-duration, 1s);
-  -webkit-animation-iteration-count: var(--fa-animation-iteration-count, infinite);
   animation-iteration-count: var(--fa-animation-iteration-count, infinite);
-  -webkit-animation-timing-function: var(--fa-animation-timing, ease-in-out);
   animation-timing-function: var(--fa-animation-timing, ease-in-out);
 }
 
 /* line 151, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/font-awesome.scss */
 .fa-bounce {
-  -webkit-animation-name: fa-bounce;
   animation-name: fa-bounce;
-  -webkit-animation-delay: var(--fa-animation-delay, 0);
   animation-delay: var(--fa-animation-delay, 0);
-  -webkit-animation-direction: var(--fa-animation-direction, normal);
   animation-direction: var(--fa-animation-direction, normal);
-  -webkit-animation-duration: var(--fa-animation-duration, 1s);
   animation-duration: var(--fa-animation-duration, 1s);
-  -webkit-animation-iteration-count: var(--fa-animation-iteration-count, infinite);
   animation-iteration-count: var(--fa-animation-iteration-count, infinite);
-  -webkit-animation-timing-function: var(--fa-animation-timing, cubic-bezier(0.28, 0.84, 0.42, 1));
   animation-timing-function: var(--fa-animation-timing, cubic-bezier(0.28, 0.84, 0.42, 1));
 }
 
 /* line 165, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/font-awesome.scss */
 .fa-fade {
-  -webkit-animation-name: fa-fade;
   animation-name: fa-fade;
-  -webkit-animation-delay: var(--fa-animation-delay, 0);
   animation-delay: var(--fa-animation-delay, 0);
-  -webkit-animation-direction: var(--fa-animation-direction, normal);
   animation-direction: var(--fa-animation-direction, normal);
-  -webkit-animation-duration: var(--fa-animation-duration, 1s);
   animation-duration: var(--fa-animation-duration, 1s);
-  -webkit-animation-iteration-count: var(--fa-animation-iteration-count, infinite);
   animation-iteration-count: var(--fa-animation-iteration-count, infinite);
-  -webkit-animation-timing-function: var(--fa-animation-timing, cubic-bezier(0.4, 0, 0.6, 1));
   animation-timing-function: var(--fa-animation-timing, cubic-bezier(0.4, 0, 0.6, 1));
 }
 
 /* line 179, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/font-awesome.scss */
 .fa-beat-fade {
-  -webkit-animation-name: fa-beat-fade;
   animation-name: fa-beat-fade;
-  -webkit-animation-delay: var(--fa-animation-delay, 0);
   animation-delay: var(--fa-animation-delay, 0);
-  -webkit-animation-direction: var(--fa-animation-direction, normal);
   animation-direction: var(--fa-animation-direction, normal);
-  -webkit-animation-duration: var(--fa-animation-duration, 1s);
   animation-duration: var(--fa-animation-duration, 1s);
-  -webkit-animation-iteration-count: var(--fa-animation-iteration-count, infinite);
   animation-iteration-count: var(--fa-animation-iteration-count, infinite);
-  -webkit-animation-timing-function: var(--fa-animation-timing, cubic-bezier(0.4, 0, 0.6, 1));
   animation-timing-function: var(--fa-animation-timing, cubic-bezier(0.4, 0, 0.6, 1));
 }
 
 /* line 193, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/font-awesome.scss */
 .fa-flip {
-  -webkit-animation-name: fa-flip;
   animation-name: fa-flip;
-  -webkit-animation-delay: var(--fa-animation-delay, 0);
   animation-delay: var(--fa-animation-delay, 0);
-  -webkit-animation-direction: var(--fa-animation-direction, normal);
   animation-direction: var(--fa-animation-direction, normal);
-  -webkit-animation-duration: var(--fa-animation-duration, 1s);
   animation-duration: var(--fa-animation-duration, 1s);
-  -webkit-animation-iteration-count: var(--fa-animation-iteration-count, infinite);
   animation-iteration-count: var(--fa-animation-iteration-count, infinite);
-  -webkit-animation-timing-function: var(--fa-animation-timing, ease-in-out);
   animation-timing-function: var(--fa-animation-timing, ease-in-out);
 }
 
 /* line 207, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/font-awesome.scss */
 .fa-shake {
-  -webkit-animation-name: fa-shake;
   animation-name: fa-shake;
-  -webkit-animation-delay: var(--fa-animation-delay, 0);
   animation-delay: var(--fa-animation-delay, 0);
-  -webkit-animation-direction: var(--fa-animation-direction, normal);
   animation-direction: var(--fa-animation-direction, normal);
-  -webkit-animation-duration: var(--fa-animation-duration, 1s);
   animation-duration: var(--fa-animation-duration, 1s);
-  -webkit-animation-iteration-count: var(--fa-animation-iteration-count, infinite);
   animation-iteration-count: var(--fa-animation-iteration-count, infinite);
-  -webkit-animation-timing-function: var(--fa-animation-timing, linear);
   animation-timing-function: var(--fa-animation-timing, linear);
 }
 
 /* line 221, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/font-awesome.scss */
 .fa-spin {
-  -webkit-animation-name: fa-spin;
   animation-name: fa-spin;
-  -webkit-animation-delay: var(--fa-animation-delay, 0);
   animation-delay: var(--fa-animation-delay, 0);
-  -webkit-animation-direction: var(--fa-animation-direction, normal);
   animation-direction: var(--fa-animation-direction, normal);
-  -webkit-animation-duration: var(--fa-animation-duration, 2s);
   animation-duration: var(--fa-animation-duration, 2s);
-  -webkit-animation-iteration-count: var(--fa-animation-iteration-count, infinite);
   animation-iteration-count: var(--fa-animation-iteration-count, infinite);
-  -webkit-animation-timing-function: var(--fa-animation-timing, linear);
   animation-timing-function: var(--fa-animation-timing, linear);
 }
 
@@ -15187,15 +15014,10 @@ iframe.wysihtml5-sandbox,
 /* line 238, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/font-awesome.scss */
 .fa-pulse,
 .fa-spin-pulse {
-  -webkit-animation-name: fa-spin;
   animation-name: fa-spin;
-  -webkit-animation-direction: var(--fa-animation-direction, normal);
   animation-direction: var(--fa-animation-direction, normal);
-  -webkit-animation-duration: var(--fa-animation-duration, 1s);
   animation-duration: var(--fa-animation-duration, 1s);
-  -webkit-animation-iteration-count: var(--fa-animation-iteration-count, infinite);
   animation-iteration-count: var(--fa-animation-iteration-count, infinite);
-  -webkit-animation-timing-function: var(--fa-animation-timing, steps(8));
   animation-timing-function: var(--fa-animation-timing, steps(8));
 }
 
@@ -15210,104 +15032,44 @@ iframe.wysihtml5-sandbox,
 .fa-shake,
 .fa-spin,
 .fa-spin-pulse {
-    -webkit-animation-delay: -1ms;
     animation-delay: -1ms;
-    -webkit-animation-duration: 1ms;
     animation-duration: 1ms;
-    -webkit-animation-iteration-count: 1;
     animation-iteration-count: 1;
     transition-delay: 0s;
     transition-duration: 0s;
   }
 }
 
-@-webkit-keyframes fa-beat {
-  0%, 90% {
-    -webkit-transform: scale(1);
-    transform: scale(1);
-  }
-  45% {
-    -webkit-transform: scale(var(--fa-beat-scale, 1.25));
-    transform: scale(var(--fa-beat-scale, 1.25));
-  }
-}
-
 @keyframes fa-beat {
   0%, 90% {
-    -webkit-transform: scale(1);
     transform: scale(1);
   }
   45% {
-    -webkit-transform: scale(var(--fa-beat-scale, 1.25));
     transform: scale(var(--fa-beat-scale, 1.25));
-  }
-}
-
-@-webkit-keyframes fa-bounce {
-  0% {
-    -webkit-transform: scale(1, 1) translateY(0);
-    transform: scale(1, 1) translateY(0);
-  }
-  10% {
-    -webkit-transform: scale(var(--fa-bounce-start-scale-x, 1.1), var(--fa-bounce-start-scale-y, 0.9)) translateY(0);
-    transform: scale(var(--fa-bounce-start-scale-x, 1.1), var(--fa-bounce-start-scale-y, 0.9)) translateY(0);
-  }
-  30% {
-    -webkit-transform: scale(var(--fa-bounce-jump-scale-x, 0.9), var(--fa-bounce-jump-scale-y, 1.1)) translateY(var(--fa-bounce-height, -0.5em));
-    transform: scale(var(--fa-bounce-jump-scale-x, 0.9), var(--fa-bounce-jump-scale-y, 1.1)) translateY(var(--fa-bounce-height, -0.5em));
-  }
-  50% {
-    -webkit-transform: scale(var(--fa-bounce-land-scale-x, 1.05), var(--fa-bounce-land-scale-y, 0.95)) translateY(0);
-    transform: scale(var(--fa-bounce-land-scale-x, 1.05), var(--fa-bounce-land-scale-y, 0.95)) translateY(0);
-  }
-  57% {
-    -webkit-transform: scale(1, 1) translateY(var(--fa-bounce-rebound, -0.125em));
-    transform: scale(1, 1) translateY(var(--fa-bounce-rebound, -0.125em));
-  }
-  64% {
-    -webkit-transform: scale(1, 1) translateY(0);
-    transform: scale(1, 1) translateY(0);
-  }
-  100% {
-    -webkit-transform: scale(1, 1) translateY(0);
-    transform: scale(1, 1) translateY(0);
   }
 }
 
 @keyframes fa-bounce {
   0% {
-    -webkit-transform: scale(1, 1) translateY(0);
     transform: scale(1, 1) translateY(0);
   }
   10% {
-    -webkit-transform: scale(var(--fa-bounce-start-scale-x, 1.1), var(--fa-bounce-start-scale-y, 0.9)) translateY(0);
     transform: scale(var(--fa-bounce-start-scale-x, 1.1), var(--fa-bounce-start-scale-y, 0.9)) translateY(0);
   }
   30% {
-    -webkit-transform: scale(var(--fa-bounce-jump-scale-x, 0.9), var(--fa-bounce-jump-scale-y, 1.1)) translateY(var(--fa-bounce-height, -0.5em));
     transform: scale(var(--fa-bounce-jump-scale-x, 0.9), var(--fa-bounce-jump-scale-y, 1.1)) translateY(var(--fa-bounce-height, -0.5em));
   }
   50% {
-    -webkit-transform: scale(var(--fa-bounce-land-scale-x, 1.05), var(--fa-bounce-land-scale-y, 0.95)) translateY(0);
     transform: scale(var(--fa-bounce-land-scale-x, 1.05), var(--fa-bounce-land-scale-y, 0.95)) translateY(0);
   }
   57% {
-    -webkit-transform: scale(1, 1) translateY(var(--fa-bounce-rebound, -0.125em));
     transform: scale(1, 1) translateY(var(--fa-bounce-rebound, -0.125em));
   }
   64% {
-    -webkit-transform: scale(1, 1) translateY(0);
     transform: scale(1, 1) translateY(0);
   }
   100% {
-    -webkit-transform: scale(1, 1) translateY(0);
     transform: scale(1, 1) translateY(0);
-  }
-}
-
-@-webkit-keyframes fa-fade {
-  50% {
-    opacity: var(--fa-fade-opacity, 0.4);
   }
 }
 
@@ -15317,186 +15079,95 @@ iframe.wysihtml5-sandbox,
   }
 }
 
-@-webkit-keyframes fa-beat-fade {
-  0%, 100% {
-    opacity: var(--fa-beat-fade-opacity, 0.4);
-    -webkit-transform: scale(1);
-    transform: scale(1);
-  }
-  50% {
-    opacity: 1;
-    -webkit-transform: scale(var(--fa-beat-fade-scale, 1.125));
-    transform: scale(var(--fa-beat-fade-scale, 1.125));
-  }
-}
-
 @keyframes fa-beat-fade {
   0%, 100% {
     opacity: var(--fa-beat-fade-opacity, 0.4);
-    -webkit-transform: scale(1);
     transform: scale(1);
   }
   50% {
     opacity: 1;
-    -webkit-transform: scale(var(--fa-beat-fade-scale, 1.125));
     transform: scale(var(--fa-beat-fade-scale, 1.125));
-  }
-}
-
-@-webkit-keyframes fa-flip {
-  50% {
-    -webkit-transform: rotate3d(var(--fa-flip-x, 0), var(--fa-flip-y, 1), var(--fa-flip-z, 0), var(--fa-flip-angle, -180deg));
-    transform: rotate3d(var(--fa-flip-x, 0), var(--fa-flip-y, 1), var(--fa-flip-z, 0), var(--fa-flip-angle, -180deg));
   }
 }
 
 @keyframes fa-flip {
   50% {
-    -webkit-transform: rotate3d(var(--fa-flip-x, 0), var(--fa-flip-y, 1), var(--fa-flip-z, 0), var(--fa-flip-angle, -180deg));
     transform: rotate3d(var(--fa-flip-x, 0), var(--fa-flip-y, 1), var(--fa-flip-z, 0), var(--fa-flip-angle, -180deg));
-  }
-}
-
-@-webkit-keyframes fa-shake {
-  0% {
-    -webkit-transform: rotate(-15deg);
-    transform: rotate(-15deg);
-  }
-  4% {
-    -webkit-transform: rotate(15deg);
-    transform: rotate(15deg);
-  }
-  8%, 24% {
-    -webkit-transform: rotate(-18deg);
-    transform: rotate(-18deg);
-  }
-  12%, 28% {
-    -webkit-transform: rotate(18deg);
-    transform: rotate(18deg);
-  }
-  16% {
-    -webkit-transform: rotate(-22deg);
-    transform: rotate(-22deg);
-  }
-  20% {
-    -webkit-transform: rotate(22deg);
-    transform: rotate(22deg);
-  }
-  32% {
-    -webkit-transform: rotate(-12deg);
-    transform: rotate(-12deg);
-  }
-  36% {
-    -webkit-transform: rotate(12deg);
-    transform: rotate(12deg);
-  }
-  40%, 100% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
   }
 }
 
 @keyframes fa-shake {
   0% {
-    -webkit-transform: rotate(-15deg);
     transform: rotate(-15deg);
   }
   4% {
-    -webkit-transform: rotate(15deg);
     transform: rotate(15deg);
   }
   8%, 24% {
-    -webkit-transform: rotate(-18deg);
     transform: rotate(-18deg);
   }
   12%, 28% {
-    -webkit-transform: rotate(18deg);
     transform: rotate(18deg);
   }
   16% {
-    -webkit-transform: rotate(-22deg);
     transform: rotate(-22deg);
   }
   20% {
-    -webkit-transform: rotate(22deg);
     transform: rotate(22deg);
   }
   32% {
-    -webkit-transform: rotate(-12deg);
     transform: rotate(-12deg);
   }
   36% {
-    -webkit-transform: rotate(12deg);
     transform: rotate(12deg);
   }
   40%, 100% {
-    -webkit-transform: rotate(0deg);
     transform: rotate(0deg);
-  }
-}
-
-@-webkit-keyframes fa-spin {
-  0% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
   }
 }
 
 @keyframes fa-spin {
   0% {
-    -webkit-transform: rotate(0deg);
     transform: rotate(0deg);
   }
   100% {
-    -webkit-transform: rotate(360deg);
     transform: rotate(360deg);
   }
 }
 
 /* line 444, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/font-awesome.scss */
 .fa-rotate-90 {
-  -webkit-transform: rotate(90deg);
   transform: rotate(90deg);
 }
 
 /* line 448, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/font-awesome.scss */
 .fa-rotate-180 {
-  -webkit-transform: rotate(180deg);
   transform: rotate(180deg);
 }
 
 /* line 452, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/font-awesome.scss */
 .fa-rotate-270 {
-  -webkit-transform: rotate(270deg);
   transform: rotate(270deg);
 }
 
 /* line 456, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/font-awesome.scss */
 .fa-flip-horizontal {
-  -webkit-transform: scale(-1, 1);
   transform: scale(-1, 1);
 }
 
 /* line 460, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/font-awesome.scss */
 .fa-flip-vertical {
-  -webkit-transform: scale(1, -1);
   transform: scale(1, -1);
 }
 
 /* line 464, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/font-awesome.scss */
 .fa-flip-both,
 .fa-flip-horizontal.fa-flip-vertical {
-  -webkit-transform: scale(-1, -1);
   transform: scale(-1, -1);
 }
 
 /* line 469, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/vendor/assets/stylesheets/rails_admin/font-awesome.scss */
 .fa-rotate-by {
-  -webkit-transform: rotate(var(--fa-rotate-angle, none));
   transform: rotate(var(--fa-rotate-angle, none));
 }
 
@@ -25562,14 +25233,12 @@ body.rails_admin .table td {
 
 /* line 236, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/src/rails_admin/styles/base/theming.scss */
 body.rails_admin .table .sticky {
-  position: -webkit-sticky;
   position: sticky;
 }
 
 /* line 240, vendor/bundle/ruby/3.0.0/gems/rails_admin-3.1.2/src/rails_admin/styles/base/theming.scss */
 body.rails_admin .table th.last,
 body.rails_admin .table td.last {
-  position: -webkit-sticky;
   position: sticky;
   right: 0px;
 }

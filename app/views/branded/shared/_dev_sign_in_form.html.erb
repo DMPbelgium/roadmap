@@ -1,27 +1,27 @@
-<div class="panel panel-default">
-  <div class="panel-heading">
+<div class="card">
+  <div class="card-header">
     <h3>Sign in with your credentials</h3>
   </div>
-  <div class="panel-body">
+  <div class="card-body">
   <%= form_for resource, as: 'user', namespace: 'signin', url: user_session_path, html: {id: "sign_in_form"} do |f| %>
-    <div class="form-group">
-      <%= f.label(:email, _('Email'), class: 'control-label') %>
+    <div class="form-control mb-3">
+      <%= f.label(:email, _('Email'), class: 'form-label') %>
       <%= f.email_field(:email, class: 'form-control', "aria-required": true) %>
     </div>
-    <div class="form-group">
-      <%= f.label(:password, _('Password'), class: 'control-label') %>
+    <div class="form-control mb-3">
+      <%= f.label(:password, _('Password'), class: 'form-label') %>
       <%= f.password_field(:password, class: 'form-control', "aria-required": true) %>
     </div>
-    <div>
+    <div class="row mb-3">
       <%= link_to _('Forgot password?'), new_password_path('user') %>
     </div>
-    <div class="checkbox">
-      <%= label_tag 'remember_email' do %>
-        <%= check_box_tag 'remember_email' %>
+    <div class="form-check">
+      <%= label_tag 'remember_email', class: 'form-check-label' do %>
+        <%= check_box_tag 'remember_email', 'form-check-input' %>
         <%= _('Remember email') %>
       <% end %>
     </div>
-    <%= f.button(_('Sign in'), class: "btn btn-default", type: "submit") %>
+    <%= f.button(_('Sign in'), class: "btn btn-primary", type: "submit") %>
 
   <% end %>
   </div>
