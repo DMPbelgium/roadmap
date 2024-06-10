@@ -69,27 +69,3 @@
   min-width: 350px;
   border: 1px solid black;
 }
-
-/*
- fix button hover effect that enlarges button
-*/
-
-.btn-primary,
-.btn-primary:hover,
-.btn-primary:focus,
-.btn-primary:active,
-.btn-primary:visited,
-.btn-primary:active:hover,
-.btn-primary.active:hover {
-  margin: 5px 0px 0px 0px;
-}
-
-.btn-default,
-.btn-default:hover,
-.btn-default:focus,
-.btn-default:active,
-.btn-default:visited,
-.btn-default:active:hover,
-.btn-default.active:hover {
-  margin: 5px 0px 0px 0px;
-}
