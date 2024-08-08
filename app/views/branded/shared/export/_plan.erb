@@ -15,10 +15,10 @@
     <% if @show_coversheet %>
       <%= render partial: 'shared/export/plan_coversheet' %>
     <% end %>
-
+    <% phase_titles = @selected_phases.map(&:title) %>
     <% @hash[:phases].each do |phase| %>
-      <%# Only render selected phase %>
-      <% if @hash[:all_phases] || (@selected_phase.present? && phase[:title] == @selected_phase.title) %>
+      <%# Only render if in list selected_phases %>
+      <% if phase_titles.include?(phase[:title]) %>
         <%# Page break before each phase %>
         <div style="page-break-before:always;"></div>
         <h1><%= download_plan_page_title(@plan, phase, @hash) %></h1>
