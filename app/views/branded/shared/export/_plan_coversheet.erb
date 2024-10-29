@@ -7,19 +7,6 @@
 
   <p><strong><%= _("Creator:") %></strong><%= @hash[:attribution] %></p><br>
 
-  <%# Added contributors to coverage of plans. 
-    # Users will see both roles and contributor names if the role is filled %>
-  <%# Roles are ranked by PI -> DM -> PA -> Other (if any) %>
-  <% if @hash[:investigation].present? %>
-  <p><b><%= _("Principal Investigator: ") %></b><%= @hash[:investigation].map(&:name).join(', ') %></p><br>
-  <% end %>
-  <% if @hash[:data_curation].present? %>
-  <p><b><%= _("Data Manager: ") %></b><%= @hash[:data_curation].map(&:name).join(', ') %></p><br>
-  <% end %>
-  <% if @hash[:pa].present? %>
-  <p><b><%= _("Project Administrator: ") %></b><%= @hash[:pa].map(&:name).join(', ') %></p><br>
-  <% end %>
-
   <p><b><%= _("Affiliation: ") %></b><%= @hash[:affiliation] %></p><br>
 
   <% if @hash[:funder].present? %>
@@ -27,27 +14,6 @@
   <% end %>
 
     <p><b><%= _("Template: ") %></b><%= @hash[:template] + @hash[:customizer] %></p><br>
-
-  <% principal_investigators = @plan.principal_investigators %>
-  <% if principal_investigators.size > 0 %>
-    <p>
-      <b>Principal Investigator:</b>
-      <%= principal_investigators.map { |user| user.name_with_orcid }
-                                 .join(", ")
-                                 .html_safe %>
-    </p><br>
-  <% end %>
-
-  <% data_curators = @plan.contributors.data_curation.all %>
-  <% if data_curators.size > 0 %>
-    <p>
-      <b>Data Manager:</b>
-      <%= data_curators.map { |c| c.to_user.name_with_orcid }
-                       .join(", ")
-                       .html_safe %>
-    </p><br>
-
-  <% end %>
 
   <% if @plan.description.present? %>
     <p><b><%= _("Project abstract: ") %></b></p>
@@ -80,5 +46,46 @@
       </p>
     </div>
   <% end %>
+
+  <h1>Collaborators:</h1>
+  <% ror_scheme = IdentifierScheme.where(name: "ror").first %>
+  <table class="table table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>ORCID</th>
+        <th>Role(s)</th>
+        <th>Organization</th>
+        <th>ROR</th>
+      </tr>
+    </thead>
+    <tbody>
+    <% @plan.roles.each do |role| %>
+      <% user = role.user %>
+      <% contributor = Contributor.where(email: user.email, plan_id: @plan.id).first %>
+      <% contributor = Contributor.new(email: user.email, plan_id: @plan.id) if contributor.nil? %>
+      <tr>
+        <td><%= user.name(false) %></td>
+        <td><%= user.orcid_link %></td>
+        <td>
+        <% Contributor.roles.each do |contributor_access| %>
+          <% if contributor.send(contributor_access) %>
+            <%= ContributorPresenter.role_symbol_to_string(symbol: contributor_access) %><br>
+          <% end %>
+        <% end %>
+        </td>
+        <td><%= user.org.name %></td>
+        <td>
+          <%
+            ror_id = user.org.identifiers.where(identifier_scheme_id: ror_scheme.id, identifiable_id: user.org_id, identifiable_type: "Org").first
+          %>
+          <% if ror_id.present? %>
+            <a href="<%= ror_id.value %>" class="ror-link"><%= ror_id.value %></a>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
 </div>
 <hr class="bottom" />
