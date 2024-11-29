@@ -5,20 +5,13 @@
 <div class="cover-page">
   <p><b><%= _("Title: ") %></b><%= @hash[:title] %></p><br>
 
-  <p><strong><%= _("Creator:") %></strong><%= @hash[:attribution] %></p><br>
-
-  <%# Added contributors to coverage of plans. 
-    # Users will see both roles and contributor names if the role is filled %>
-  <%# Roles are ranked by PI -> DM -> PA -> Other (if any) %>
-  <% if @hash[:investigation].present? %>
-  <p><b><%= _("Principal Investigator: ") %></b><%= @hash[:investigation].map(&:name).join(', ') %></p><br>
-  <% end %>
-  <% if @hash[:data_curation].present? %>
-  <p><b><%= _("Data Manager: ") %></b><%= @hash[:data_curation].map(&:name).join(', ') %></p><br>
-  <% end %>
-  <% if @hash[:pa].present? %>
-  <p><b><%= _("Project Administrator: ") %></b><%= @hash[:pa].map(&:name).join(', ') %></p><br>
-  <% end %>
+  <p>
+    <% owner_and_coowners = @plan.owner_and_coowners %>
+    <b><%= owner_and_coowners.size > 1 ? _("Creators: ") : _("Creator: ") %></b>
+    <%= owner_and_coowners.map { |u| u.name_with_orcid }
+                          .join(", ")
+                          .html_safe %>
+  </p><br>
 
   <p><b><%= _("Affiliation: ") %></b><%= @hash[:affiliation] %></p><br>
 
@@ -47,6 +40,16 @@
                        .html_safe %>
     </p><br>
 
+  <% end %>
+
+  <% admins = @plan.contributors.project_administration.all %>
+  <% if admins.size > 0 %>
+    <p>
+      <b>Project Administrator:</b>
+      <%= admins.map { |c| c.to_user.name_with_orcid }
+               .join(", ")
+               .html_safe %>
+    </p><br>
   <% end %>
 
   <% if @plan.description.present? %>
