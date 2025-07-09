@@ -5,7 +5,13 @@
 <div class="cover-page">
   <p><b><%= _("Title: ") %></b><%= @hash[:title] %></p><br>
 
-  <p><strong><%= _("Creator:") %></strong><%= @hash[:attribution] %></p><br>
+  <p>
+    <% owner_and_coowners = @plan.owner_and_coowners %>
+    <b><%= owner_and_coowners.size > 1 ? _("Creators: ") : _("Creator: ") %></b>
+    <%= owner_and_coowners.map { |u| u.name_with_orcid }
+                          .join(", ")
+                          .html_safe %>
+  </p><br>
 
   <p><b><%= _("Affiliation: ") %></b><%= @hash[:affiliation] %></p><br>
 
@@ -14,6 +20,37 @@
   <% end %>
 
     <p><b><%= _("Template: ") %></b><%= @hash[:template] + @hash[:customizer] %></p><br>
+
+  <% principal_investigators = @plan.principal_investigators %>
+  <% if principal_investigators.size > 0 %>
+    <p>
+      <b>Principal Investigator:</b>
+      <%= principal_investigators.map { |user| user.name_with_orcid }
+                                 .join(", ")
+                                 .html_safe %>
+    </p><br>
+  <% end %>
+
+  <% data_curators = @plan.contributors.data_curation.all %>
+  <% if data_curators.size > 0 %>
+    <p>
+      <b>Data Manager:</b>
+      <%= data_curators.map { |c| c.to_user.name_with_orcid }
+                       .join(", ")
+                       .html_safe %>
+    </p><br>
+
+  <% end %>
+
+  <% admins = @plan.contributors.project_administration.all %>
+  <% if admins.size > 0 %>
+    <p>
+      <b>Project Administrator:</b>
+      <%= admins.map { |c| c.to_user.name_with_orcid }
+               .join(", ")
+               .html_safe %>
+    </p><br>
+  <% end %>
 
   <% if @plan.description.present? %>
     <p><b><%= _("Project abstract: ") %></b></p>
