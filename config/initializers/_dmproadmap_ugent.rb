@@ -123,7 +123,7 @@ module DMPRoadmap
     config.x.application.require_contributor_email = true
 
     # Defines if Guidances/Comments in toggleable & if it's opened by default
-    config.x.application.guidance_comments_toggleable = false
+    config.x.application.guidance_comments_toggleable = true
     # do not set this to false when guidance_comments_toggleable is also
     # false. Reason: comments won't be displayed and there is no way
     # to show them again by toggling
@@ -196,6 +196,9 @@ module DMPRoadmap
     # Whether or not Organisational administrators can read all of the user's plans
     # regardless of the plans visibility and whether or not the plan has been shared
     config.x.plans.super_admins_read_all = true
+
+    # Check download of a plan coversheet tickbox
+    config.x.plans.download_coversheet_tickbox_checked = true
 
     # --------------------------------------------------- #
     # Machine Actionable / Networked DMP Features (maDMP) #

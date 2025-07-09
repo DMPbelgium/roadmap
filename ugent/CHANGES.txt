@@ -588,6 +588,12 @@
 
   Please set DMP_HOST and DMP_PROTOCOL in your environment
 
+- config/initializers/external_apis/z_disable_local.rb
+
+  overrides settings as set by previous config/initializers/external_apis/*.rb
+
+  it is important to keep this name alphabetically last
+
 - config/initializers/devise_ugent.rb
 
   overrides settings from config/initializers/devise.rb

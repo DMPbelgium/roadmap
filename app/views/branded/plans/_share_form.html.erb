@@ -29,14 +29,6 @@
           <%= _('Organisation: anyone at my organisation can view') %>
         <% end %>
       </div>
-      <div class="form-check">
-        <%= label_tag :visibility_publicly_visible, class:'form-check-label' do %>
-          <%= f.radio_button :visibility, :publicly_visible,
-                             data: { url: visibility_plan_path(@plan),
-                                     remote: true, method: :post }  %>
-          <%= _('Public: anyone can view or download from the Public DMPs page') %>
-        <% end %>
-      </div>
     </div>
   </fieldset>
 <% end %>
