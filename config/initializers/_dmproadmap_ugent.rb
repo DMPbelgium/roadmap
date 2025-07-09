@@ -123,7 +123,7 @@ module DMPRoadmap
     config.x.application.require_contributor_email = true
 
     # Defines if Guidances/Comments in toggleable & if it's opened by default
-    config.x.application.guidance_comments_toggleable = false
+    config.x.application.guidance_comments_toggleable = true
     # do not set this to false when guidance_comments_toggleable is also
     # false. Reason: comments won't be displayed and there is no way
     # to show them again by toggling
